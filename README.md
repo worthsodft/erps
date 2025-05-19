@@ -1,7 +1,5 @@
- <a href="https://www.likeshop.cn">![likeshop全开源商城](https://server.likeshop.cn/uploads/gitad/likeshop.png)</a><br>
-<a href="https://www.mddai.cn">![码多多AI](https://server.likeshop.cn/uploads/gitad/mdd.png)</a><br>
- <h1 align="center">likeshop全开源商城系统</h1>
- <h4 align="center">🚀快速开发  🛠️代码易懂  ✅方便二开  🧑‍💻源码全开源</h4> 
+ <a href="https://www.likeshop.cn">![智水云纯净水进销存管理系统(标准版)](http://erps.yaodianma.com/upload/65/cead7155dac8e231105858e0ba0e42.jpg)</a><br>
+ <h1 align="center">智水云纯净水进销存管理系统(标准版)</h1>
  <p align="center">
 <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-7-8892bf"></a> <a href="https://www.tslang.cn/"> <a href="#"><img src="https://img.shields.io/badge/ThinkPHP-5.1-6fb737"></a> <a href="#"><img src="https://img.shields.io/badge/Vue.js-2-4eb883"></a> <a href="#"> <a href="#"><img src="https://img.shields.io/badge/Layui-2.7-118675"></a> <a href="https://uniapp.dcloud.io/"><img src="https://img.shields.io/badge/uniapp--d85806"></a> <a href="https://www.nuxtjs.cn/"><img src="https://img.shields.io/badge/Nuxt.js--18bc78"></a>
 </p>
