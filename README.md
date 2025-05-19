@@ -7,6 +7,7 @@
 <a href="https://cn.vuejs.org/"><img src="https://img.shields.io/badge/Vue.js-3-4eb883"></a>
 <a href="https://layui.dev/"><img src="https://img.shields.io/badge/Layui-2.7-118675"></a>
 <a href="https://uniapp.dcloud.io/"><img src="https://img.shields.io/badge/uniapp--d85806"></a>
+<a href="https://www.mysql.com/"> <img src="https://img.shields.io/badge/Mysql-5.7-315a80"></a>
 <a href="https://redis.io/"> <img src="https://img.shields.io/badge/Redis-6-d12222"></a>
 </p>
 <div align="center">
