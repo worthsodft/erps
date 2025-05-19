@@ -1,4 +1,4 @@
- <a href="https://www.likeshop.cn">![智水云纯净水进销存管理系统(标准版)](http://erps.yaodianma.com/upload/65/cead7155dac8e231105858e0ba0e42.jpg)</a><br>
+ <a href="https://erps.yaodianma.com">![智水云纯净水进销存管理系统(标准版)](https://erps.yaodianma.com/upload/65/cead7155dac8e231105858e0ba0e42.jpg)</a><br>
  <h1 align="center">智水云纯净水进销存管理系统(标准版)</h1>
  <p align="center">
 <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-7-8892bf"></a> <a href="https://www.tslang.cn/"> <a href="#"><img src="https://img.shields.io/badge/ThinkPHP-5.1-6fb737"></a> <a href="#"><img src="https://img.shields.io/badge/Vue.js-2-4eb883"></a> <a href="#"> <a href="#"><img src="https://img.shields.io/badge/Layui-2.7-118675"></a> <a href="https://uniapp.dcloud.io/"><img src="https://img.shields.io/badge/uniapp--d85806"></a> <a href="https://www.nuxtjs.cn/"><img src="https://img.shields.io/badge/Nuxt.js--18bc78"></a>
