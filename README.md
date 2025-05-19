@@ -4,10 +4,10 @@
 <table>
     <thead>
         <tr>
-            <th>功能模块</th>
-            <th>子功能</th>
-            <th>标准版</th>
-            <th>专业版</th>
+            <th>功能模块<1/th>
+            <th>子功能2</th>
+            <th>标准版3</th>
+            <th>专业版4</th>
         </tr>
     </thead>
     <tbody>
