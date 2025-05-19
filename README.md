@@ -4,7 +4,7 @@
 <table>
     <thead>
         <tr>
-            <th>功能模块<1/th>
+            <th>功能模块1</th>
             <th>子功能2</th>
             <th>标准版3</th>
             <th>专业版4</th>
