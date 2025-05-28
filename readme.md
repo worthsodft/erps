@@ -398,12 +398,8 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
 </div>
 前后端分离、已适配微信小程序
 
-
-## 开源协议说明
-1. XXXXXXX。
-2. YYYYYYY。
-3. 本项目包含的第三方源码和二进制文件之版权信息另行标注。
-
+##
+本项目包含的第三方源码和二进制文件之版权信息另行标注。
 产品版权归worthsoft团队所有及研发。本文档最终解释权归worthsoft团队所有。
 
 
