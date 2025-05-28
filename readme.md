@@ -43,6 +43,14 @@ PC端管理后台：http://127.0.0.1
 PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianma.com/admin)
 账号：master 密码：123123a
 
+<img src="https://erps.yaodianma.com/upload/4d/6a38d5b52c843173a407c851644c02.jpg" style="border: 1px solid #eee;">
+<img src="https://erps.yaodianma.com/upload/c4/da3cb992aa694f858ddd447a97079c.jpg" style="border: 1px solid #eee;">
+<div align="center" style="width: 100%;display: flex;justify-content: space-between;gap: 10px;">
+    <img src="https://erps.yaodianma.com/upload/43/5bf4659f0d39966e95d11e4edb7a6a.jpg" style="width: 25%;border: 1px solid #eee;border-radius: 10px;">
+    <img src="https://erps.yaodianma.com/upload/39/bd54a30c2a9e7e4a8c9cb532045cde.jpg" style="width: 25%;border: 1px solid #eee;border-radius: 10px;">
+    <img src="https://erps.yaodianma.com/upload/70/8321fd92f378400cd3d998dc3daae4.jpg" style="width: 25%;border: 1px solid #eee;border-radius: 10px;">
+    <img src="https://erps.yaodianma.com/upload/67/e63abaf834be88d7e56a79bca89be6.jpg" style="width: 25%;border: 1px solid #eee;border-radius: 10px;">
+</div>
 
 ## 智水云纯净水进销存系统开源免费版和付费专业版的区别
 1. 本仓库代码为开源免费版，代码全开源，支持免费商用，支持二开，但不能去除版权标志，包括后台登录界面和前端小程序下方的版权提示以及其他任何地方的版权标志。否则即为侵权。若要去除版权标志，需支付1000元获得授权。
