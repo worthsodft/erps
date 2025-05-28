@@ -358,7 +358,7 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
 
 
 ## 联系我们
-![技术支持群.jpg](https://erps.yaodianma.com/upload/e4/f22fe74ca1c5693bc1bc6876caff96.jpg#300wx300h)
+![技术支持群.jpg](https://erps.yaodianma.com/upload/e4/f22fe74ca1c5693bc1bc6876caff96.jpg#300w)
 
 
 
