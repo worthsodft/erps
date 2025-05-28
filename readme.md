@@ -13,29 +13,31 @@
 <div align="center">
 </div>
  
+## 写在前面
+智水云纯净水进销存管理系统(标准版)，微信小程序商城代码全开源，免费商用。适用场景：单商户商城，新零售商城，社交电商商城，小程序商城，商城系统，单商户，电商系统，商城源码，uniapp，B2C，B2B，O2O，PHP
 
 ## 部署体验
-### 快速部署
+### 1. 快速部署
 文件解压完成后，在终端项目根目录运行以下命令即可体验。
   ```shell
 php think run --host 127.0.0.1
   ```
 
-### 部署步骤
+### 2. 部署步骤
 1.创建数据库
 2.修改数据库参数
 3.终端运行项目
 
-### 访问
+### 3. 访问
 PC端管理后台：http://127.0.0.1
 初始账号：master 密码：123123a
 
 
 ## 商城演示
-### 微信小程序商城
+### 1. 微信小程序商城
 ![移动端演示.png](https://erps.yaodianma.com/upload/fe/6e39694afde511fbe435360137c9a3.jpg)
 
-### PC管理后台
+### 2. PC管理后台
 PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianma.com/admin)
 账号：master 密码：123123a
 
@@ -363,7 +365,7 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
 
 
 ## 项目技术栈
-### 服务端
+### 1. 服务端
 <div>
 <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-7.4-8892bf"></a>
 <a href="https://www.thinkphp.cn/"><img src="https://img.shields.io/badge/ThinkPHP-6.1-6fb737"></a>
@@ -372,13 +374,13 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
 <a href="https://redis.io/"> <img src="https://img.shields.io/badge/Redis-6-d12222"></a>
 </div>
 
-### PC端管理后台
+### 2. PC端管理后台
 <div>
 <a href="https://layui.dev/"> <img src="https://img.shields.io/badge/Layui-2.7-118675"></a>
 </div>
 服务端渲染
 
-### 移动端前台
+### 3. 移动端前台
 <div>
 <a href="https://uniapp.dcloud.io/"><img src="https://img.shields.io/badge/uniapp--d85806"></a>
 <a href="https://cn.vuejs.org/"><img src="https://img.shields.io/badge/Vue.js-3-4eb883"></a>
@@ -392,7 +394,7 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
 2. YYYYYYY。
 3. 本项目包含的第三方源码和二进制文件之版权信息另行标注。
 
-产品版权归worthsoft团队所有且原创研发。本文档最终解释权归worthsoft团队所有。
+产品版权归worthsoft团队所有及研发。本文档最终解释权归worthsoft团队所有。
 
 
 
