@@ -19,7 +19,9 @@
 <img src="https://erps.yaodianma.com/upload/4d/6a38d5b52c843173a407c851644c02.jpg" style="border: 1px solid #eeeeee;">
 <img src="https://erps.yaodianma.com/upload/c4/da3cb992aa694f858ddd447a97079c.jpg" style="border: 1px solid #eeeeee;">
 <div align="center" style="width: 100%;display: flex;justify-content: space-between;">
-    <img src="https://erps.yaodianma.com/upload/43/5bf4659f0d39966e95d11e4edb7a6a.jpg" style="width: 24%;border: 1px solid #ccc;border-radius: 10px;">
+    <div style="width: 24%;border: 1px solid #ccc;border-radius: 10px;">
+        <img src="https://erps.yaodianma.com/upload/43/5bf4659f0d39966e95d11e4edb7a6a.jpg">
+    </div>
     <img src="https://erps.yaodianma.com/upload/39/bd54a30c2a9e7e4a8c9cb532045cde.jpg" style="width: 24%;border: 1px solid #ccc;border-radius: 10px;">
     <img src="https://erps.yaodianma.com/upload/70/8321fd92f378400cd3d998dc3daae4.jpg" style="width: 24%;border: 1px solid #ccc;border-radius: 10px;">
     <img src="https://erps.yaodianma.com/upload/67/e63abaf834be88d7e56a79bca89be6.jpg" style="width: 24%;border: 1px solid #ccc;border-radius: 10px;">
@@ -46,7 +48,7 @@ PC端管理后台：http://127.0.0.1
 
 ## 商城演示
 ### 1. 微信小程序商城
-![移动端演示.png](https://erps.yaodianma.com/upload/fe/6e39694afde511fbe435360137c9a3.jpg)
+<div style="width: 200px;"><img src="https://erps.yaodianma.com/upload/fe/6e39694afde511fbe435360137c9a3.jpg"></div>
 
 ### 2. PC管理后台
 PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianma.com/admin)
@@ -370,8 +372,9 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
 
 
 ## 联系我们
-<img src="https://erps.yaodianma.com/upload/e4/f22fe74ca1c5693bc1bc6876caff96.jpg#" width="344">
-
+<div style="width:200px;">
+<img src="https://erps.yaodianma.com/upload/e4/f22fe74ca1c5693bc1bc6876caff96.jpg#">
+</div>
 
 
 ## 项目技术栈
