@@ -46,7 +46,7 @@ PC端管理后台：http://127.0.0.1
 
 ## 商城演示
 ### 1. 微信小程序商城
-<div style="width: 200px;"><img src="https://erps.yaodianma.com/upload/fe/6e39694afde511fbe435360137c9a3.jpg"></div>
+<img src="https://erps.yaodianma.com/upload/fe/6e39694afde511fbe435360137c9a3.jpg" style="width: 200px;">
 
 ### 2. PC管理后台
 PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianma.com/admin)
@@ -370,9 +370,7 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
 
 
 ## 联系我们
-<div style="width:200px;">
-<img src="https://erps.yaodianma.com/upload/e4/f22fe74ca1c5693bc1bc6876caff96.jpg#">
-</div>
+<img src="https://erps.yaodianma.com/upload/e4/f22fe74ca1c5693bc1bc6876caff96.jpg" style="width: 200px;">
 
 
 ## 项目技术栈
