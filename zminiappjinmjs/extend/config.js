@@ -1,0 +1,12 @@
+
+const shortdomain = 'erpp.yaodianma.com'; // 专业版
+
+
+const version = "1.0.19"
+export default {
+	version: version,
+	shortdomain,
+	domain: 'https://' + shortdomain,
+	wssDomain: 'wss://' + shortdomain,
+	defaultAvatar: 'https://' + shortdomain + "/upload/images/avatar.png",
+}

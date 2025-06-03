@@ -1,0 +1,194 @@
+{
+	"easycom": {
+	  "autoscan": true,
+	  "custom": {
+	    "^v-(.*)": "@/components/v-$1/v-$1.vue",
+	    "^v(([A-Z]+[a-z]*)+)": "@/components/v-$1/v-$1.vue"
+	  }
+	},
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"navigationBarTitleText": "首页",
+			"enablePullDownRefresh": true
+		}
+	},{
+		"path": "pages/goods/list",
+		"style": {
+			"navigationBarTitleText": "商品列表",
+			"enablePullDownRefresh": true
+		}
+	},{
+		"path": "pages/goods/gift_card_list",
+		"style": {
+			"navigationBarTitleText": "实物卡列表",
+			"enablePullDownRefresh": true
+		}
+	},{
+		"path": "pages/cart/cart",
+		"style": {
+			"navigationBarTitleText": "购物车",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/my/my",
+		"style": {
+			"navigationBarTitleText": "我的",
+			"enablePullDownRefresh": true
+		}
+	},{
+		"path": "pages/goods/detail",
+		"style": {
+			"navigationBarTitleText": "商品详情"
+		}
+	},{
+		"path": "pages/my/address",
+		"style": {
+			"navigationBarTitleText": "地址管理"
+		}
+	},{
+		"path": "pages/my/address-edit",
+		"style": {
+			"navigationBarTitleText": "地址编辑"
+		}
+	},{
+		"path": "pages/my/coupon",
+		"style": {
+			"navigationBarTitleText": "我的优惠券"
+		}
+	},{
+		"path": "pages/my/form",
+		"style": {
+			"navigationBarTitleText": "用户信息"
+		}
+	},{
+		"path": "pages/order/list",
+		"style": {
+			"navigationBarTitleText": "订单列表"
+		}
+	},{
+		"path": "pages/order/confirm",
+		"style": {
+			"navigationBarTitleText": "订单确认"
+		}
+	},{
+		"path": "pages/order/detail",
+		"style": {
+			"navigationBarTitleText": "订单详情"
+		}
+	},{
+		"path": "pages/pay/recharge",
+		"style": {
+			"navigationBarTitleText": "余额充值"
+		}
+	},{
+		"path": "pages/pay/money-log",
+		"style": {
+			"navigationBarTitleText": "余额记录"
+		}
+	},{
+		"path": "pages/pay/success",
+		"style": {
+			"navigationBarTitleText": "支付成功"
+		}
+	},{
+		"path": "pages/pay/refund",
+		"style": {
+			"navigationBarTitleText": "充值退款"
+		}
+	},{
+		"path": "pages/demo/list",
+		"style": {
+			"navigationBarTitleText": "DEMO测试"
+		}
+	}],
+	"subPackages": [{
+		"root": "page_subs",
+		"pages": [
+			{
+				"path": "manager/order_finish/order_finish_welcome",
+				"style": {
+					"navigationBarTitleText": "自提核销"
+				}
+			},{
+				"path": "manager/order_finish/order_finish_index",
+				"style": {
+					"navigationBarTitleText": "自提核销"
+				}
+			},{
+				"path": "manager/order_finish/order_finish_list",
+				"style": {
+					"navigationBarTitleText": "核销列表"
+				}
+			},{
+				"path": "manager/order_finish/order_pick_list",
+				"style": {
+					"navigationBarTitleText": "配货单列表"
+				}
+			},{
+				"path": "manager/order_deliver/order_deliver_list",
+				"style": {
+					"navigationBarTitleText": "配送列表",
+					"enablePullDownRefresh": true
+				}
+			},{
+				"path": "gift_card/bind",
+				"style": {
+					"navigationBarTitleText": "实物卡绑定"
+				}
+			},{
+				"path": "gift_card/list",
+				"style": {
+					"navigationBarTitleText": "我的实物卡"
+				}
+			},{
+				"path": "gift_card/logs",
+				"style": {
+					"navigationBarTitleText": "卡使用记录"
+				}
+			},{
+				"path": "my_poster/my_poster",
+				"style": {
+					"navigationBarTitleText": "我的海报"
+				}
+			}
+		]
+	}],
+	"tabBar": {
+		"color": "#515151",
+		"selectedColor": "#5aa1d8",
+		"backgroundColor": "#f5f5f5",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/home.png",
+				"selectedIconPath": "static/images/home-curr.png",
+				"text": "首页"
+			},{
+				"pagePath": "pages/goods/list",
+				"iconPath": "static/images/apps.png",
+				"selectedIconPath": "static/images/apps-curr.png",
+				"text": "商品"
+			},{
+				"pagePath": "pages/cart/cart",
+				"iconPath": "static/images/cart.png",
+				"selectedIconPath": "static/images/cart-curr.png",
+				"text": "购物车"
+			},{
+				"pagePath": "pages/my/my",
+				"iconPath": "static/images/my.png",
+				"selectedIconPath": "static/images/my-curr.png",
+				"text": "我的"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "津淼净水",
+		"navigationBarBackgroundColor": "#FfFfFf",
+		"backgroundColor": "#FfFfFf",
+		"app-plus": {
+			"background": "#efeff4"
+		}
+	}
+}
