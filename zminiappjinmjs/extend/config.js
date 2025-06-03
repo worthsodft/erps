@@ -1,5 +1,5 @@
 
-const shortdomain = 'erpp.yaodianma.com'; // 专业版
+const shortdomain = 'erps.yaodianma.com'; // 标准版
 
 
 const version = "1.0.19"
