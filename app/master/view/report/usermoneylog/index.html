@@ -1,0 +1,126 @@
+{extend name="../../admin/view/table"}
+
+{block name="button"}
+<!--{if auth("add") and $type eq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("add")}' data-title="添加">添加</button>-->
+<!--{/if}-->
+
+<!--{if auth("state") and $type eq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#0">批量隐藏</button>-->
+<!--{/if}-->
+
+<!--{if auth("state") and $type neq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#1">批量显示</button>-->
+<!--{/if}-->
+
+<!--{if auth("remove") and $type neq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("remove")}' data-confirm="确定要删除吗？" data-rule="id#{id}">批量删除</button>-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <ul class="layui-tab-title">
+        {foreach ['index'=>'列 表'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('index')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        {include file='report/usermoneylog/index_search'}
+        <table id="DataTable" data-url="{:sysuri()}" data-line="3" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#DataTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'asc'},
+            where: {type: '{$type|default="index"}'},
+            cols: [[
+                // {checkbox: true},
+                // {field: 'sort', title: '排序权重', width: 100, align: 'center', sort: true, templet: '#SortInputTpl'},
+                {field: 'id', title: 'ID', align: "left", width: 30},
+                {field: 'avatar', title: '头像', align: "left", width: 100, templet: '#avatarTpl'},
+                {field: 'nickname', title: '用户信息', align: "left", width: 300, templet: '#infoTpl'},
+                // {field: 'email', title: '邮箱', align: "left", minWidth: 200},
+                {field: 'delta', title: '发生金额', align: "left", width: 100},
+                {field: 'way_title', title: '优惠类型', align: "left", width: 150},
+                {field: 'log_type_txt', title: '记录类型', align: "left", width: 100},
+                // {field: 'score', title: '积分', align: "left", width: 100},
+                // {field: 'status', title: '使用状态', align: 'center', width: 110, templet: '#StatusSwitchTpl'},
+                {field: 'create_at', title: '记录时间', align: 'left', width: 180, templet: '#createAtTpl'},
+                // {toolbar: '#toolbar', title: '操作面板', align: 'center', fixed: 'right', width: 200}
+            ]]
+        });
+
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (obj, data) {
+            data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('state')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#DataTable').trigger('reload');
+                }); else {
+                    $('#DataTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+    });
+
+</script>
+
+<!--封面图片模板 -->
+<script type="text/html" id="avatarTpl">
+    <div class="headimg headimg-md" data-tips-hover data-tips-image data-lazy-src="{{d.user.avatar?d.user.avatar:'/static/theme/img/headimg.png'}}"></div>
+</script>
+
+<!-- 用户信息模板 -->
+<script type="text/html" id="infoTpl">
+    <div class="sub-span-desc">
+        <div>用户昵称：<span>{{d.user.nickname?d.user.nickname:'未设置'}}</span></div>
+        {{# if(d.user.realname){ }}<div>真实姓名：<span>{{d.user.realname}}</span></div>{{# } }}
+        {{# if(d.user.phone){ }}<div>电话号码：<span>{{d.user.phone}}</span></div>{{# } }}
+    </div>
+</script>
+
+
+<!--时间模板 -->
+<script type="text/html" id="createAtTpl">
+    <span>{{d.create_at}}</span>
+</script>
+
+
+<!-- 排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}" data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+
+<!-- 状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已显示|已隐藏" lay-filter="StatusSwitch" {{-d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.status ? '<b class="color-red">已显示</b>' : '<b class="color-green">已隐藏</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 操作面板模板 -->
+<script type="text/html" id="toolbar">
+    <!--{if auth("detail")}-->
+<!--    <a class="layui-btn layui-btn-xs layui-btn-primary" data-open="{:url('detail')}?openid={{d.openid}}" data-full data-title="详情">详 情</a>-->
+    <!--{/if}-->
+    <!--{if auth("edit") and isset($type) and $type eq 'index'}-->
+<!--    <a class="layui-btn layui-btn-xs" data-modal="{:url('edit')}?id={{d.id}}" data-title="编辑">编 辑</a>-->
+    <!--{/if}-->
+    <!--{if auth("remove") and isset($type) and $type neq 'index'}-->
+<!--    <a class="layui-btn layui-btn-xs layui-btn-danger" data-action="{:url('remove')}" data-value="id#{{d.id}}" data-confirm="确定要删除吗？">删 除</a>-->
+    <!--{/if}-->
+</script>
+{/block}

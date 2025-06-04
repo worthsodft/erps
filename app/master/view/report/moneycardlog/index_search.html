@@ -1,0 +1,92 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">充值GID</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="money_card_gid" placeholder="请输入充值GID" value="{$get.money_card_gid|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户ID</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="id" placeholder="请输入ID" value="{$get.id|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">OPENID</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="openid" placeholder="请输入用户标识" value="{$get.openid|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户名称</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="username" placeholder="请输入昵称或姓名" value="{$get.username|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户电话</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="phone" placeholder="请输入电话号码" value="{$get.phone|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">消费类型</label>
+        <label class="layui-input-inline">
+            <select name="log_type" lay-filter="search">
+                <option value="">全部</option>
+                {foreach :config("a.money_card_loy_types") as $k=>$v}
+                <option value="{$k}" {:isset($get.log_type) && $k==$get.log_type?'selected':''}>{$v}</option>
+                {/foreach}
+            </select>
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">消费时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择消费时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导 出
+        </button>
+    </div>
+</form>
+<script>
+    layui.form.on("select(search)", ()=>$("#searchForm").submit());
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            let items = [];
+            let titles = ['ID', '消费时间', '订单编号', '用户信息', '实充余额(消费前)', '赠送余额(消费前)', '合计余额(消费前)', '实充消费', '赠送消费', '合计消费', '消费类型'];
+            items.push(titles);
+            data.forEach(function (item) {
+                items.push([
+                    item.id,
+                    item.create_at,
+                    item.order_sn,
+                    item.username,
+                    item.real_before,
+                    item.give_before,
+                    item.total_before,
+                    item.real_delta,
+                    item.give_delta,
+                    item.total_delta,
+                    item.log_type_txt
+                ]);
+            });
+
+            var lastCol = num2A(titles.length-1);
+            var colsC = {A:50};
+            colsC[lastCol] = 160;
+            this.options.extend = {
+                '!cols': layui.excel.makeColConfig(colsC, 160) // 设置每行宽度，默认 160
+            };
+            return items;
+        }, '{$title}' + layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss'));
+    });
+</script>

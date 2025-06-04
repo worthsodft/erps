@@ -1,0 +1,95 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户ID</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="id" placeholder="请输入ID" value="{$get.id|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">OPENID</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="openid" placeholder="请输入用户标识" value="{$get.openid|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户名称</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="username" placeholder="请输入昵称或姓名" value="{$get.username|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户电话</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="phone" placeholder="请输入电话号码" value="{$get.phone|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">优惠类型</label>
+        <label class="layui-input-inline">
+            <select name="recharge_way_gid" lay-filter="search">
+                <option value="">请选择</option>
+                {foreach rechargeWayOpts as $k=>$v}
+                <option value="{$k}">{$v.title}</option>
+                {/foreach}
+            </select>
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">记录类型</label>
+        <label class="layui-input-inline">
+            <select name="log_type" lay-filter="search">
+                <option value="">请选择</option>
+                {foreach :config("a.money_log_types") as $k=>$v}
+                <option value="{$k}">{$v}</option>
+                {/foreach}
+            </select>
+        </label>
+    </div>
+
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">添加时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择添加时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导 出
+        </button>
+    </div>
+</form>
+<script>
+    layui.form.on("select(search)", ()=>$("#searchForm").submit());
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            let items = [];
+            let titles = ['ID', '用户昵称', '用户姓名', '用户电话', '充值金额', '优惠类型', '记录类型', '记录时间'];
+            items.push(titles);
+            data.forEach(function (item) {
+                items.push([
+                    item.id,
+                    item.user.nickname,
+                    item.user.realname,
+                    item.user.phone,
+                    item.delta,
+                    item.way_title,
+                    item.log_type_txt,
+                    item.create_at
+                ]);
+            });
+
+            var lastCol = num2A(titles.length-1);
+            var colsC = {A:50};
+            colsC[lastCol] = 160;
+            this.options.extend = {
+                '!cols': layui.excel.makeColConfig(colsC, 160) // 设置每行宽度，默认 160
+            };
+            return items;
+        }, '用户余额记录' + layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss'));
+    });
+</script>

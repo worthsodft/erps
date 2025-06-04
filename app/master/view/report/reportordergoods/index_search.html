@@ -1,0 +1,159 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单ID</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="id" placeholder="请输入订单ID" value="{$get.id|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单编号</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="sn" placeholder="请输入订单编号" value="{$get.sn|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">收货方式</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="take_type" lay-filter="search">
+                <option value=''>-- 全部 --</option>
+                {foreach :config("a.order_take_types") as $k=>$v}
+                {if input('take_type') eq $v.value.''}
+                <option selected value="{$v.value}">{$v.text}</option>
+                {else}
+                <option value="{$v.value}">{$v.text}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {if isset($stations)}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">选择水站</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="station_gid" lay-filter="search">
+                <option value=''>-- 全部 --</option>
+                {foreach $stations as $k=>$v}
+                {if input('station_gid') eq $v.gid.''}
+                <option selected value="{$v.gid}">{$v.title}</option>
+                {else}
+                <option value="{$v.gid}">{$v.title}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {/if}
+    {if isset($districts)}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">收货区域</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="take_district" lay-filter="search">
+                <option value=''>-- 全部 --</option>
+                {foreach $districts as $k=>$v}
+                {if input('take_district') eq $v.name.''}
+                <option selected value="{$v.name}">{$v.name}</option>
+                {else}
+                <option value="{$v.name}">{$v.name}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {/if}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">下单时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择下单时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">支付时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="pay_at" placeholder="请选择支付时间" value="{$get.pay_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商品名称</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="goods_name" placeholder="请输入商品名称" value="{$get.goods_name|default=''}">
+        </label>
+    </div>
+
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导 出
+        </button>
+    </div>
+</form>
+<script>
+    layui.form.on("select(search)", ()=>$("#searchForm").submit());
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            let items = [];
+            let titles = [
+                '订单ID',
+                '订单编号',
+                '收货方式',
+                '水站',
+                '收货区域',
+                '下单时间',
+                '支付时间',
+                '支付方式',
+                '商品名称',
+                '商品数量',
+                '商品单价',
+                '商品合计',
+                '订单商品金额',
+                '订单优惠金额',
+                '订单实付金额',
+                '订单服务金额',
+                '订单支付金额',
+                '补充扣减金额',
+                '赠送扣减金额',
+                '订单开票金额',
+                '发票邮件时间',
+                '退货状态',
+                '配送状态',
+                '订单状态'
+            ];
+            items.push(titles);
+            data.forEach(function (item) {
+                items.push([
+                    item.id,
+                    item.sn,
+                    item.take_type_txt,
+                    item.station_gid_txt,
+                    item.take_district,
+                    item.create_at,
+                    item.pay_at,
+                    item.pay_type_txt,
+                    item.goods_name,
+                    item.goods_number,
+                    item.goods_self_price,
+                    item.goods_amount_goods,
+                    item.goods_amount,
+                    item.discount_amount,
+                    item.real_amount,
+                    item.deliver_amount,
+                    item.pay_amount,
+                    item.real_deduct,
+                    item.give_deduct,
+                    item.invoice_amount,
+                    item.invoice_email_at,
+                    item.refund_status_txt,
+                    item.deliver_status_txt,
+                    item.status_txt
+                ]);
+            });
+
+            var lastCol = num2A(titles.length-1);
+            var colsC = {A:50};
+            colsC[lastCol] = 100;
+            this.options.extend = {
+                '!cols': layui.excel.makeColConfig(colsC, 100) // 设置每行宽度，默认 160
+            };
+            return items;
+        }, '{$title}' + layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss'));
+    });
+</script>

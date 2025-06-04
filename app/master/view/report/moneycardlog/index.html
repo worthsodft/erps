@@ -1,0 +1,73 @@
+{extend name="../../admin/view/table"}
+
+{block name="button"}
+<!--{if auth("add") and $type eq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("add")}' data-title="添加">添加</button>-->
+<!--{/if}-->
+
+<!--{if auth("state") and $type eq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#0">批量隐藏</button>-->
+<!--{/if}-->
+
+<!--{if auth("state") and $type neq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#1">批量显示</button>-->
+<!--{/if}-->
+
+<!--{if auth("remove") and $type neq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("remove")}' data-confirm="确定要删除吗？" data-rule="id#{id}">批量删除</button>-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <ul class="layui-tab-title">
+        {foreach ['index'=>'列 表'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('index')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        {include file='report/moneycardlog/index_search'}
+        <table id="DataTable" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#DataTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id asc, openid', type: 'asc'},
+            where: {type: '{$type|default="index"}', money_card_gid: "{:input('money_card_gid')}"},
+            cols: [[
+                {field: 'id', title: 'ID', align: "left", width: 30},
+                {field: 'create_at', title: '消费时间', align: 'left', minWidth: 145},
+                {field: 'order_sn', title: '订单编号', align: "left"},
+                {field: 'username', title: '用户信息', align: "left"},
+                {field: 'real_before', title: '实充余额(消费前)', align: "left"},
+                {field: 'give_before', title: '赠送余额(消费前)', align: "left"},
+                {field: 'total_before', title: '合计余额(消费前)', align: "left"},
+                {field: 'real_delta', title: '实充消费', align: "left"},
+                {field: 'give_delta', title: '赠送消费', align: "left"},
+                {field: 'total_delta', title: '合计消费', align: "left"},
+                {field: 'log_type_txt', title: '消费类型', align: "left"},
+                {field: 'openid', title: 'OPENID', align: "left", hide: true},
+                {field: 'money_card_gid', title: '充值ID', align: "left", hide: true},
+
+                // {toolbar: '#toolbar', title: '操作面板', align: 'center', fixed: 'right', width: 100}
+            ]]
+        });
+    });
+
+</script>
+<!-- 操作面板模板 -->
+<script type="text/html" id="toolbar">
+    {if auth("list")}
+        <a class="layui-btn layui-btn-xs layui-btn-primary" data-open="{:url('list')}?openid={{d.openid}}" data-full data-title="查看明细">查看明细</a>
+    {/if}
+</script>
+{/block}
