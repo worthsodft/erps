@@ -1,0 +1,147 @@
+<style>
+    .layui-disabled, .layui-disabled:hover {
+        color: #999 !important;
+    }
+</style>
+<form action="{:sysuri()}" class='layui-form  layui-form-pane' id="subs-form" data-auto="true" data-table-id="DataTable" method="post">
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md3">
+                <div class=" layui-form-item">
+                    <label class="layui-form-label">销售单号</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input layui-disabled">{$vo.sn}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class=" layui-form-item">
+                    <label class="layui-form-label">客户</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input layui-disabled">{$vo.openid_txt}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class=" layui-form-item">
+                    <label class="layui-form-label">收货方式</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input layui-disabled">{$vo.take_type_txt}</div>
+                    </div>
+                </div>
+            </div>
+            {if $vo.take_type == 0}
+            <div class="layui-col-md3">
+                <div class=" layui-form-item">
+                    <label class="layui-form-label">提货水站</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input layui-disabled overhide" data-copy data-tips-text>{$vo.station_title}, {$vo.station_link_name}, {$vo.station_link_phone}, {$vo.station_address}</div>
+                    </div>
+                </div>
+            </div>
+            {elseif $vo.take_type == 1}
+            <div class="layui-col-md3">
+                <div class=" layui-form-item">
+                    <label class="layui-form-label">收货地址</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input layui-disabled overhide" data-copy data-tips-text>{$vo.take_name}, {$vo.take_phone}, {$vo.take_address}</div>
+                    </div>
+                </div>
+            </div>
+            {/if}
+        </div>
+        {if $vo.remark}
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md6">
+                <div class=" layui-form-item layui-form-text">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <div class="layui-textarea layui-disabled">{$vo.remark}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/if}
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md3">
+                <div class=" layui-form-item">
+                    <label class="layui-form-label label-required-prev">支付方式</label>
+                    <div class="layui-input-block">
+                        <select class="layui-select" name="pay_type" lay-filter="select_pay_type">
+                            <option value=''>-- 选择 --</option>
+                            {foreach :config("a.com_order_pay_types") as $k=>$v}
+                            <option value="{$k}">{$v}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md6">
+                <div class=" layui-form-item layui-form-text">
+                    <label class="layui-form-label">支付备注</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea" name="pay_remark">{$vo.pay_remark}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div><b>明细列表</b></div>
+            <table class="layui-table">
+                <tr>
+                    <th>商品名称</th>
+                    <th>商品规格</th>
+                    <th>商品单位</th>
+                    <th class="w120px">商品数量</th>
+                    <th class="w120px">商品单价</th>
+                    <th class="w120px">商品小计</th>
+                </tr>
+                {foreach $subs as $item}
+                <tr>
+                    <td>{$item.goods_name}</td>
+                    <td>{$item.goods_spec}</td>
+                    <td>{$item.goods_unit}</td>
+                    <td>{$item.goods_number}</td>
+                    <td>{$item.goods_self_price}</td>
+                    <td>{$item.goods_amount}</td>
+                </tr>
+                {/foreach}
+                <tr>
+                    {if count($subs) > 0}
+                    <td colspan="7" class="text-right font-w7"><span class="margin-right-20">合计总数量: {$vo.goods_total}</span><span>订单总计: {$vo.pay_amount}</span>
+                        <span>{if $vo.deliver_amount>0}(含运费 {$vo.deliver_amount+0} 元{else}(免运费{/if}, 优惠 {$vo.discount_amount+0} 元)</span>
+                    </td>
+                    {else}
+                    <td class="text-center" colspan="7">暂无数据</td>
+                    {/if}
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="hr-line-dashed margin-tb-20"></div>
+    <div class="layui-form-item text-center" style="z-index: 99;">
+        <input name='sn' type='hidden' value='{$vo.sn}'>
+        <button class="layui-btn">确认支付</button>
+        <button class="layui-btn layui-btn-danger" data-close type='button'>取消支付</button>
+    </div>
+</form>
+<script>
+    layui.form.render();
+    // layui.form.on('select(select_pay_type)', function (data) {
+    //     if(data.value == 'com_credit') return $.msg.error("暂不支持挂账，请更换其他方式支付");
+    // });
+
+</script>
+<script type="text/html" id="inlinebarSubs">
+    {{# if(d.status == 0){ }}
+    <button class="layui-btn layui-btn-xs" type="button" lay-event="subEdit">编 辑</button>
+    <button class="layui-btn layui-btn-xs layui-btn-danger" type="button" lay-event="subDel">删 除</button>
+    {{# } }}
+</script>
+<script type="text/html" id="toolbarSubs">
+    <!-- <button class="layui-btn layui-btn-xs layui-btn-primary" type="button" lay-event="subAdd">添 加</button> -->
+    <!-- <button class="layui-btn layui-btn-xs layui-btn-primary" type="button" lay-event="subReload">刷 新</button> -->
+    <!-- <button class="layui-btn layui-btn-xs layui-btn-danger" type="button" lay-event="subDel">删除</button> -->
+</script>

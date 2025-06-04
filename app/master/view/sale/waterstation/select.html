@@ -1,0 +1,101 @@
+{extend name="../../admin/view/full"}
+
+{block name="button"}
+<!--{if auth("add") and $type eq 'index'}-->
+<!-- <button class='layui-btn layui-btn-sm layui-btn-primary' data-full data-modal='{:url("add")}' data-title="添加">添加</button> -->
+<!--{/if}-->
+
+<!--{if auth("state") and $type eq 'index'}-->
+<!-- <button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#0">批量隐藏</button> -->
+<!--{/if}-->
+
+<!--{if auth("state") and $type neq 'index'}-->
+<!-- <button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#1">批量显示</button> -->
+<!--{/if}-->
+
+<!--{if auth("remove") and $type neq 'index'}-->
+<!-- <button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("remove")}' data-confirm="确定要删除吗？" data-rule="id#{id}">批量删除</button> -->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <div class="layui-tab-content">
+        <form action="{:sysuri()}" autocomplete="off" id="searchSelect" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label">水站名称</label>
+                <label class="layui-input-inline">
+                    <input class="layui-input" name="title" placeholder="请输入水站名称" value="{$get.title|default=''}">
+                </label>
+            </div>
+
+            <!--    <div class="layui-form-item layui-inline">-->
+            <!--        <label class="layui-form-label">添加时间</label>-->
+            <!--        <label class="layui-input-inline">-->
+            <!--            <input class="layui-input" data-date-range name="create_at" placeholder="请选择添加时间" value="{$get.create_at|default=''}">-->
+            <!--        </label>-->
+            <!--    </div>-->
+
+            <div class="layui-form-item layui-inline">
+                <input name="type" type="hidden" value="{$type|default='index'}">
+                <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+            </div>
+        </form>
+        <table id="DataTable" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#DataTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'desc'},
+            where: {type: '{$type|default="index"}'},
+            cols: [[
+                {field: 'id', title: 'ID', align: "left", width: 30},
+                {field: 'gid', title: 'GID',hide:true},
+                {field: 'title', title: '名称', align: "left"},
+                {field: 'is_open', title: '营业状态', align: "left", templet:function(d){
+                    if(d.is_open == 1){
+                        return '<span style="color:green">营业中</span>';
+                    }else{
+                        return '<span style="color:red">关闭中</span>';
+                    }
+                }},
+
+                // {field: 'money', title: '预付款余额', align: "left"},
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', fixed: 'right', maxWidth: 100}
+            ]]
+        });
+        // layui.table.on('rowDouble(DataTable)', function(obj) {
+        //     $("[data-select]").data("select", obj.data.gid).trigger("click");
+        // });
+    });
+    layui.form.on("select(searchSelect)", ()=>$("#searchSelectForm").submit());
+
+</script>
+
+<!-- 操作面板模板 -->
+<script type="text/html" id="toolbar">
+    <!--{if auth("select") and isset($type) and $type eq 'index'}-->
+    <a class="layui-btn layui-btn-xs layui-btn-normal" data-select="{{d.gid}}">选 择</a>
+    <!--{/if}-->
+</script>
+<script>
+    $(function () {
+        $.base.onEvent("click", "[data-select]", function(){
+            let gid = $(this).data("select") || '';
+            let isPartner = "{$isPartner|default=0}";
+            if(isPartner == 1){
+                top.setPartner(gid);
+            }else{
+                top.setStation(gid);
+            }
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+        })
+    });
+</script>
+{/block}

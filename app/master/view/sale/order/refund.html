@@ -1,0 +1,63 @@
+<style>
+    .layui-form-radio:hover>*, .layui-form-radioed, .layui-form-radioed>i{
+        color: #29f;
+    }
+</style>
+<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card">
+
+    <div class="layui-card-body padding-left-40">
+
+        <fieldset class="layui-form-item">
+            <legend>
+                <span class="layui-badge">订单信息</span>
+            </legend>
+            <div class="layui-form-item relative block sub-span-blue">
+                <div>订单编号：<span>{$vo.sn}</span></div>
+                <div>支付编号：<span>{$vo.transaction_id|default='-'}</span></div>
+                <div>支付金额：<span>{$vo.pay_amount} 元</span> <span class="color-green"> ( {:config("a.order_pay_types.".$vo.pay_type)} ) </span></div>
+                <div>支付时间：<span>{$vo.pay_at}</span></div>
+                <div>商品列表：</div>
+                {foreach $subs as $sub}
+                <div>
+                    <b class="color-blue">{$sub.goods_number|default=0} {$sub.goods_unit}</b><span class="color-red"> × </span><b class="color-blue">{$sub.goods_price}元 </b>
+                    <img src="{$sub.goods_cover}" data-tips-image data-tips-hover style="width: 25px;margin-right: 5px;">
+                    <span data-tips-image="{$sub.goods_cover}">{$sub.goods_name|default=''}</span> <span class="color-green"> ( {$sub.goods_unit} )</span>
+                </div>
+                {/foreach}
+            </div>
+            <div class="layui-form-item relative block">
+                <div>退款原因：<span class="color-red font-s20">{$vo.refund_reason}</span></div>
+            </div>
+
+        </fieldset>
+
+        <div class="layui-form-item">
+            <span class="color-green font-w7 label-required-prev">审核操作类型</span>
+            <span class="color-desc margin-left-5"></span>
+            <div class="layui-textarea" style="min-height:auto;padding:10px 0 13px 18px">
+                {php} $status = 0; {/php}
+                {foreach [1 => '同意并退款', 0 => '驳回退款申请'] as $k => $v}
+                {if $k eq $status}
+                <input checked name="is_pass" title="{$v}" type="radio" value='{$k}'>
+                {else}
+                <input name="is_pass" title="{$v}" type="radio" value='{$k}'>
+                {/if}{/foreach}
+            </div>
+        </div>
+
+        <label class="layui-form-item relative block">
+            <span class="color-green font-w7">审核反馈备注</span>
+            <span class="color-desc margin-left-5"></span>
+            <textarea class="layui-textarea" name="refund_feedback_msg" placeholder="请输入备注或驳回原因">{$vo.remark|default=''}</textarea>
+        </label>
+
+
+        <div class="hr-line-dashed"></div>
+        {notempty name='vo.sn'}<input name='sn' type='hidden' value='{$vo.sn}'>{/notempty}
+
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type='submit'>审核</button>
+            <button class="layui-btn layui-btn-danger" data-close type='button'>取消</button>
+        </div>
+    </div>
+</form>

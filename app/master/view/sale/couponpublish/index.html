@@ -1,0 +1,141 @@
+{extend name="../../admin/view/table"}
+
+{block name="button"}
+<!--{if auth("add") and $type eq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("add")}' data-title="发布优惠券">发布优惠券
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("main")}' data-title="发布优惠券">发布优惠券-->
+</button>
+<!--{/if}-->
+
+<!--{if auth("state") and $type eq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}'
+        data-rule="id#{id};status#0">批量隐藏
+</button>
+<!--{/if}-->
+
+<!--{if auth("state") and $type neq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}'
+        data-rule="id#{id};status#1">批量显示
+</button>
+<!--{/if}-->
+
+<!--{if auth("remove") and $type neq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("remove")}'-->
+<!--        data-rule="id#{id}">批量删除-->
+<!--</button>-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <ul class="layui-tab-title">
+        {foreach ['index'=>'显 示','recycle'=>'隐 藏'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('index')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        {include file='sale/couponpublish/index_search'}
+        <table id="DataTable" data-url="{:sysuri()}" data-line="3" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#DataTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'sort desc,id', type: 'desc'},
+            where: {type: '{$type|default="index"}'},
+            cols: [[
+                {checkbox: true},
+                {field: 'sort', title: '排序权重', width: 100, align: 'center', sort: true, templet: '#SortInputTpl'},
+                {field: 'id', title: 'ID', align: "left", width: 80},
+                // {field: 'no', title: '模板编号', align: "left", minWidth: 280},
+                {field: 'title', title: '标题', align: "left", minWidth: 200},
+                {field: 'money', title: '优惠金额', align: "left", minWidth: 130, templet: "#moneyTpl"},
+                {field: 'min_use_money', title: '使用金额', align: "left", minWidth: 100, templet: "<span>￥{{d.min_use_money}}</span>"},
+
+                {field: 'count', title: '数 量', align: "left", minWidth: 130, templet: "#countTpl"},
+
+                {field: 'fetch_openids', title: '可领取用户', align: "left", minWidth: 100},
+                // {field: 'use_scope_txt', title: '可用范围', align: "left", minWidth: 100},
+                {field: 'is_new', title: '仅新用户', align: "left", width: 80, templet: "<span>{{d.is_new?'是':'否'}}</span>"},
+
+                {field: 'expire_at', title: '有效期', align: 'center', width: 190, templet: "#expireTpl"},
+
+
+                {field: 'status', title: '使用状态', align: 'center', width: 110, templet: '#StatusSwitchTpl'},
+                {field: 'create_at', title: '添加时间', align: 'center', width: 150},
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', minWidth: 100, fixed: 'right'}
+            ]]
+        });
+
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (obj, data) {
+            data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('state')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#DataTable').trigger('reload');
+                }); else {
+                    $('#DataTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+    });
+</script>
+
+<script type="text/html" id="moneyTpl">
+    <div>优惠金额：<span>￥{{d.money}}</span></div>
+    <div>折扣比例：<span>￥{{d.discount}}%</span></div>
+</script>
+<script type="text/html" id="countTpl">
+    <div style="text-align: left;">
+        <div>发布数量：<span>{{d.count}} 张</span></div>
+        <div>剩余数量：<span>{{d.has_count}} 张</span></div>
+        <div>每人限领：<span>{{d.per_count}} 张</span></div>
+    </div>
+</script>
+<script type="text/html" id="expireTpl">
+    <div style="text-align: left;">
+        <div>有效期至：<span>{{d.expire_at}}</span></div>
+        <div>有效期天数：<span>{{d.expire_days}} 天</span></div>
+    </div>
+</script>
+
+<!-- 排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}"
+           data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}"
+           class="layui-input text-center">
+</script>
+
+<!-- 状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已显示|已隐藏" lay-filter="StatusSwitch"
+           {{-d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.status ? '<b class="color-red">已显示</b>' : '<b class="color-green">已隐藏</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 操作面板模板 -->
+<script type="text/html" id="toolbar">
+    {if auth("show") and isset($type) and $type eq 'index'}
+    <a class="layui-btn layui-btn-sm" data-modal="{:url('show')}?id={{d.id}}" data-title="查看">查 看</a>
+    {/if}
+    <!--{if auth("edit") and isset($type) and $type eq 'index'}-->
+<!--    <a class="layui-btn layui-btn-sm" data-modal="{:url('edit')}?id={{d.id}}" data-title="编辑">编 辑</a>-->
+    <!--{/if}-->
+    <!--{if auth("remove") and isset($type) and $type neq 'index'}-->
+<!--    <a class="layui-btn layui-btn-sm layui-btn-danger" data-action="{:url('remove')}" data-value="id#{{d.id}}"-->
+<!--       data-confirm="确定要删除数据吗？">删 除</a>-->
+    <!--{/if}-->
+</script>
+{/block}

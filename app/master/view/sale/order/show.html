@@ -1,0 +1,426 @@
+<style>
+    .layui-disabled, .layui-disabled:hover {
+        color: #999 !important;
+    }
+</style>
+<form action="{:sysuri()}" class='layui-form  layui-form-pane' id="subs-form" data-auto="true" data-table-id="DataTable" method="post">
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md3 nowrap">
+                <span>销售单号：</span>
+                <span class="color-desc">{$vo.sn}</span>
+            </div>
+            <div class="layui-col-md3">
+                <span>客户类型：</span>
+                <span class="color-desc">{$vo.from_txt}</span>
+            </div>
+            <div class="layui-col-md3">
+                <span>客户名称：</span>
+                <span class="color-desc">{$vo.openid_txt}</span>
+            </div>
+            <div class="layui-col-md3">
+                <span>支付金额：</span>
+                <span class="color-desc">￥{$vo.pay_amount}</span>
+            </div>
+            <div class="layui-col-md3">
+                <span>支付方式：</span>
+                <span class="color-desc">{$vo.pay_type_txt}</span>
+            </div>
+            <div class="layui-col-md3">
+                <span>支付时间：</span>
+                <span class="color-desc">{$vo.pay_at}</span>
+            </div>
+            <div class="layui-col-md3">
+                <span>收货方式：</span>
+                <span class="color-desc">{$vo.take_type_txt}</span>
+            </div>
+
+            <!-- <div class="layui-col-md3" v-if="vo.take_type == 0"> -->
+            <!--     <div class=" layui-form-item"> -->
+            <!--         <label class="layui-form-label">提货水站</label> -->
+            <!--         <div class="layui-input-block"> -->
+            <!--             {if $mode == 'add' || $mode == 'edit'} -->
+            <!--             <div class="layui-input">{{station.title || '请选择水站'}}</div> -->
+            <!--             <input type="hidden" :value="station.gid"> -->
+            <!--             <div class="layui-input-split layui-input-suffix pointer v-flex-center layui-bg-blue" style="width: 48px" -->
+            <!--                  data-iframe="{:url('sale.waterstation/select')}" data-title="选择水站" data-width="1000px">选择</div> -->
+            <!--             {else} -->
+            <!--             <div class="layui-input layui-disabled">{{station.title || '请选择水站'}}</div> -->
+            <!--             {/if} -->
+            <!--         </div> -->
+            <!--     </div> -->
+            <!-- </div> -->
+            <!-- <div class="layui-col-md3" v-if="vo.take_type == 1"> -->
+            <!--     <div class=" layui-form-item"> -->
+            <!--         <label class="layui-form-label">收货地址</label> -->
+            <!--         <div class="layui-input-block"> -->
+            <!--             {if $mode == 'add' || $mode == 'edit'} -->
+            <!--             <div class="layui-input" v-if="address.gid">{{address.link_name}} {{address.detail}}</div> -->
+            <!--             <div class="layui-input" v-else>请选择收货地址</div> -->
+            <!--             <div class="layui-input-split layui-input-suffix pointer v-flex-center layui-bg-blue" style="width: 48px" -->
+            <!--                  data-iframe="{:url('base.useraddress/select')}" :data-value="'openid#'+(customer.gid||'')" @click="selectAddress" data-title="选择收货地址" data-width="1000px">选择</div> -->
+            <!--             {else} -->
+            <!--             <div class="layui-input layui-disabled" v-if="address.gid">{{address.link_name}} {{address.detail}}</div> -->
+            <!--             <div class="layui-input layui-disabled" v-else>请选择收货地址</div> -->
+            <!--             {/if} -->
+            <!--         </div> -->
+            <!--     </div> -->
+            <!-- </div> -->
+        </div>
+        {if $vo.remark}
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md6">
+                <label>备注</label>
+                <div class="layui-textarea">{$vo.remark}</div>
+            </div>
+        </div>
+        {/if}
+        <div class="layui-row layui-col-space10">
+            <div><b>明细列表</b></div>
+            <table class="layui-table">
+                <tr>
+                    <th>商品名称</th>
+                    <th>商品规格</th>
+                    <th>商品单位</th>
+                    <th class="w120px">商品数量</th>
+                    <th class="w120px">商品单价</th>
+                    <th class="w120px">商品小计</th>
+                    <th class="text-center" style="width:50px">操作</th>
+                </tr>
+                {foreach $subs as $sub}
+                <tr>
+                    <td>{$sub.goods_name}</td>
+                    <td>{$sub.goods_spec}</td>
+                    <td>{$sub.goods_unit}</td>
+                    <td>{$sub.goods_number}</td>
+                    <td>￥{$sub.goods_self_price}</td>
+                    <td>￥{$sub.goods_amount}</td>
+                    <td class="text-center"></td>
+                </tr>
+                {/foreach}
+                {if count($subs) > 0}
+                <tr>
+                    <td colspan="7" class="text-right font-w7"><span class="margin-right-20">商品总数量: {$vo.goods_total}</span><span>商品总金额: ￥{$vo.goods_amount}</span></td>
+                </tr>
+                {else}
+                <tr>
+                    <td class="text-center" colspan="7">暂无数据</td>
+                </tr>
+                {/if}
+            </table>
+        </div>
+    </div>
+    <div class="hr-line-dashed margin-tb-20"></div>
+    <div class="layui-form-item text-center" style="z-index: 99;">
+        {if isset($vo.id)}<input name='id' type='hidden' value='{$vo.id}'>{/if}
+        <button class="layui-btn layui-btn-danger" data-close type='button'>关闭窗口</button>
+    </div>
+</form>
+<script>
+    // let $vm;
+    require(['vue'], function (Vue) {
+        let that;
+        $subsVm = new Vue({
+            el: '#subs-form',
+            data() {
+                return {
+                    from: "{$from|default='company'}",
+                    customer: {
+                        // gid: '3f36f8b8ab7d4790bb3d5d3b6b267089',
+                        // title: "ABC客户"
+                    },
+                    station: {},
+                    address: {},
+                    vo: {
+                        // openid: '3f36f8b8ab7d4790bb3d5d3b6b267089',
+                        // pay_type: 'weixin',
+                        // take_type: 1,
+                    },
+                    subs: [],
+                }
+            },
+            mounted() {
+                that = this;
+                // this.customer = JSON.parse('{$customer|default=[]|json_encode|raw}');
+                // this.vo = JSON.parse('{$vo|default=[]|json_encode|raw}');
+                // console.log(this.vo);
+                // this.subs = JSON.parse('{$subs|default=[]|json_encode|raw}');
+
+                this.layuiRender();
+                this.layuiInit();
+            },
+            updated() {
+                this.layuiRender();
+            },
+            methods: {
+                layuiRender(){
+                    laydate.render({elem: '#pay_at', type: 'datetime'});
+                    laydate.render({elem: '#take_at', type: 'datetime'});
+                    layui.form.render();
+                },
+                layuiInit(){
+                    this.$nextTick(()=>{
+                        layui.form.on('select(select_pay_type)', function (data) {
+                            that.$set(that.vo, 'pay_type', data.value)
+                        });
+                        layui.form.on('select(select_take_type)', function (data) {
+                            that.$set(that.vo, 'take_type', data.value)
+                        });
+                    });
+                },
+                selectAddress(){
+                    if(!this.customer.gid) alert("请先选择客户");
+                },
+                validate() {
+                    this.vo.openid = this.customer.gid;
+                    this.vo.station_gid = this.station.gid || null;
+                    this.vo.address_gid = this.address.gid || null;
+                    this.vo.pay_at = $("#pay_at").val() || null;
+                    this.vo.take_at = $("#take_at").val() || null;
+
+                    if (!this.vo.openid) return $.msg.error("请选择客户") === null;
+                    // if (!this.vo.pay_type) return $.msg.error("请选择支付方式") === null;
+                    if (!this.vo.take_type) return $.msg.error("请选择收货方式") === null;
+                    if (this.vo.take_type === '0' && !this.vo.station_gid) return $.msg.error("请选择提货水站") === null;
+                    if (this.vo.take_type == 1 && !this.vo.address_gid) return $.msg.error("请选择收货地址") === null;
+
+                    if (this.subs.length == 0) return $.msg.error("请添加商品明细") === null;
+                    for (let i in this.subs) {
+                        let item = this.subs[i];
+                        if (!item.goods_number || item.goods_number <= 0) {
+                            let error = "请输入商品数量: " + item.goods_name
+                            $.msg.error(error);
+                            throw error;
+                        }
+                    }
+                    return true;
+                },
+                submit() {
+                    if(!this.validate()) return;
+
+                    this.vo.from = this.from;
+
+                    let items = [];
+                    this.subs.forEach(item=>{
+                        items.push({
+                            goods_sn: item.goods_sn,
+                            goods_number: item.goods_number
+                        })
+                    })
+
+                    let params = {
+                        vo: this.vo,
+                        subs: items,
+                    }
+                    $.post("{:url('add')}", params).then(res => {
+                        if (res.code != 1) return $.msg.error(res.info || "系统错误");
+                        $.msg.success(res.info || "操作成功");
+                        $.msg.closeThisModal("#subs-form");
+                        // $('#DataTable').trigger('reload');
+                        $.form.reload();
+                    })
+                },
+                calcTotal(){
+                    let total = 0,amount = 0;
+                    for(let i in this.subs){
+                        if(!this.subs[i].goods_number) continue;
+                        total += +this.subs[i].goods_number;
+                        amount += +this.subs[i].goods_amount;
+                    }
+                    this.vo.total = Math.round(total, 3).toFixed(3);
+                    this.vo.amount = Math.round(amount, 2).toFixed(2);
+                },
+                goodsNumberChange(index){
+                    let item = this.subs[index];
+                    if(!item.goods_price || !item.goods_number) return;
+
+                    item.goods_amount = Math.round(item.goods_price * item.goods_number, 2).toFixed(2);
+                    this.$set(this.subs, index, item);
+
+                    this.calcTotal();
+                },
+                showGoodsSelect(){
+                    $.vandles.iframe("{:url('product.goods/select')}?is_multi=1", {title: "添加商品", width: "1000px"})
+                },
+                subAddList(list){
+                    if(this.subs.length == 0) return this.subs = list;
+                    for (let i in list) {
+                        let goods = list[i];
+                        let isDuplicate = false;
+                        for (let j in this.subs) {
+                            if (this.subs[j].goods_sn == goods.goods_sn) {
+                                let error = '商品已存在，请直接修改数量: ' + goods.goods_name;
+                                $.msg.tips(error);
+                                isDuplicate = true;
+                                break;
+                            }
+                        }
+                        if (!isDuplicate) this.subs.push(goods);
+                    }
+                },
+                subDel(index) {
+                    $.msg.confirm("确定要删除吗？", () => {
+                        this.subs.splice(index, 1);
+                        this.calcTotal();
+                    })
+                },
+                submit1() {
+
+                    let pay_at = $("#pay_at").val();
+
+                    console.log(this.pay_at);
+
+
+                    return;
+                    if (!this.validate()) return;
+
+                    let params = {
+                        sn: this.vo.sn,
+                        customer_gid: this.customer.gid,
+                        remark: this.vo.remark || '',
+                        subs: this.subs,
+                    }
+                    $.post("{:url('save')}", params).then(res => {
+                        if (res.code != 1) return $.msg.error(res.info || "系统错误");
+                        $.msg.success(res.info || "操作成功");
+                        $.msg.closeThisModal("#subs-form");
+                        // $('#DataTable').trigger('reload');
+                        $.form.reload();
+                    })
+                },
+                // pass(type) {
+                //     if (type == -1 && !this.vo.pass_remark) {
+                //         return $.msg.error('驳回时，请在审核备注填写驳回原因', 3, () => $("[name=pass_remark]").focus());
+                //     }
+                //     if (this.vo.status == 1) return $.msg.error('当前入库单已审核，不能重复审核');
+                //     if (this.vo.status == -1) return $.msg.error('当前入库单驳回，不能重复审核');
+                //
+                //     let params = {
+                //         sn: this.vo.sn,
+                //         type: type,
+                //         pass_remark: this.vo.pass_remark || '',
+                //     }
+                //     $.msg.confirm("确认要审核销售订单吗？",()=>{
+                //         this.doPass(params);
+                //     });
+                //
+                // },
+                // doPass(params){
+                //     $.post("{:url('pass')}", params).then(res => {
+                //         if (res.code != 1) return $.msg.error(res.info || "系统错误");
+                //         $.msg.success(res.info || "操作成功");
+                //         $.msg.closeThisModal("#subs-form");
+                //         // $('#DataTable').trigger('reload');
+                //         $.form.reload();
+                //     })
+                // },
+            }
+        })
+    });
+
+    // 选择客户（企业）
+    function setCustomer(gid) {
+        $.get("{:url('customer.customer/getCustomerByGid')}?gid=" + gid).then(res => {
+            if (res.code != 1) return $.msg.error(res.info || "系统错误");
+            $subsVm.customer = res.data.one;
+        });
+    }
+    // 选择客户（经销商）
+    function setPartner(gid) {
+        $.get("{:url('sale.waterstation/getStationByGid')}?gid=" + gid).then(res => {
+            if (res.code != 1) return $.msg.error(res.info || "系统错误");
+            $subsVm.customer = res.data.one;
+        });
+    }
+    // 选择送货水站
+    function setStation(gid) {
+        $.get("{:url('sale.waterstation/getStationByGid')}?gid=" + gid).then(res => {
+            if (res.code != 1) return $.msg.error(res.info || "系统错误");
+            $subsVm.station = res.data.one;
+        });
+    }
+    function setAddress(gid) {
+        $.get("{:url('base.useraddress/getAddressByGid')}?gid=" + gid).then(res => {
+            if (res.code != 1) return $.msg.error(res.info || "系统错误");
+            $subsVm.address = res.data.one;
+        });
+    }
+    // 选择商品
+    function setGoods(goods_sn){
+        $.get(`{:url('product.goods/getGoodsBySn')}?sn=${goods_sn}&p=1`).then(res=>{
+            if(res.code != 1) return $.msg.error(res.info||"系统错误");
+            $subsVm.subAddList(res.data.goods);
+        });
+    }
+
+
+    // 导出excel
+    function exportFile(obj) {
+        let items = [], colWidth = [];
+        // 1. 表头数据
+        let headers = ["生产日期", "时间段", "商品名称", "商品单位", "生产规格", "计划数量", "实际数量"];
+        // 工序操作者
+        for (let p of processList) {
+            headers.push(p.title);
+        }
+        headers.push("备注");
+
+        items.push(headers);
+
+        // 2. 表体数据
+        layui.table.getData(obj.config.id).forEach(function (item) {
+            let row = [
+                item.date_week,
+                item.time_slot_txt,
+                item.goods_name,
+                item.goods_unit,
+                item.goods_spec,
+                item.plan_number,
+                item.actual_number,
+            ];
+            for (let p of processList) {
+                row.push(item[`producer${p.id}_ids_txt`]);
+            }
+            row.push(item.remark);
+            items.push(row);
+        });
+
+        // 3. 导出文件
+        let date = layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss');
+        let title = `{$title|default=''}_${date}`
+        $.vandles.exportExcle({items, colWidth}, title);
+    }
+
+    $.base.onEvent("click", "[data-reject]", function () {
+        let remarkElem = $("[name=pass_remark]");
+        let passRemark = remarkElem.val();
+        if (!passRemark) {
+            remarkElem.css({"border-color": "red"});
+            remarkElem.off("blur").on("blur", function () {
+                remarkElem.css({"border-color": ""});
+            });
+            return $.msg.error("请在审核备注栏填写驳回原因");
+        }
+        $.msg.confirm(this.dataset.confirm, () => {
+            $.post("{:sysuri()}", {"pass_remark": passRemark, id: "{$vo.id|default=''}"}).then(res => {
+                if (res.code != 1) return $.msg.error(res.info || "系统错误");
+                $.msg.success(res.info, 2, () => {
+                    $.form.reload();
+                    $.msg.closeThisModal("#subs-form");
+                });
+            });
+        });
+    });
+
+</script>
+<script type="text/html" id="inlinebarSubs">
+    {{# if(d.status == 0){ }}
+    <button class="layui-btn layui-btn-xs" type="button" lay-event="subEdit">编 辑</button>
+    <button class="layui-btn layui-btn-xs layui-btn-danger" type="button" lay-event="subDel">删 除</button>
+    {{# } }}
+</script>
+<script type="text/html" id="toolbarSubs">
+    <!-- <button class="layui-btn layui-btn-xs layui-btn-primary" type="button" lay-event="subAdd">添 加</button> -->
+    <!-- <button class="layui-btn layui-btn-xs layui-btn-primary" type="button" lay-event="subReload">刷 新</button> -->
+    <!-- <button class="layui-btn layui-btn-xs layui-btn-danger" type="button" lay-event="subDel">删除</button> -->
+</script>

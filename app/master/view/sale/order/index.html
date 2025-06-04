@@ -1,0 +1,241 @@
+{extend name="../../admin/view/main"}
+
+{block name="button"}
+<!--{if auth("clean")}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-queue='{:url("clean")}'>定时清理订单</button>-->
+<!--{/if}-->
+
+<!--{if auth("add") and ($type == 'a' || $type == 0)}-->
+<!-- {if $from == 'company'} -->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("add")}?from=company' data-full="1" data-maxmin="1" data-title="添加企业订单">添加企业订单</button>
+<!-- {elseif $from == 'partner'} -->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("add")}?from=partner' data-full="1" data-maxmin="1" data-title="添加经销商订单">添加经销商订单</button>
+<!-- {/if} -->
+<!--{/if}-->
+
+{/block}
+
+{block name="content"}
+<style>
+    .layui-badge-middle{
+        height: 6em;
+        line-height: 24px;
+    }
+    .border-radius{
+        border-radius: 9px!important;
+    }
+    .goods-img{
+        width: 25px;margin: 0 5px;height: 100%;border-radius: 5px;border: 1px solid #e5e5e5;
+    }
+    .go-pay:hover{
+        text-decoration: underline;
+    }
+</style>
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title notselect">
+        {php}$types = ['ta' => '全部订单', 't0' => '待支付', 't10' => '待配货', 't11' => '配送中', 't2' => '已完成', 't9' => '退　款'];{/php}
+        {foreach $types as $k=>$v}{if isset($type) and 't'.$type eq $k}
+        <li class="layui-this" data-open="{:url('index'.$from)}?type={$k}">{$v}<sup class="layui-badge  border-radius" style="">{$total[$k]??0}</sup></li>
+        {else}
+        <li data-open="{:url('index'.$from)}?type={$k}">{$v}<sup class="layui-badge border-radius">{$total[$k]??0}</sup></li>
+        {/if}{/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        {include file='sale/order/index_search'}
+        <table class="layui-table margin-top-10" lay-skin="line">
+            {notempty name='list'}
+            <thead>
+            <tr>
+                <th class='list-table-check-td think-checkbox'>
+                    <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>
+                </th>
+                <th>用户信息</th>
+                <th>订单信息</th>
+                <th>收/发货信息</th>
+                <th>订单备注</th>
+                <th>商品信息</th>
+                <th class="nowrap">操作</th>
+            </tr>
+            </thead>
+            {/notempty}
+            <tbody>
+            {foreach $list as $key=>$vo}
+            <tr>
+                <td class='list-table-check-td think-checkbox'>
+                    <label><input class="list-check-box" type='checkbox' value='{$vo.id}'></label>
+                </td>
+                <td class="nowrap relative">
+                    {if $vo.from == 'mini'}
+                    <div>
+                        <div class="headimg" data-lazy-src="{$vo.user.avatar|default='__ROOT__/static/theme/img/headimg.png'}" data-tips-image></div>
+                        <div class="inline-block sub-strong-red"  style="width: 120px;display: flex;align-items: center">
+                            <div class="color-desc v-ellip" style="width: 100%;">[{$vo.user.id}] {$vo.user.nickname|default='--'}</div>
+<!--                            用户手机：<span class="color-text">{ $vo.user.phone|default='&#45;&#45;'}</span><br>-->
+                        </div>
+                    </div>
+                    {elseif $vo.from == 'company'}
+                    <div class="color-desc v-ellip">{$vo.buyer.title|default='--'}</div>
+                    {elseif $vo.from == 'partner'}
+                    <div class="color-desc v-ellip">{$vo.buyer.title|default='--'}</div>
+                    {/if}
+                </td>
+                <td class='nowrap'>
+                    <div style="width: 300px;">
+                        {eq name='vo.status' value='0'}<span class="layui-badge layui-badge-middle layui-bg-orange">待支付</span>{/eq}
+                        {if $vo.status == 1 && $vo.deliver_status == 0}<span class="layui-badge layui-badge-middle layui-bg-orange">待配货</span>{/if}
+                        {if $vo.status == 1 && $vo.deliver_status == 1}<span class="layui-badge layui-badge-middle layui-bg-red">配送中</span>{/if}
+                        {eq name='vo.status' value='2'}<span class="layui-badge layui-badge-middle layui-bg-blue">已完成</span>{/eq}
+                        <!--                    {eq name='vo.status' value='0'}<span class="layui-badge layui-badge-middle layui-bg-gray layui-border-cyan"></span>{/eq}-->
+                        <!--                    {eq name='vo.status' value='1'}<span class="layui-badge layui-badge-middle layui-bg-red">预购订单</span>{/eq}-->
+    <!--                    {eq name='vo.status' value='4'}<span class="layui-badge layui-badge-middle layui-bg-black">等待发货</span>{/eq}-->
+    <!--                    {eq name='vo.status' value='5'}<span class="layui-badge layui-badge-middle layui-bg-blue">已经发货</span>{/eq}-->
+                        {eq name='vo.status' value='9'}<span class="layui-badge layui-badge-middle layui-bg-black" data-tips-text="{$vo.refund_feedback_msg}">
+                        {:config("a.order_refund_status." . $vo.refund_status)}
+                        </span>{/eq}
+                        <div class="inline-block text-middle">
+                            <div class="sub-strong-blue">
+                                订单编号：<span class="color-desc">[{$vo.id|default=''}] </span><b>{$vo.sn|default=''}</b>
+                                <!--{eq name='vo.status' value='3'}-->
+                                <!-- <a class="margin-left-5 layui-badge layui-bg-blue" data-modal="{:url('audit')}?order_no={$vo.order_no}">凭证审核</a> -->
+                                <!--{/eq}-->
+                            </div>
+                            <div class="sub-strong-blue">
+                                订单总计：<b>{$vo.pay_amount+0}</b> 元
+                                <span class="color-green">{if $vo.deliver_amount>0}(含运费 {$vo.deliver_amount+0} 元{else}(免运费{/if}, 优惠 {$vo.discount_amount+0} 元)</span>
+                            </div>
+                            <div>下单时间：<span class="color-text">{$vo.create_at|format_datetime}</span></div>
+                            <!--{if !empty($vo.pay_at)}-->
+                            <div>
+                                支付时间：<span class="color-text">{$vo.pay_at|format_datetime}</span>
+                                <b class="margin-left-5 color-blue">({$vo.pay_type_txt})</b>
+                            </div>
+                            <!--{else}-->
+                            支付状态：<span class="color-desc">未支付{if $vo.pay_type}<b class="margin-left-5 color-blue">({$vo.pay_type_txt})</b>{/if}</span>
+                            <!-- {if $vo.status == 0 && auth("pay") && $vo.from != "mini"} -->
+                            <a class="color-blue go-pay margin-left-10" data-modal="{:url('pay')}?sn={$vo.sn}" data-full data-title="{$vo.from_txt}订单支付">去支付</a>
+                            <!-- {/if} -->
+                            <!--{/if}-->
+                            <!-- {if !empty($vo.pay_remark)} -->
+                            <div>
+                                支付备注：<span class="color-text">{$vo.pay_remark}</span>
+                            </div>
+                            <!-- {/if} -->
+                            <!--{if !empty($vo.take_at)}-->
+                            <div>收货时间：<span class="color-text">{$vo.take_at|format_datetime}</span></div>
+                            <!--{/if}-->
+                            <!--{if !empty($vo.invoice_email_at)}-->
+                            <div>开票时间：<span class="color-text">{$vo.invoice_email_at|format_datetime}</span></div>
+                            <!--{/if}-->
+                            <!--{if !empty($vo.invoice_no)}-->
+                            <div>发票号码：<span class="color-text">{$vo.invoice_no|default=''}</span></div>
+                            <!--{/if}-->
+                            <!--{if $vo.status == 9}-->
+                            <div>退款申请时间：<span class="color-text">{$vo.refund_apply_at|format_datetime}</span></div>
+                            <div>退款原因：<span class="color-text">{$vo.refund_reason}</span></div>
+                            <div>退款结果：<span class="color-text">{:config("a.order_refund_status.".$vo.refund_status)} {if $vo.refund_feedback_msg}({$vo.refund_feedback_msg}){/if}</span></div>
+                            <div>退款时间：<span class="color-text">{$vo.refund_feedback_at|format_datetime}</span></div>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                </td>
+                <td class="">
+                    <div style="width: 300px;">
+                        <div>收货方式：<span class="layui-badge {$vo.take_type==0?'layui-bg-blue':''}">{:config("a.order_take_types.".$vo.take_type)['text']}</span></div>
+                        {if $vo.take_type == 0} <!-- 自提 -->
+                            <div>水站名称：<span class="margin-left-5 color-blue">{$vo.station_title|default=''}</span></div>
+                            <div>联系方式：<span class="color-text">{$vo.station_link_name|default='--'}</span><span class="margin-left-5  color-blue">{$vo.station_link_phone|default=''}</span></div>
+                            <div class="v-w100">水站地址：<span class="color-text">{$vo.station_address|default='--'}</span></div>
+                            <div class="hr-line-dashed"></div>
+                            {if $vo.take_by}<div>核销人：
+                                {if startsWith($vo.take_by, "master")}
+                                <span class="color-text">后台核销({:explode("|", $vo.take_by)[1]})</span>
+                                {else}
+                                <span class="color-text">{$vo.taker.realname??($vo['taker']['nickname']??($vo.taker.phone??'未设置'))}</span>
+                                {/if}
+                            </div>{/if}
+                            {if $vo.take_at}<div>核销时间：<span class="color-text">{$vo.take_at|format_datetime}</span></div>{/if}
+                        {else} <!-- 配送 -->
+                            <div>收货信息：<span class="color-text">{$vo.take_name|default='--'}</span><span class="margin-left-5 color-blue">{$vo.take_phone|default=''}</span></div>
+                            <div class="v-w100">收货地址：<span class="color-text">{$vo.take_address|default='--'}</span></div>
+
+                            <div class="hr-line-dashed"></div>
+                            <!-- {if $vo.pick_gid} <div>配货单：<span class="color-text">{$vo.pick_gid}</span></div>{/if} -->
+                            {if startsWith($vo.pick_by, "master")}<div>配货人：<span class="color-text">后台配货({:explode("|", $vo.pick_by)[1]})</span></div>
+                            {elseif $vo.pick_by} <div>配货人：<span class="color-text">{$vo.picker.realname??($vo['picker']['nickname']??($vo.picker.phone??'未设置'))}</span></div>
+                            {/if}
+                            {if $vo.pick_at} <div>配货时间：<span class="color-text">{$vo.pick_at|format_datetime}</span></div>{/if}
+
+                            <div class="hr-line-dashed"></div>
+                            <?php $title = empty($vo['deliver_images'])?"收货人":"配送人"; ?>
+                            {if $vo.take_by == "auto"}<div>{$title}：<span class="color-text">自动收货</span></div>
+                            {elseif startsWith($vo.take_by, "master")}<div>{$title}：<span class="color-text">后台核销({:explode("|", $vo.take_by)[1]})</span></div>
+                            {elseif $vo.take_by}<div>{$title}：<span class="color-text">{$vo.taker.realname??($vo['taker']['nickname']??($vo.taker.phone??'未设置'))}</span></div>{/if}
+                            {if $vo.take_at}<div>完成时间：<span class="color-text">{$vo.take_at|format_datetime}</span></div>{/if}
+                            {if $vo.deliver_remark}<div>配送说明：<span class="color-text">{$vo.deliver_remark}</span></div>{/if}
+                            {if $vo.deliver_images}<div style="display: flex;">配送图片：
+                                <div style="display: flex;">
+                                    {foreach $vo.deliver_images as $image}
+                                    <div style="width: 60px;max-height: 60px;margin-right: 10px;overflow:hidden;" data-tips-image="{$image}"><img src="{$image}" style="width: 100%;height: 100%;object-fit: cover;object-position: center;" alt=""></div>
+                                    {/foreach}
+                                </div>
+                            </div>
+                            {/if}
+                        {/if}
+
+                    </div>
+                </td>
+                <td class="">
+                    <div style="width: 200px;">
+                        {$vo.remark|default=''}
+                    </div>
+                </td>
+                <td class="">
+                    <div style="width: 300px;">
+                        {foreach $vo.subs as $sub}
+                        <div style="display: flex;margin-bottom: 2px;">
+<!--                            <span class="layui-icon font-s10 color-blue">&#xe602;</span>-->
+                            <div style="width: 70px;"><b class="color-blue">{$sub.goods_number|default=0} {$sub.goods_unit}</b><span class="color-red"> × </span><b class="color-blue">{$sub.goods_self_price+0}元 </b></div>
+                            <img class="goods-img" src="{$sub.goods_cover}" data-tips-image data-tips-hover>
+                            <div class="inline-block" data-tips-image="{$sub.goods_cover}" style="width: 120px;">{$sub.goods_name|default=''}</div> <span class="color-green"> ({$sub.goods_unit})</span>
+                        </div>
+                        {/foreach}
+                    </div>
+                </td>
+                <td class="nowrap">
+                    {if $vo.status == 0 && auth("cancelMaster") && $vo.from != "mini" && $type == '0'}
+                        <a class="layui-btn layui-btn-xs layui-btn-primary" data-action="{:url('cancelMaster')}" data-value="sn#{$vo.sn}" data-confirm="确认要取消订单吗？">订单取消}</a>
+                    {/if}
+                    {if $vo.status == 0 && auth("pay") && $vo.from != "mini"}
+                        <a class="layui-btn layui-btn-xs layui-btn-warm" data-modal="{:url('pay')}?sn={$vo.sn}" data-full data-title="{$vo.from_txt}订单支付">订单支付</a>
+                    {/if}
+                    {if $vo.status == 9 && $vo.refund_status == 1}
+                        {if auth("refund")}
+                        <a class="layui-btn layui-btn-xs layui-btn-danger" data-modal="{:url('refund')}?sn={$vo.sn}">确认退款</a>
+                        {/if}
+                    {/if}
+                    {if $vo.status == 1 && $type == 10}
+                        {if auth("refundMaster") && $vo.from != 'mini'}
+                            <a class="layui-btn layui-btn-xs layui-btn-danger" data-modal="{:url('refundMaster')}?sn={$vo.sn}">后台退款</a>
+                        {/if}
+                        {if auth("pickupMaster") && $vo.take_type == 1}
+                            <a class="layui-btn layui-btn-xs layui-btn-danger" data-modal="{:url('pickupMaster')}?sn={$vo.sn}">后台配货</a>
+                        {/if}
+                        {if auth("verifyMaster") && $vo.take_type == 0}
+                            <a class="layui-btn layui-btn-xs layui-btn-warm" data-modal="{:url('verifyMaster')}?sn={$vo.sn}">后台核销</a>
+                        {/if}
+                    {/if}
+                    {if $vo.status == 1 && $type == 11}
+                        {if auth("verifyMaster")}
+                            <a class="layui-btn layui-btn-xs layui-btn-warm" data-modal="{:url('verifyMaster')}?sn={$vo.sn}">后台核销</a>
+                        {/if}
+                    {/if}
+                </td>
+            </tr>
+
+            {/foreach}
+            </tbody>
+        </table>
+        {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+    </div>
+</div>
+{/block}

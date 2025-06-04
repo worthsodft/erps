@@ -1,0 +1,42 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>标题</b></span>
+            <input class="layui-input" name="title" required placeholder="请输入标题" value='{$vo.title|default=""}'>
+<!--            <span class="color-desc">必填，快递公司名称用于显示快递配送的公司标识，请尽量保持其精准性。</span>-->
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>优惠金额</b></span>
+            <input class="layui-input" type="number" min="0" name="money" required placeholder="请输入优惠金额" value='{$vo.money|default=""}'>
+            <span class="color-desc">选填，优惠金额，单位为元，精确到小数点后两位。</span>
+        </label>
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>折扣比例</b></span>
+            <input class="layui-input" type="number" min="0" name="discount" placeholder="请输入折扣比例" value='{$vo.discount|default=""}'>
+            <span class="color-desc">选填，折扣比例，如：支付金额为100元，折扣比例设为5%，则实际优惠金额为：5元。如果优惠金额同时设置，使用优惠券时以优惠金额优先。</span>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>使用金额</b></span>
+            <input class="layui-input" type="number" min="0" name="min_use_money" placeholder="请输入使用金额" value='{$vo.min_use_money|default="0"}'>
+            <span class="color-desc">可使用优惠券的最小支付金额，即：满N元可用。</span>
+        </label>
+
+
+
+<!--        <label class="layui-form-item block relative">-->
+<!--            <span class="help-label"><b>快递公司描述</b>Remark</span>-->
+<!--            <textarea class="layui-textarea" name="remark" placeholder="请输入快递公司描述">{$vo.remark|default=''}</textarea>-->
+<!--        </label>-->
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close data-confirm="确定要取消编辑吗？" type='button'>取消编辑</button>
+    </div>
+</form>

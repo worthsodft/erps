@@ -1,0 +1,417 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单单号</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="sn" placeholder="请输入订单单号" value="{$get.sn|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">支付单号</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="transaction_id" placeholder="请输入支付单号" value="{$get.transaction_id|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">收货信息</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="take_info" placeholder="请输入收货人名称等信息" value="{$get.take_info|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">水站信息</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="station_info" placeholder="请输入联系人名称等信息" value="{$get.station_info|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户信息</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="user_info" placeholder="请输入注册人昵称、手机号" value="{$get.user_info|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">核销人</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="deliver_info" placeholder="请输入核销人昵称" value="{$get.deliver_info|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">收货方式</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="take_type" lay-filter="search">
+                <option value=''>-- 全部 --</option>
+                {foreach :config("a.order_take_types") as $k=>$v}
+                {if input('take_type') eq $v.value.''}
+                <option selected value="{$v.value}">{$v.text}</option>
+                {else}
+                <option value="{$v.value}">{$v.text}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {if isset($stations)}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">选择水站</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="station_gid" lay-filter="search">
+                <option value=''>-- 全部 --</option>
+                {foreach $stations as $k=>$v}
+                {if input('station_gid') eq $v.gid.''}
+                <option selected value="{$v.gid}">{$v.title}</option>
+                {else}
+                <option value="{$v.gid}">{$v.title}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {/if}
+    {if isset($districts)}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">收货区域</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="take_district" lay-filter="search">
+                <option value=''>-- 全部 --</option>
+                {foreach $districts as $k=>$v}
+                {if input('take_district') eq $v.name.''}
+                <option selected value="{$v.name}">{$v.name}</option>
+                {else}
+                <option value="{$v.name}">{$v.name}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {/if}
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">支付方式</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="pay_type" lay-filter="search">
+                <option value=''>-- 全部 --</option>
+                {foreach $orderPayTypes as $k=>$v}
+                {if input('pay_type') eq $k.''}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+<!--    <div class="layui-form-item layui-inline">-->
+<!--        <label class="layui-form-label">订单状态</label>-->
+<!--        <label class="layui-input-inline">-->
+<!--            <select class="layui-select" name="status" lay-filter="search">-->
+<!--                <option value=''>- 全部订单 -</option>-->
+<!--                {foreach :config("a.order_status_show") as $k=>$v}-->
+<!--                {if input('status') eq $k.''}-->
+<!--                <option selected value="{$k}">{$v}</option>-->
+<!--                {else}-->
+<!--                <option value="{$k}">{$v}</option>-->
+<!--                {/if}{/foreach}-->
+<!--            </select>-->
+<!--        </label>-->
+<!--    </div>-->
+    {if $type == "1"}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">配送状态</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="deliver_status" lay-filter="search">
+                <option value=''>- 全部订单 -</option>
+                {foreach :config("a.order_deliver_status") as $k=>$v}
+                {if input('deliver_status') eq $k.''}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {/if}
+    {if $type == "9"}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">退款状态</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="refund_status" lay-filter="search">
+                <option value=''>-- 全部 --</option>
+                {foreach :config("a.order_refund_status") as $k=>$v}
+                {if input('refund_status') eq $k.''}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {/if}
+
+
+    <br>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">下单时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range="datetime" name="create_at" placeholder="请选择下单时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">支付时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range="datetime" name="pay_at" placeholder="请选择支付时间" value="{$get.pay_at|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">配货时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range="datetime" name="pick_at" placeholder="请选择配货时间" value="{$get.pick_at|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">收货时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range="datetime" name="take_at" placeholder="请选择收货时间" value="{$get.take_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <input type="hidden" name="type" value="{$type}">
+        <button class="layui-btn layui-btn-primary" type="submit"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        {if auth("export_deliver")}
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}?type={$type|default=''}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导出(配送用)
+        </button>
+        {/if}
+        {if auth("export_money")}
+        <button class="layui-btn layui-btn-primary" id="excel_money" data-excel="{:url('index')}?type={$type|default=''}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导出(财务用)
+        </button>
+        {/if}
+
+    </div>
+</form>
+
+<script>
+
+    form.on("select(search)", function(){
+        $("#searchForm").submit();
+    })
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            var items = [];
+            items.push(['订单ID', '订单号', '商品信息', '收货区域', '用户OPENID', '收货人', '收货地址', '水站联系人', '水站地址', '配货人', '配货时间', '配送/核销/收货人', '配送/核销/收货时间', '订单备注', '订单状态', '配货状态', '退款状态', '支付时间']);
+            data.forEach(function (order) {
+                let goodsInfo = "";
+                order.subs.forEach(function (sub) {
+                    goodsInfo += `${sub.goods_number} ${sub.goods_unit} × ${sub.goods_name}` + "，\n";
+                });
+                let takeName = takeAddress = stationName = stationAddress = "";
+                if(order.take_type == 1){
+                    takeName = `${order.take_name} ${order.take_phone}`;
+                    takeAddress = order.take_address;
+                }else{
+                    stationName = `${order.station_link_name} ${order.station_link_phone}`
+                    stationAddress = order.station_address;
+                }
+
+                let pickerName = '';
+                if(order.pick_by){
+                    if(order.pick_by.indexOf("master") === 0) pickerName = "后台配货";
+                    else if(order.picker?.realname) pickerName = order.picker.realname;
+                    else if(order.picker?.nickname) pickerName = order.picker.nickname;
+                }
+
+
+                let takerName = "";
+                if(order.take_by === "auto") takerName = "自动收货";
+                else if(order.taker.realname) takerName = order.taker.realname;
+                else if (order.taker.nickname) takerName = order.taker.nickname;
+
+                goodsInfo = goodsInfo.replace(/^，\n+|，\n+$/g, "");
+                items.push([
+                    order.id,
+                    order.sn,
+                    goodsInfo,
+                    order.take_district,
+                    order.openid,
+                    takeName,
+                    takeAddress,
+                    stationName,
+                    stationAddress,
+                    pickerName,
+                    order.pick_at,
+                    takerName,
+                    order.take_at,
+                    order.remark,
+                    order.status_txt,
+                    order.deliver_status_txt,
+                    order.refund_status_txt,
+                    order.pay_at
+                ]);
+            });
+
+
+
+            // 可选，自动计算列序号
+            var lastCol = layui.excel.numToTitle((function (count, idx) {
+                for (idx in items[0]) count++;
+                return count;
+            })(0));
+
+            const borderStyle = {
+                top: {style: 'thin', color: {rgb: '000000'}},
+                bottom: {style: 'thin', color: {rgb: '000000'}},
+                left: {style: 'thin', color: {rgb: '000000'}},
+                right: {style: 'thin', color: {rgb: '000000'}}
+            };
+
+            // 可选，设置表头样式
+            layui.excel.setExportCellStyle(items, 'A1:' + lastCol + '1', {
+                s: {
+                    font: {sz: 12, bold: true, color: {rgb: "FFFFFF"}, shadow: true},
+                    fill: {bgColor: {indexed: 64}, fgColor: {rgb: "5FB878"}},
+                    alignment: {vertical: 'center', horizontal: 'center'},
+                    border: borderStyle
+                }
+            });
+
+
+            const alignmentStyle = {vertical: 'center', horizontal: 'left'};
+
+            // 可选，设置内容样式
+            var style1 = {
+                fill: {bgColor: {indexed: 64}, fgColor: {rgb: "EAEAEA"}},
+                alignment: alignmentStyle,
+                border: borderStyle
+
+            }, style2 = {
+                fill: {bgColor: {indexed: 64}, fgColor: {rgb: "FFFFFF"}},
+                alignment: alignmentStyle,
+                border: borderStyle
+            };
+            layui.excel.setExportCellStyle(items, 'A2:' + lastCol + items.length, {
+                s: style1
+            }, function (rawCell, newCell, row, config, currentRow, currentCol, fieldKey) {
+                /* 判断并转换单元格数据为对象，以便初始化样式 */
+                typeof rawCell !== 'object' && (rawCell = {v: rawCell});
+                rawCell.s = Object.assign({}, style2, rawCell.s || {});
+                return (currentRow % 2 === 0) ? newCell : rawCell;
+            });
+
+            // 可选，设置表格行宽高，需要设置最后的行或列宽高，否则部分不生效 ？？？
+            // var rowsC = {1: 30};
+            var colsC = {A:50, B: 150, C: 200, D: 100, E: 100, F: 200, G: 100, H: 200, I: 100, J: 110, K: 100, L: 100, M: 110, N: 110};
+            // rowsC[items.length] = 40;
+            // colsC[lastCol] = 160;
+            this.options.extend = {
+                // '!rows': layui.excel.makeRowConfig(rowsC, 30), // 设置每行高度，默认 33
+                '!cols': layui.excel.makeColConfig(colsC, 160) // 设置每行宽度，默认 160
+
+            };
+
+            return items;
+        }, '用户订单记录' + layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss'));
+
+
+        excel.bind(function (data) {
+            var items = [];
+            let titles = ['订单ID', '订单号', '下单时间', '支付时间', '支付方式', '商品信息', '商品总金额', '支付总金额', '优惠券金额', '服务费', '订单状态', '配送状态', '退款状态'];
+            items.push(titles);
+            data.forEach(function (order) {
+                let goodsInfo = "";
+                order.subs.forEach(function (sub) {
+                    goodsInfo += `${sub.goods_name}， ${sub.goods_number} × ￥${sub.goods_self_price} = ￥${sub.goods_amount}` + "，\n";
+                });
+                let takeName = takeAddress = stationName = stationAddress = "";
+                if(order.take_type == 1){
+                    takeName = `${order.take_name} ${order.take_phone}`;
+                    takeAddress = order.take_address;
+                }else{
+                    stationName = `${order.station_link_name} ${order.station_link_phone}`
+                    stationAddress = order.station_address;
+                }
+
+                let takerName = "未设置";
+                if(order.take_by === "auto") takerName = "自动收货";
+                else if(order.taker.realname) takerName = order.taker.realname;
+                else if (order.taker.nickname) takerName = order.taker.nickname;
+
+                goodsInfo = goodsInfo.replace(/^，\n+|，\n+$/g, "");
+                items.push([
+                    order.id,
+                    order.sn,
+                    order.create_at,
+                    order.pay_at,
+                    order.pay_type=="yue"?"余额支付":"微信支付",
+                    goodsInfo,
+                    order.goods_amount,
+                    order.pay_amount,
+                    order.discount_amount,
+                    order.deliver_amount,
+                    order.status_txt,
+                    order.deliver_status_txt,
+                    order.refund_status_txt,
+                ]);
+            });
+
+            // 可选，自动计算列序号
+            // var lastCol = layui.excel.numToTitle((function (count, idx) {
+            //     for (idx in items[0]) count++;
+            //     return count;
+            // })(0));
+            var lastCol = num2A(titles.length-1);
+            const borderStyle = {
+                top: {style: 'thin', color: {rgb: '000000'}},
+                bottom: {style: 'thin', color: {rgb: '000000'}},
+                left: {style: 'thin', color: {rgb: '000000'}},
+                right: {style: 'thin', color: {rgb: '000000'}}
+            };
+
+            // 可选，设置表头样式
+            layui.excel.setExportCellStyle(items, 'A1:' + lastCol + '1', {
+                s: {
+                    font: {sz: 12, bold: true, color: {rgb: "FFFFFF"}, shadow: true},
+                    fill: {bgColor: {indexed: 64}, fgColor: {rgb: "5FB878"}},
+                    alignment: {vertical: 'center', horizontal: 'center'},
+                    border: borderStyle
+                }
+            });
+
+
+            const alignmentStyle = {vertical: 'center', horizontal: 'left'};
+
+            // 可选，设置内容样式
+            var style1 = {
+                fill: {bgColor: {indexed: 64}, fgColor: {rgb: "EAEAEA"}},
+                alignment: alignmentStyle,
+                border: borderStyle
+
+            }, style2 = {
+                fill: {bgColor: {indexed: 64}, fgColor: {rgb: "FFFFFF"}},
+                alignment: alignmentStyle,
+                border: borderStyle
+            };
+            layui.excel.setExportCellStyle(items, 'A2:' + lastCol + items.length, {
+                s: style1
+            }, function (rawCell, newCell, row, config, currentRow, currentCol, fieldKey) {
+                /* 判断并转换单元格数据为对象，以便初始化样式 */
+                typeof rawCell !== 'object' && (rawCell = {v: rawCell});
+                rawCell.s = Object.assign({}, style2, rawCell.s || {});
+                return (currentRow % 2 === 0) ? newCell : rawCell;
+            });
+
+            // 可选，设置表格行宽高，需要设置最后的行或列宽高，否则部分不生效 ？？？
+            // var rowsC = {1: 30};
+            var colsC = {A:50};
+            colsC[lastCol] = 160;
+            this.options.extend = {
+                '!cols': layui.excel.makeColConfig(colsC, 160) // 设置每行宽度，默认 160
+            };
+
+            return items;
+        }, '用户订单记录(含金额)' + layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss'), "#excel_money");
+    });
+</script>

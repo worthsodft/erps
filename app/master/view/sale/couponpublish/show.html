@@ -1,0 +1,140 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTableX" method="post">
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>标题：</b></span>
+            <span>{$vo.title|default=""}</span>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>优惠金额：</b></span>
+            <span>{$vo.money|default=""} 元</span>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>折扣比例：</b></span>
+            <span>{$vo.discount|default=""}</span>
+            <p class="color-desc">折扣比例，如：支付金额为100元，折扣比例设为5%，则实际优惠金额为：5元。如果优惠金额同时设置，使用优惠券时以优惠金额优先。</p>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>使用金额：</b></span>
+            <span>{$vo.min_use_money|default=""} 元</span>
+            <p class="color-desc">可使用优惠券的最小支付金额，即：满N元可用。</p>
+        </div>
+
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>发布数量：</b></span>
+            <span>{$vo.count|default=""}</span>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>剩余数量：</b></span>
+            <span>{$vo.has_count|default=""}</span>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>每人限领数量：</b></span>
+            <span>{$vo.per_count|default=""}</span>
+            <p class="color-desc">每人可以领取的数量，0为不限制</p>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>可取领用户：</b></span>
+            <span>{$vo.fetch_openids|default=""}</span>
+            <p class="color-desc">可以领取的用户集合，空为不限制</p>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>仅限新用户：</b></span>
+            {if $vo.is_new==1}<span class="layui-badge">是</span>
+            {else}<span class="layui-badge layui-bg-black">否</span>
+            {/if}
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>有效期至：</b></span>
+            <span>{$vo.expire_at|default="-"}</span>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>有效期天数：</b></span>
+            <span>{$vo.expire_days|default=""}</span>
+            <p class="color-desc">从领取之时起计算，单位为天数。为0时，默认为30天，如果设置了有效期至，以有效期至优先。</p>
+        </div>
+
+    </div>
+    {if false}
+    <div class="layui-card-body padding-left-40">
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>使用金额</b></span>
+            <input class="layui-input" type="number" min="0" name="min_use_money" placeholder="请输入使用金额" value='{$vo.min_use_money|default="0"}'>
+            <span class="color-desc">可使用优惠券的最小支付金额，即：满N元可用。</span>
+        </label>
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>发布数量</b></span>
+            <input class="layui-input" type="number" min="0" name="count" data-blur required placeholder="请输入发布数量" value='{$vo.count|default=""}'>
+            <span class="color-desc">必填，总发布数量</span>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>剩余数量</b></span>
+            <input class="layui-input" type="number" min="0" name="has_count" placeholder="请输入剩余数量" value='{$vo.has_count|default="0"}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>每人限领数量</b></span>
+            <input class="layui-input" type="number" min="0" name="per_count" placeholder="请输入限领数量" value='{$vo.per_count|default="1"}'>
+            <span class="color-desc">选填，每人可以领取的数量，0为不限制</span>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>可取领用户</b></span>
+            <input class="layui-input" min="0" name="fetch_openids" placeholder="请选择" value='{$vo.fetch_openids?implode(",", $vo.fetch_openids??[]):""}'>
+            <a class="layui-btn layui-btn-normal" data-iframe="{:url('userinfo/select')}">选择用户</a><br>
+            <span class="color-desc">选填，可以领取的用户集合，空为不限制</span>
+        </label>
+<!--        <label class="layui-form-item block relative">-->
+<!--            <span class="help-label"><b>可用范围</b></span>-->
+            <input class="layui-input" type="hidden" min="0" name="use_scope" placeholder="请选择" value='{$vo.use_scope|default="order"}'>
+<!--            <span class="color-desc">选填，可以使用的范围，订单的前4种，空为不限制</span>-->
+<!--        </label>-->
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>仅限新用户</b></span>
+            <input class="layui-input" type="number" min="0" name="is_new" placeholder="请选择" value='{$vo.is_new|default="0"}'>
+        </label>
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>有效期至</b></span>
+            <input class="layui-input" type="text" data-date-input="datetime" name="expire_at" placeholder="请输入日期" value='{$vo.expire_at|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>有效期天数</b></span>
+            <input class="layui-input" type="number" min="0" name="expire_days" placeholder="请输入天数" value='{$vo.expire_days|default="0"}'>
+            <span class="color-desc">选填，从领取之时起计算，单位为天数。为0时，默认为30天，如果设置了有效期至，以有效期至优先。</span>
+        </label>
+
+
+
+<!--        <label class="layui-form-item block relative">-->
+<!--            <span class="help-label"><b>快递公司描述</b>Remark</span>-->
+<!--            <textarea class="layui-textarea" name="remark" placeholder="请输入快递公司描述">{$vo.remark|default=''}</textarea>-->
+<!--        </label>-->
+    </div>
+    {/if}
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn layui-btn-danger" data-close type='button'>关闭窗口</button>
+    </div>
+</form>
+<script>
+    $("[data-blur]").blur(function(){
+        $("input[name=has_count]").val($(this).val());
+    });
+    function setItemValue(tplGid){
+        $.get("{:url('getCouponTplByGid')}?tplGid=" + tplGid).then(res=>{
+            if(res.code != 1) return $.msg.tips(res.info);
+            let tpl = res.data.tpl;
+            $("#title").val(tpl.title); // 与主页面的name=title冲突，在这用#id
+            $("input[name=money]").val(tpl.money);
+            $("input[name=discount]").val(tpl.discount);
+            $("input[name=min_use_money]").val(tpl.min_use_money);
+        });
+    }
+
+    function setFetchOpenids(openids){
+        console.log(openids);
+        $("input[name=fetch_openids]").val(openids);
+
+    }
+</script>

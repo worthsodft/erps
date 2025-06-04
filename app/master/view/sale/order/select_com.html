@@ -1,0 +1,94 @@
+{extend name="../../admin/view/full"}
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <div class="layui-tab-content">
+        <form action="{:sysuri()}" autocomplete="off" id="searchSelectSupplier" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label">订单编号</label>
+                <label class="layui-input-inline">
+                    <input class="layui-input" name="sn" placeholder="请输入订单编号" value="{$get.sn|default=''}">
+                </label>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label">客户</label>
+                <label class="layui-input-inline">
+                    <select name="openid" lay-filter="search" lay-search>
+                        <option value="">请选择</option>
+                        {foreach $buyers as $gid=>$title}
+                        <option value="{$gid}">{$title}</option>
+                        {/foreach}
+                    </select>
+                </label>
+            </div>
+
+           <div class="layui-form-item layui-inline">
+               <label class="layui-form-label">创建日期</label>
+               <label class="layui-input-inline">
+                   <input class="layui-input" data-date-range name="create_at" placeholder="请选择创建日期" value="{$get.create_at|default=''}">
+               </label>
+           </div>
+           <div class="layui-form-item layui-inline">
+               <label class="layui-form-label">支付日期</label>
+               <label class="layui-input-inline">
+                   <input class="layui-input" data-date-range name="pay_at" placeholder="请选择支付日期" value="{$get.pay_at|default=''}">
+               </label>
+           </div>
+
+            <div class="layui-form-item layui-inline">
+                <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+            </div>
+        </form>
+        <table id="DataTable" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#DataTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'desc'},
+            cols: [[
+                {field: 'id', title: 'ID', align: "left", width: 30},
+                {field: 'sn', title: '订单编号', templet: "#snTpl"},
+                {field: 'openid_txt', title: '客户名称'},
+                {field: 'goods_total', title: '合计总数量', width: 100},
+                {field: 'pay_amount', title: '合计总金额', width: 100},
+                {field: 'create_at', title: '创建日期', align: "left", width: 145},
+                {field: 'pay_at', title: '支付日期', align: "left", width: 145},
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', fixed: 'right', maxWidth: 80}
+            ]]
+        });
+        // layui.table.on('rowDouble(DataTable)', function(obj) {
+        //     $("[data-select]").data("select", obj.data.gid).trigger("click");
+        // });
+    });
+    layui.form.on("select(searchSelect)", ()=>$("#searchSelectForm").submit());
+
+</script>
+
+<!-- 操作面板模板 -->
+<script type="text/html" id="snTpl">
+    <!-- {if auth("show")} -->
+    <a class="" data-modal="{:url('show')}?id={{d.id}}" data-full="1" data-maxmin="1" data-title="查看">{{$.vandles.strStar(d.sn,2,5)}}</a>
+    <!-- {/if} -->
+</script>
+<script type="text/html" id="toolbar">
+    <!--{if auth("select")}-->
+    <a class="layui-btn layui-btn-xs layui-btn-normal" data-select="{{d.sn}}">选 择</a>
+    <!--{/if}-->
+</script>
+<script>
+    form.on("select(search)", ()=>$("#searchSelectSupplier").submit());
+
+    $(function () {
+        $.base.onEvent("click", "[data-select]", function(){
+            let sn = $(this).data("select") || '';
+            top.setSaleOrder(sn);
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+        })
+    });
+</script>
+{/block}

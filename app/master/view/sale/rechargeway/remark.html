@@ -1,0 +1,15 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>充值金额</b></span>
+            <textarea class="layui-textarea" name="remarks" placeholder="请输入充值说明">{$remarks|default=""}</textarea>
+        </label>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close data-confirm="确定要取消编辑吗？" type='button'>取消编辑</button>
+    </div>
+</form>

@@ -1,0 +1,68 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>标题</b></span>
+            <input class="layui-input" name="title" required placeholder="请输入标题" value='{$vo.title|default=""}'>
+<!--            <span class="color-desc">必填，快递公司名称用于显示快递配送的公司标识，请尽量保持其精准性。</span>-->
+        </label>
+        <label class="layui-form-item block relative">
+            <label class="layui-inline">
+                <span class="help-label"><b>省份</b></span>
+                <input class="layui-input" name="province" placeholder="请输入省份" value='{$vo.province|default=""}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>市</b></span>
+                <input class="layui-input" name="city" placeholder="请输入市" value='{$vo.city|default=""}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>行政区/县</b></span>
+                <input class="layui-input" name="district" placeholder="请输入行政区/县" value='{$vo.district|default=""}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>街道</b></span>
+                <input class="layui-input" name="street" placeholder="请输入街道" value='{$vo.street|default=""}'>
+            </label>
+
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>详细地址</b></span>
+            <input class="layui-input" name="detail" required placeholder="请输入详细地址" value='{$vo.detail|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <label class="layui-inline">
+                <span class="help-label"><b>纬度</b></span>
+                <input class="layui-input" style="width:158px;" required type="number" min="0" max="90" name="lat" placeholder="请输入纬度值" value='{$vo.lat|default="0"}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>经度</b></span>
+                <input class="layui-input" style="width:158px;" required type="number" min="0" max="180" name="lng" placeholder="请输入经度值" value='{$vo.lng|default="0"}'>
+            </label>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>联系人</b></span>
+            <input class="layui-input" name="link_name" placeholder="请输入联系人" value='{$vo.link_name|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>联系电话</b></span>
+            <input class="layui-input" name="link_phone" maxlength="50" placeholder="请输入联系电话" value='{$vo.link_phone|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>营业时间</b></span>
+            <textarea class="layui-textarea" name="open_time" placeholder="请输入营业时间">{$vo.open_time|default=''}</textarea>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>备注</b></span>
+            <textarea class="layui-textarea" name="remark" placeholder="请输入备注">{$vo.remark|default=''}</textarea>
+        </label>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close data-confirm="确定要取消编辑吗？" type='button'>取消编辑</button>
+    </div>
+</form>

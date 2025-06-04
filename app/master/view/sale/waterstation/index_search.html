@@ -1,0 +1,66 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">标题</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="title" placeholder="请输入标题" value="{$get.title|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">行政区域</label>
+        <label class="layui-input-inline">
+            <select name="district" lay-filter="search">
+                <option value="">请选择</option>
+                {foreach :config("a.cities") as $k=>$v}
+                <option value="{$v.name}">{$v.name}</option>
+                {/foreach}
+            </select>
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">添加时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择添加时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导 出
+        </button>
+    </div>
+</form>
+<script>
+    form.on("select(search)", ()=>$("#searchForm").submit());
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            let items = [];
+            let titles = ['ID', '标题', '行政区域', '地址', '经纬度', '联系人', '联系电话', '营业时间', '营业状态', '创建时间'];
+            items.push(titles);
+            data.forEach(function (item) {
+                items.push([
+                    item.id,
+                    item.title,
+                    item.district,
+                    item.detail,
+                    item.lat + "，" + item.lng,
+                    item.link_name,
+                    item.link_phone,
+                    item.open_time,
+                    item.is_open?"营业中":"已停止",
+                    item.create_at
+                ]);
+            });
+
+            var lastCol = num2A(titles.length-1);
+            var colsC = {A:50};
+            colsC[lastCol] = 120;
+            this.options.extend = {
+                '!cols': layui.excel.makeColConfig(colsC, 120) // 设置每行宽度，默认 160
+            };
+            return items;
+        }, '商品信息' + layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss'));
+    });
+</script>
