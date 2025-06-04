@@ -1,0 +1,105 @@
+{extend name="../../admin/view/main"}
+{block name="button"}
+<!--{if auth("add")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("add")}' data-height="500px">添 加</button>
+<!--{/if}-->
+
+{if isset($type) and $type eq 'index'}
+<!--{if auth("state")}-->
+<a class="layui-btn layui-btn-sm layui-btn-primary" data-action="{:url('state')}" data-rule="id#{key};status#0">批量隐藏</a>
+<!--{/if}-->
+
+{else}
+<!--{if auth("state")}-->
+<a class="layui-btn layui-btn-sm layui-btn-primary" data-action="{:url('state')}" data-rule="id#{key};status#1">批量显示</a>
+<!--{/if}-->
+<!--{if auth("remove")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-action='{:url("remove")}' data-confirm="确定要删除这些数据吗？" data-rule="id#{key};deleted#1">批量删除</button>
+<!--{/if}-->
+{/if}
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <ul class="layui-tab-title">
+        {foreach ['index'=>'列 表','hide'=>'隐 藏'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('index')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        {include file='config/index_search'}
+        <table class="layui-table margin-top-10" lay-skin="line">
+            {notempty name='list'}
+            <thead>
+            <tr>
+                <th class='list-table-check-td think-checkbox'>
+                    <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>
+                </th>
+                <th class='list-table-sort-td'>
+                    <button class="layui-btn layui-btn-xs" data-reload type="button">刷 新</button>
+                </th>
+                <th class='text-left nowrap'>标题</th>
+                <th class='text-left nowrap'>名称</th>
+                <th class='text-left nowrap'>表单类型</th>
+                <th class='text-left nowrap'>配置类型</th>
+                <th class='text-left nowrap'>说明</th>
+                <th class='text-left nowrap'>商品状态</th>
+                <th></th>
+            </tr>
+            </thead>
+            {/notempty}
+            <tbody>
+            {foreach $list as $key=>$vo}
+            <tr data-dbclick>
+                <td class='list-table-check-td think-checkbox'>
+                    <label><input class="list-check-box" type='checkbox' value='{$vo.id}'></label>
+                </td>
+                <td class='list-table-sort-td'>
+                    <label><input class="list-sort-input" data-action-blur="{:sysuri()}" data-loading="false" data-value="id#{$vo.id};action#sort;sort#{value}" value="{$vo.sort}"></label>
+                </td>
+                <td class='nowrap'>{$vo.title|default=''}</td>
+                <td class='nowrap'>{$vo.name|default=''}</td>
+                <td class='nowrap'>{$vo.input_type|default=''}</td>
+                <td class='nowrap'>{$vo.xtype|default=''}</td>
+                <td class='nowrap'>{$vo.desc|default=''}</td>
+
+
+                <td class='nowrap sub-strong-blue'>
+
+                    <!--{if auth('copy')}-->
+<!--                    <a class="layui-btn layui-btn-xs layui-btn-normal" data-open='{:url("id")}?id={$vo.id}'>复 制</a>-->
+                    <!--{/if}-->
+
+                    <!--{if auth("edit")}-->
+                    <a data-dbclick class="layui-btn layui-btn-xs" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                    <!--{/if}-->
+
+                    {if isset($type) and $type eq 'index'}
+                        {if isset($vo.status) and $vo.status eq 1}
+                        <!--{if auth("state")}-->
+                        <a class="layui-btn layui-btn-xs layui-btn-warm" data-action="{:url('state')}" data-value="id#{$vo.id};status#0">隐 藏</a>
+                        <!--{/if}-->
+                        {/if}
+
+                    {else}
+                        {if !isset($vo.status) or $vo.status eq 0}
+                        <!--{if auth("state")}-->
+                        <a class="layui-btn layui-btn-xs layui-btn-warm" data-action="{:url('state')}" data-value="id#{$vo.id};status#1">显 示</a>
+                        <!--{/if}-->
+                        {/if}
+                        <!--{if auth("remove")}-->
+                        <a class="layui-btn layui-btn-xs layui-btn-danger" data-action="{:url('remove')}" data-confirm="确定要删除吗？" data-value="id#{$vo.id};deleted#1">删 除</a>
+                        <!--{/if}-->
+                    {/if}
+                </td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+        {empty name='list'}<span class="notdata">没有记录</span>{else}{$pagehtml|raw|default=''}{/empty}
+    </div>
+</div>
+{/block}

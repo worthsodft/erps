@@ -1,0 +1,43 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+    <div class="layui-card-body padding-left-40">
+        <!-- <label class="layui-form-item block relative"> -->
+        <!--     <span class="help-label"><b>标题</b></span> -->
+        <!--     <input class="layui-input" name="title" required placeholder="请输入标题" value='{$vo.title|default=""}'> -->
+        <!-- </label> -->
+
+        <!-- <label class="layui-form-item block relative"> -->
+        <!--     <span class="help-label"><b>备注</b></span> -->
+        <!--     <textarea class="layui-textarea" name="remark" placeholder="请输入备注">{$vo.remark|default=''}</textarea> -->
+        <!-- </label> -->
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>插件名称</b></span>
+            <input class="layui-input" name="name" maxlength="50" pattern="^[a-z][a-z0-9]{0,49}$" placeholder="请输入插件名称" value="{$vo.name|default=''}">
+            <div class='help-block'>插件唯一标识，只能是小写英文字母开头 + 小写字母或数字，最大长度为50个字符，不可重复</div>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>插件标题</b></span>
+            <input class="layui-input" name="title" maxlength="50" placeholder="请输入插件标题" value="{$vo.title|default=''}">
+            
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>功能介绍</b></span>
+            <input class="layui-input" name="remark" placeholder="请输入功能介绍" value="{$vo.remark|default=''}">
+            <div class='help-block'>功能介绍123</div>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>制作人</b></span>
+            <input class="layui-input" name="create_by" placeholder="请输入制作人" value="10000">
+            <div class='help-block'>默认10000</div>
+        </label>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close type='button'>取消编辑</button>
+    </div>
+</form>

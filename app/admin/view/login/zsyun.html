@@ -1,0 +1,139 @@
+{extend name="index/index"}
+
+{block name='style'}
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<script>if (location.href.indexOf('#') > -1) location.replace(location.href.split('#')[0])</script>
+<link rel="stylesheet" href="__ROOT__/static/theme/css/login.css">
+<style>
+    .login-container form{
+        left: inherit;
+        right: 15%;
+        width: 350px;
+        padding: 50px;
+        background-color: #fff;
+        border-radius: 10px;
+        /*渐变从右上到左下*/
+
+        /*background: linear-gradient(225deg, #399AF2, #ffffff);*/
+        background: radial-gradient(circle at 90% 10%, #c4ddf5 0%, #ffffff 100%);
+
+    }
+    .layui-anim.notselect.layui-anim-fadein{
+        right: 25px!important;
+    }
+    .zsyun-logo img{
+        width: 180px;
+    }
+    .zsyun-welcome{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 30px 0;
+    }
+    .zsyun-title{
+        font-size: 36px;
+        /*font-weight: bold;*/
+    }
+    .zsyun-desc{
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        color: #999;
+    }
+    .zsyun-form-item{
+        margin-bottom: 20px;
+    }
+    .zsyun-form-item input{
+        font-size: 16px;
+        border-radius: 40px;
+        /*padding: 10px 0;*/
+        height: 42px;
+        line-height: 42px;
+    }
+    .layui-input:focus{
+        border-color: #1B70E6!important;
+    }
+    .layui-input-prefix{
+        display: flex;
+        align-items: center;
+    }
+    .verify-code{
+        height: 40px;
+        /*width: 100px;*/
+        /*margin-top: 10px;*/
+    }
+    .verify-code img{
+        height: 100%;
+    }
+    .zsyun-btns button{
+        font-size: 16px;
+        height: 42px;
+        line-height: 42px;
+        border-radius: 40px;
+        background: linear-gradient(to right, #1B70E6, #399AF2);
+    }
+    /*.zsyun-copy-right{*/
+    /*    position: absolute;*/
+    /*    left: 0;*/
+    /*    bottom: -50px;*/
+    /*    text-align: center;*/
+    /*    width: 100%;*/
+    /*}*/
+    /*.zsyun-copy-right span{*/
+    /*}*/
+</style>
+{/block}
+
+{block name="body"}
+<div class="login-container" {$loginStyle|raw}>
+    <div class="header notselect layui-hide-xs">
+        <a href="{:url('@')}" class="title">{:sysconf('app_name')}<span>{:sysconf('app_version')}</span></a>
+    </div>
+    <form data-login-form onsubmit="return false" method="post" class="layui-anim layui-anim-upbit" autocomplete="off">
+        <div class="zsyun-logo"><img src="{$logo}"></div>
+        <div class="zsyun-welcome">
+            <div class="zsyun-title">欢迎登录</div>
+            <div class="zsyun-desc">
+                <span>订单管理、库存功能</span>
+                <span>财务管理、生产管理</span>
+            </div>
+        </div>
+        <div class="zsyun-form">
+            <div class="zsyun-form-item layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input class="layui-input" required pattern="^\S{4,}$" vali-name="登录账号" name="username" placeholder="请输入登录账号" autocomplete="off" autofocus>
+            </div>
+            <div class="zsyun-form-item layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-password"></i>
+                </div>
+                <input class="layui-input" required pattern="^\S{4,}$" vali-name="登录密码" name="password" placeholder="请输入登录密码" autocomplete="off" type="password" maxlength="32" lay-affix="eye">
+            </div>
+            <div class="zsyun-form-item layui-input-wrap verify layui-hide">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-vercode"></i>
+                </div>
+                <input class="layui-input" required pattern="^\S{4,}$" name="verify" placeholder="请输入验证码" autocomplete="off" maxlength="4">
+            </div>
+            <div class="verify layui-hide flex flex-align-center"><span class="font-s16 color-desc">验证码：</span><div class="verify-code" data-captcha="{:url('admin/login/captcha',[],false)}" data-field-verify="verify" data-field-uniqid="uniqid" data-captcha-type="{$captchaType}" data-captcha-token="{$captchaToken}"></div></div>
+        </div>
+        <div class="zsyun-btns text-center padding-top-20">
+            <button type="submit" class="layui-btn layui-btn-normal full-width" data-form-loaded="立即登入">正在载入</button>
+        </div>
+        <!-- <div class="zsyun-copy-right"><span>{:sysconf('site_copy')}</span></div> -->
+    </form>
+
+    <div class="footer notselect">
+        <p class="layui-hide-xs">推荐使用 <a target="_blank" href="https://www.google.cn/chrome">Google Chrome</a> 或 <a target="_blank" href="https://www.microsoft.com/zh-cn/edge#platform">Microsoft Edge</a> 浏览器访问</p>
+        {:sysconf('site_copy')}
+        {if sysconf('beian')}<span class="padding-5">|</span><a target="_blank" href="https://www.beian.gov.cn/portal/registerSystemInfo">{:sysconf('beian')}</a>{/if}
+        {if sysconf('miitbeian')}<span class="padding-5">|</span><a target="_blank" href="https://beian.miit.gov.cn/">{:sysconf('miitbeian')}</a>{/if}
+    </div>
+</div>
+{/block}
+
+{block name='script'}
+<script src="/static/login.js"></script>
+{/block}

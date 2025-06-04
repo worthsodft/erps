@@ -1,0 +1,24 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+    <div class="layui-card-body padding-left-40">
+        <!-- <label class="layui-form-item block relative"> -->
+        <!--     <span class="help-label"><b>标题</b></span> -->
+        <!--     <input class="layui-input" name="title" required placeholder="请输入标题" value='{$vo.title|default=""}'> -->
+        <!-- </label> -->
+
+        <!-- <label class="layui-form-item block relative"> -->
+        <!--     <span class="help-label"><b>备注</b></span> -->
+        <!--     <textarea class="layui-textarea" name="remark" placeholder="请输入备注">{$vo.remark|default=''}</textarea> -->
+        <!-- </label> -->
+
+{{FormData}}
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close type='button'>取消编辑</button>
+    </div>
+</form>

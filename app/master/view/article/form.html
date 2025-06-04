@@ -1,0 +1,71 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+        {switch $articleType}
+        {case notice}
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>标题</b></span>
+            <input class="layui-input" name="title" required placeholder="请输入标题" value='{$vo.title|default=""}'>
+        </label>
+        {/case}
+        {case index_swiper}
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>封面图片</b></span>
+            <label class="layui-textarea help-images">
+                <input type="hidden" value="{$vo.cover|default=''}" name="cover">
+            </label>
+            <script>$('[name=cover]').uploadOneImage();</script>
+            <span class="color-desc">轮播图片建议尺寸：750px × 400px, 100k内以，可等比例适当放大/缩小</span>
+        </label>
+        {/case}
+        {case about}
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>标题</b></span>
+            <input class="layui-input" name="title" required placeholder="请输入标题" value='{$vo.title|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>内容</b></span>
+            <textarea class="layui-input" name="desc" placeholder="请输入内容">{$vo.desc|default=""}</textarea>
+            <script>require(['ckeditor'], function () {window.createEditor('[name=desc]', {height: 360});});</script>
+        </label>
+        {/case}
+        {default/}
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>标题</b></span>
+            <input class="layui-input" name="title" required placeholder="请输入标题" value='{$vo.title|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>简介</b></span>
+            <input class="layui-input" name="intro" placeholder="请输入简介" value='{$vo.intro|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>跳转路径</b></span>
+            <input class="layui-input" name="url" placeholder="请输入跳转路径" value='{$vo.url|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>封面图片</b></span>
+            <label class="layui-textarea help-images">
+                <input type="hidden" value="{$vo.cover|default=''}" name="cover">
+            </label>
+            <script>$('[name=cover]').uploadOneImage();</script>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>图标</b></span>
+            <input class="layui-input" name="icon" placeholder="请输入图标" value='{$vo.icon|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>内容</b></span>
+            <textarea class="layui-input" name="desc" placeholder="请输入内容">{$vo.desc|default=""}</textarea>
+            <script>require(['ckeditor'], function () {window.createEditor('[name=desc]', {height: 360});});</script>
+        </label>
+        {/switch}
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+    <div class="layui-form-item text-center">
+        <input name='article_type' type='hidden' value='{$articleType}'>
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close data-confirm="确定要取消编辑吗？" type='button'>取消编辑</button>
+    </div>
+</form>

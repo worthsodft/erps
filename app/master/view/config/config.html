@@ -1,0 +1,49 @@
+{extend name="../../admin/view/main"}
+
+{block name="content"}
+<div class="think-box-shadow">
+    <form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card" style="width:850px">
+        <div class="layui-card-header text-center margin-20">
+            <b>{$title|default='系统参数配置'}</b><span class="color-desc font-s12"></span>
+        </div>
+        <div class="layui-card-body padding-left-40 padding-bottom-0">
+            {foreach $list as $k=>$v}
+            {switch $v.input_type??''}
+                {case image}
+                    <label class="layui-form-item block relative">
+                        <span class='help-label'><b>{$v.title}</b>({$v.name})</span>
+                        <input class="layui-input" maxlength="100" name="{$v.name}" placeholder="请输入{$v.title}" value="{$data[$v.name]|default=''}">
+                        <script>$("[name={$v.name}]").uploadOneImage();</script>
+                        <div class="help-block">{$v.desc|default=''}</div>
+                    </label>
+                {/case}
+                {default/}
+                    <label class="layui-form-item block relative">
+                        <span class='help-label'><b>{$v.title}</b>({$v.name})</span>
+                        <input class="layui-input" maxlength="100" name="{$v.name}" placeholder="请输入{$v.title}" value="{$data[$v.name]|default=''}">
+                        <span class="help-block">{$v.desc|default=''}</span>
+                    </label>
+            {/switch}
+            {/foreach}
+
+            <div class="hr-line-dashed margin-top-30"></div>
+            <div class="layui-form-item text-center">
+                <button class="layui-btn" data-submit>保存数据</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    // 监听键盘ctrl+s按键
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && e.which === 83) {
+            $("[data-submit]").click();
+            return false;
+        }
+    });
+</script>
+
+
+{/block}

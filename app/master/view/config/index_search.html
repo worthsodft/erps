@@ -1,0 +1,29 @@
+<form action="{:sysuri()}" autocomplete="off" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">名称</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="name" placeholder="请输入名称或标题" value="{$get.name|default=''}">
+        </label>
+    </div>
+
+<!--    <div class="layui-form-item layui-inline">-->
+<!--        <label class="layui-form-label">销售状态</label>-->
+<!--        <label class="layui-input-inline">-->
+<!--            <select class="layui-select" name="status">-->
+<!--                <option value=''>&#45;&#45; 全部状态 &#45;&#45;</option>-->
+<!--                {foreach ['已隐藏','已显示'] as $k=>$v}-->
+<!--                {if input('status','-') eq $k.''}-->
+<!--                <option selected value="{$k}">{$v}</option>-->
+<!--                {else}-->
+<!--                <option value="{$k}">{$v}</option>-->
+<!--                {/if}{/foreach}-->
+<!--            </select>-->
+<!--        </label>-->
+<!--    </div>-->
+
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>

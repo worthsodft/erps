@@ -1,0 +1,165 @@
+{extend name="../../admin/view/table"}
+
+{block name="button"}
+<!-- <button class='layui-btn layui-btn-sm layui-btn-warm' data-modal='{:url("login2addoncenter")}' data-height="400" data-title="登录插件中心"><span class="layui-icon layui-icon-user"></span>登录插件中心</button> -->
+
+<!--{if auth("add")}-->
+<!-- <button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("add")}' data-title="添加数据">添加数据</button> -->
+<!--{/if}-->
+
+<!--{if auth("state") and isset($type) and $type eq 'index'}-->
+<!-- <button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#0">批量隐藏</button> -->
+<!--{/if}-->
+
+<!--{if auth("state") and isset($type) and $type neq 'index'}-->
+<!-- <button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#1">批量显示</button> -->
+<!--{/if}-->
+
+<!--{if auth("remove") and isset($type) and $type neq 'index'}-->
+<!-- <button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("remove")}' data-rule="id#{id}">批量删除</button> -->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <ul class="layui-tab-title">
+        {foreach ['index'=>'插件列表'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('index')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+
+    <div class="layui-tab-content">
+        {include file='myaddon/index_search'}
+       <table id="DataTable" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    $(function () {
+        let tableColKey = "tableColKey_/addon/index_{$type|default='index'}";
+        $('#DataTable').layTable({
+            even: true, height: 'full', cellMinWidth: 100,
+            sort: {field: 'sort desc,id', type: 'desc'},
+            where: {type: '{$type|default="index"}'},
+            toolbar: true, defaultToolbar: ['filter'],
+            cols: [function() {
+                let cols = [
+                    {checkbox: true},
+                    {field: 'sort', title: '排序权重', width: 100, align: 'center', hide:true, sort: true, templet: '#SortInputTpl'},
+                    {field: 'id', title: 'ID', align: "left", width: 80}
+                ];
+
+
+                cols.push({field: 'name', title: '插件名称', align: 'left'});
+                cols.push({field: 'title', title: '插件标题', align: 'left'});
+                cols.push({field: 'remark', title: '功能介绍', align: 'left'});
+                cols.push({field: 'create_by', title: '制作人', align: 'left'});
+                cols.push({field: 'update_at', title: '更新时间', align: 'left'});
+
+
+
+                let colsAfter = [
+                    {field: 'install', title: '安装状态', align: 'center', width: 110, templet: '#installSwitchTpl'},
+                    {field: 'status', title: '使用状态', align: 'center', width: 110, templet: '#StatusSwitchTpl'},
+                    {field: 'create_at', title: '创建时间', align: 'center', width: 150},
+                    {toolbar: '#toolbar', title: '操作面板', align: 'center', fixed: 'right', minWidth: 230}
+                ];
+                cols.push.apply(cols, colsAfter);
+                let local = layui.data(tableColKey);
+                layui.each(cols, function(index, item){
+                    if(item.field in local){
+                        item.hide = local[item.field];
+                    }
+                });
+
+                return cols;
+            }()],
+            done(){
+                let that = this;
+                that.elem.next().on('mousedown', 'input[lay-filter="LAY_TABLE_TOOL_COLS"]+',
+                    function(){
+                        let input = $(this).prev()[0];
+                        layui.data(tableColKey, {
+                            key: input.name
+                            ,value: input.checked
+                        })
+                    })
+            }
+        });
+
+        $('#DataTable').headerAll(tableColKey);
+
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (obj, data) {
+            data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('state')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#DataTable').trigger('reload');
+                }); else {
+                    $('#DataTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+    });
+</script>
+
+<!-- 排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}"
+           data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}"
+           class="layui-input text-center">
+</script>
+
+<!-- 安装状态模板 -->
+<script type="text/html" id="installSwitchTpl">
+    {{-d.install ? '<b class="color-green">已安装</b>' : '<b class="color-red">未安装</b>'}}
+</script>
+
+<!-- 状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已启用|已禁用" lay-filter="StatusSwitch"
+           {{-d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.status ? '<b class="color-red">已启用</b>' : '<b class="color-green">已禁用</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 操作面板模板 -->
+<script type="text/html" id="toolbar">
+    <!--{if auth("edit") and isset($type) and $type eq 'index'}-->
+    <!-- <a class="layui-btn layui-btn-xs" data-modal="{:url('edit')}?id={{d.id}}" data-title="编辑">编 辑</a> -->
+    <!--{/if}-->
+    <!--{if auth("download")}-->
+    {{# if(d.download == 0){ }}
+    <a class="layui-btn layui-btn-xs" data-action="{:url('download')}" data-value="id#{{d.id}}" data-confirm="确定要下载插件吗？">下 载</a>
+    {{# }else{ }}
+    <a class="layui-btn layui-btn-xs" data-action="{:url('download')}" data-value="id#{{d.id}}" data-confirm="重新下载将覆盖原插件文件，确定吗？">下 载</a>
+    {{# } }}
+    <!--{/if}-->
+    <!--{if auth("install")}-->
+    {{# if(d.install == 0){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-normal" data-action="{:url('install')}" data-value="id#{{d.id}}" data-confirm="确定要安装插件吗？">安 装</a>
+    {{# }else{ }}
+    <a class="layui-btn layui-btn-xs layui-btn-disabled">安 装</a>
+    {{# } }}
+    <!--{/if}-->
+    <!--{if auth("uninstall")}-->
+    {{# if(d.install == 1){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-primary" data-action="{:url('uninstall')}" data-value="id#{{d.id}}" data-confirm="确定要卸载插件吗？">卸 载</a>
+    {{# }else{ }}
+    <a class="layui-btn layui-btn-xs layui-btn-disabled">卸 载</a>
+    {{# } }}
+    <!--{/if}-->
+    <!--{if auth("remove") and isset($type) and $type neq 'index'}-->
+    <!-- <a class="layui-btn layui-btn-xs layui-btn-danger" data-action="{:url('remove')}" data-value="id#{{d.id}}" data-confirm="确定要删除数据吗？">删 除</a> -->
+    <!--{/if}-->
+</script>
+{/block}

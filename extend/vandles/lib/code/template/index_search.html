@@ -1,0 +1,57 @@
+<style>
+    .form-search .layui-form-item .layui-form-label{width: 77px!important;}
+</style>
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <!-- <div class="layui-form-item layui-inline"> -->
+    <!--     <label class="layui-form-label">标题</label> -->
+    <!--     <label class="layui-input-inline"> -->
+    <!--         <input class="layui-input" name="title" placeholder="请输入标题" value="{$get.title|default=''}"> -->
+    <!--     </label> -->
+    <!-- </div> -->
+    <!-- <div class="layui-form-item layui-inline"> -->
+    <!--     <label class="layui-form-label">行政区域</label> -->
+    <!--     <label class="layui-input-inline"> -->
+    <!--         <select name="district" lay-filter="search"> -->
+    <!--             <option value="">请选择</option> -->
+    <!--             {foreach :config("a.cities") as $k=>$v} -->
+    <!--             <option value="{$v.name}">{$v.name}</option> -->
+    <!--             {/foreach} -->
+    <!--         </select> -->
+    <!--     </label> -->
+    <!-- </div> -->
+
+    <!-- <div class="layui-form-item layui-inline"> -->
+    <!--     <label class="layui-form-label">创建时间</label> -->
+    <!--     <label class="layui-input-inline"> -->
+    <!--         <input class="layui-input" data-date-range name="create_at" placeholder="请选择创建时间" value="{$get.create_at|default=''}"> -->
+    <!--     </label> -->
+    <!-- </div> -->
+
+{{SearchData}}
+
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button"><i class="layui-icon layui-icon-export"></i> 导 出</button>
+    </div>
+</form>
+<script>
+    form.on("select(search)", ()=>$("#searchForm").submit());
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            // 1. 表头数据
+            let headers = [{{ExportDataTitle}}];
+            let colWidth = [{{ExportDataWidth}}];
+
+            // 2. 数据
+            data.forEach(function(item,index){
+                data[index] = [
+                    {{ExportDataValue}}
+                ];
+            });
+            data.unshift(headers);
+            return this.withStyleBorder(data, $.vandles.nums2A(colWidth));
+        }, `{$title}_${layui.util.toDateString(Date.now(), 'yyyyMMdd_HHmmss')}`);
+    });
+</script>

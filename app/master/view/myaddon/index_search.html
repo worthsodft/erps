@@ -1,0 +1,122 @@
+<style>
+    .form-search .layui-form-item .layui-form-label{width: 77px!important;}
+</style>
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <!-- <div class="layui-form-item layui-inline"> -->
+    <!--     <label class="layui-form-label">标题</label> -->
+    <!--     <label class="layui-input-inline"> -->
+    <!--         <input class="layui-input" name="title" placeholder="请输入标题" value="{$get.title|default=''}"> -->
+    <!--     </label> -->
+    <!-- </div> -->
+    <!-- <div class="layui-form-item layui-inline"> -->
+    <!--     <label class="layui-form-label">行政区域</label> -->
+    <!--     <label class="layui-input-inline"> -->
+    <!--         <select name="district" lay-filter="search"> -->
+    <!--             <option value="">请选择</option> -->
+    <!--             {foreach :config("a.cities") as $k=>$v} -->
+    <!--             <option value="{$v.name}">{$v.name}</option> -->
+    <!--             {/foreach} -->
+    <!--         </select> -->
+    <!--     </label> -->
+    <!-- </div> -->
+
+    <!-- <div class="layui-form-item layui-inline"> -->
+    <!--     <label class="layui-form-label">创建时间</label> -->
+    <!--     <label class="layui-input-inline"> -->
+    <!--         <input class="layui-input" data-date-range name="create_at" placeholder="请选择创建时间" value="{$get.create_at|default=''}"> -->
+    <!--     </label> -->
+    <!-- </div> -->
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label" title="ID">ID</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="id" placeholder="请输入ID" value="{$get.id|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label" title="插件名称">插件名称</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="name" placeholder="请输入插件名称" value="{$get.name|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label" title="插件标题">插件标题</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="title" placeholder="请输入插件标题" value="{$get.title|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label" title="功能介绍">功能介绍</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="remark" placeholder="请输入功能介绍" value="{$get.remark|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label" title="制作人">制作人</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="create_by" placeholder="请输入制作人" value="{$get.create_by|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label" title="状态">状态</label>
+        <label class="layui-input-inline">
+            <select name="status" lay-filter="search">
+                <option value="">请选择</option>
+                <option value='0' {if isset($get.status) && $get.status == '0'}selected{/if}>已禁用</option>
+                <option value='1' {if isset($get.status) && $get.status == '1'}selected{/if}>已启用</option>
+            </select>
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label" title="排序权重">排序权重</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="sort" placeholder="请输入排序权重" value="{$get.sort|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label" title="创建时间">创建时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="create_at" placeholder="请输入创建时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label" title="更新时间">更新时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="update_at" placeholder="请输入更新时间" value="{$get.update_at|default=''}">
+        </label>
+    </div>
+
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button"><i class="layui-icon layui-icon-export"></i> 导 出</button>
+    </div>
+</form>
+<script>
+    form.on("select(search)", ()=>$("#searchForm").submit());
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            // 1. 表头数据
+            let headers = ['ID','插件名称','插件标题','功能介绍','制作人','状态','排序权重','创建时间','更新时间'];
+            let colWidth = [60,120,120,120,120,120,120,120,120];
+
+            // 2. 数据
+            data.forEach(function(item,index){
+                data[index] = [
+                    item.id,
+                    item.name,
+                    item.title,
+                    item.remark,
+                    item.create_by,
+                    item.status,
+                    item.sort,
+                    item.create_at,
+                    item.update_at,
+                ];
+            });
+            data.unshift(headers);
+            return this.withStyleBorder(data, $.vandles.nums2A(colWidth));
+        }, `{$title}_${layui.util.toDateString(Date.now(), 'yyyyMMdd_HHmmss')}`);
+    });
+</script>
