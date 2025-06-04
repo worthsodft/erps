@@ -1,0 +1,325 @@
+<html><head><meta charset="utf-8" /><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/index.css"/><script src="https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/js/i18n/zh_CN.js"></script><script src="https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/method.min.js"></script></head><body style="width: 1075px;"><div class="vditor-reset" id="preview"><h1 id="进销存系统说明书">进销存系统说明书<a id="vditorAnchor-进销存系统说明书" class="vditor-anchor" href="#进销存系统说明书"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h1>
+<h2 id="一-版本对比">一、版本对比<a id="vditorAnchor-一-版本对比" class="vditor-anchor" href="#一-版本对比"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<style>
+    body{
+        margin: 0 auto;
+    }
+</style>
+<table>
+    <thead>
+        <tr>
+            <th>功能模块</th>
+            <th>子功能</th>
+            <th>标准版</th>
+            <th>专业版</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 数据统计看板 -->
+        <tr class="module-row">
+            <td>数据统计看板</td>
+            <td>数据统计看板</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <!-- 基础数据 -->
+        <tr class="module-row">
+            <td rowspan="11">基础数据</td>
+            <td>小程序用户管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>企业用户管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>仓库信息管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>水站信息管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>商品信息管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>原材料管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>实物卡商品管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>商品分类管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>供应商管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>往来合同管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>生产员工管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <!-- 销售管理 -->
+        <tr class="module-row">
+            <td rowspan="8">销售管理</td>
+            <td>小程序订单管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>企业订单管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>经销商订单管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>优惠券模板管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>优惠券发布管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>充值优惠管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>实物卡管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>实物卡变动记录</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <!-- 生产管理 -->
+        <tr class="module-row">
+            <td rowspan="5">生产管理</td>
+            <td>历史销量管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>生产计划管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>生产批量入库</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>原料申领管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>原料退还管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <!-- 采购管理 -->
+        <tr class="module-row">
+            <td>采购管理</td>
+            <td>采购单管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <!-- 库存管理 -->
+        <tr class="module-row">
+            <td rowspan="8">库存管理</td>
+            <td>商品入库管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>商品出库管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>库存调拨管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>库存损益管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>商品损益报表</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>库存盘点管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>库存变更记录</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>商品库存报表</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <!-- 财务管理 -->
+        <tr class="module-row">
+            <td rowspan="8">财务管理</td>
+            <td>收款单管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>应收账款统计</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>应收期初期末</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>付款单管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>应付账款统计</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>应付期初期末</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>企业预收款管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>订单开票管理</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <!-- 统计分析 -->
+        <tr class="module-row">
+            <td rowspan="10">统计分析</td>
+            <td>余额变动记录</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>余额充值记录</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>余额消费明细</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>余额期初期末</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>实物卡期初期末</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>用户地址报表</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>订单商品报表</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>订单商品简表</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>日统计报表</td>
+            <td>✅</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>原材料损耗率</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <!-- 用户推广 -->
+        <tr class="module-row">
+            <td rowspan="4">用户推广</td>
+            <td>海报管理</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>用户二维码</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>海报模板</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+        <tr>
+            <td>用户推广</td>
+            <td>❌</td>
+            <td>✅</td>
+        </tr>
+    </tbody>
+</table>
+<h2 id="二-演示地址">二、演示地址<a id="vditorAnchor-二-演示地址" class="vditor-anchor" href="#二-演示地址"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<ul>
+<li>专业版演示地址: <a href="https://erpp.yaodianma.com">https://erpp.yaodianma.com</a><br />
+演示账号/密码: master/master1</li>
+<li>标准版演示地址: <a href="https://erps.yaodianma.com">https://erps.yaodianma.com</a><br />
+演示账号/密码: master/master1</li>
+</ul>
+</div><script>    const previewElement = document.getElementById('preview');    Vditor.setContentTheme('idea-light', 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/css/content-theme');    Vditor.codeRender(previewElement);    Vditor.highlightRender({"enable":true,"lineNumber":false,"style":"dracula"}, previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor');    Vditor.mathRender(previewElement, { cdn: 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor',math: {"engine":"KaTeX","inlineDigit":true,"macros":{}}});    Vditor.mermaidRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor', 'light');    Vditor.flowchartRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor');    Vditor.graphvizRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor');    Vditor.chartRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor', 'light');    Vditor.mindmapRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor', 'light');    Vditor.abcRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor');    Vditor.mediaRender(previewElement);    Vditor.speechRender(previewElement); </script>  <script src="https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/js/icons/ant.js"></script></body></html>

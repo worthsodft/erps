@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>swoole-cli demo</title>
+</head>
+<body>
+
+
+<button onclick="send()">发送</button>
+
+
+<script>
+    var ws = new WebSocket('ws://123.45.67.110:9100');
+    ws.onopen = function (evt) {
+        console.log("已连接");
+    };
+
+    ws.onclose = function (evt) {
+        console.log("已关闭");
+    };
+
+    ws.onmessage = function (evt) {
+        let data = evt.data;
+        console.log("data:", data);
+    };
+
+    ws.onerror = function (evt, e) {
+        console.log('出错: ' + evt.data);
+    };
+
+    function send() {
+        let data = {
+            "type": "hi",
+            "data": "hello world"
+        };
+        ws.send(JSON.stringify(data))
+    }
+
+
+
+</script>
+</body>
+
+</html>

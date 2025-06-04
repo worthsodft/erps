@@ -1,0 +1,80 @@
+.v-hidden,[v-cloak]{display: none;}
+.pointer{cursor: pointer;}
+
+.color-aaa{color: #aaa;}
+.v-color-green{color: #16baaa}
+.v-color-warm{color: #ffb800}
+.v-color-danger,.v-color-org{color: #FF5722}
+.v-color-blue,.v-color-normal{color: #1E9FFF}
+.v-bold{font-weight: bold;}
+
+.v-bg-fa{background-color: #fafafa}
+
+.text-through-line{
+    text-decoration: line-through;
+    text-decoration-color: #999999;
+}
+
+.margin-tb-10{
+    margin-top: 10px!important;
+    margin-bottom: 10px!important;
+}
+.margin-tb-20{
+    margin-top: 20px!important;
+    margin-bottom: 20px!important;
+}
+
+.th-required:before{
+    content: "*";
+    color:red;
+}
+
+.min-modal-height500{min-height: 500px}
+
+.v-ellip{width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.v-ellip-2{-webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical;}
+.v-ellip-3{-webkit-line-clamp: 3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical;}
+
+.v-w100{width: 100%;}.v-w80{width: 80%;}
+.w120px{width: 120px;}.w100px{width: 100px;}.w80px{width: 80px;}.w70px{width: 70px;}.w60px{width: 60px;}.w50px{width: 50px;}
+
+.hr-line-dashed{
+    height: 1px;
+    margin: 1px 0;
+}
+/*开始 layui-table的行内编辑样式*/
+.table-input-edit{
+    padding: 0!important;
+}
+.table-input-edit .layui-input{
+    height:36px!important;
+    margin:0 1px;
+    width:calc(100% - 2px);
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #333;
+}
+/*input框上下箭头*/
+/*.table-input-edit .layui-input[type="numbe1r"]::-webkit-inner-spin-button,*/
+/*.table-input-edit .layui-input[type="number"]::-webkit-outer-spin-button{*/
+/*    width: 200px;*/
+/*    height: 200px;*/
+/*    background-color: red;*/
+/*    margin-top: 20px;*/
+/*}*/
+.border-radius9{
+    border-radius: 9px!important;
+}
+/*结束 layui-table的行内编辑样式*/
+
+
+.v-flex-center{display: flex;justify-content: center;align-items: center;}
+
+/*列表数量角标*/
+.total-border-radius{
+    border-radius: 9px!important;
+}
+/*统计块*/
+.portal-block-container .portal-block-item{
+    line-height: 1.5;
+}

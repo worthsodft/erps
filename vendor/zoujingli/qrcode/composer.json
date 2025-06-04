@@ -1,0 +1,30 @@
+{
+  "type": "library",
+  "name": "zoujingli/qrcode",
+  "license": "MIT",
+  "description": "Endroid QrCode for ThinkAdmin",
+  "homepage": "https://github.com/zoujingli/qrcode",
+  "keywords": [
+    "qrcode",
+    "endroid"
+  ],
+  "authors": [
+    {
+      "name": "Jeroen van den Enden",
+      "email": "info@endroid.nl"
+    },
+    {
+      "name": "Anyon",
+      "email": "zoujingli@qq.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1|^8.0",
+    "bacon/bacon-qr-code": "^2.0.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Endroid\\QrCode\\": "src/"
+    }
+  }
+}
