@@ -1,0 +1,1 @@
+"use strict";const e=require("../../common/vendor.js"),t={__name:"v-line-title",props:{title:String,inline:Boolean},setup:t=>(n,o)=>({a:e.t(t.title)})},n=e._export_sfc(t,[["__scopeId","data-v-a967e3da"]]);wx.createComponent(n);

@@ -1,0 +1,1 @@
+<view class="container-v gift_card_list data-v-6e5199c7"><v-gift-card-log-item wx:for="{{a}}" wx:for-item="item" wx:key="a" class="data-v-6e5199c7" u-i="{{item.b}}" bind:__l="__l" u-p="{{item.c}}"></v-gift-card-log-item></view><uni-load-more wx:if="{{c}}" class="data-v-6e5199c7" bindclick="{{b}}" u-i="6e5199c7-1" bind:__l="__l" u-p="{{c}}"></uni-load-more>

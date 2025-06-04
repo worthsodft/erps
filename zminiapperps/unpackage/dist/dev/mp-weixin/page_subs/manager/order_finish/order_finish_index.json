@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "自提核销",
+  "usingComponents": {
+    "uni-section": "../../../uni_modules/uni-section/components/uni-section/uni-section",
+    "v-button-w80": "../../../components/v-button-w80/v-button-w80"
+  }
+}

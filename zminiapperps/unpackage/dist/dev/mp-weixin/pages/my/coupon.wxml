@@ -1,0 +1,1 @@
+<view class="container-v coupon data-v-b8aeb5a1"><v-coupon-item wx:for="{{a}}" wx:for-item="item" wx:key="a" class="data-v-b8aeb5a1" u-i="{{item.b}}" bind:__l="__l" u-p="{{item.c}}"></v-coupon-item></view><uni-load-more wx:if="{{c}}" class="data-v-b8aeb5a1" bindclick="{{b}}" u-i="b8aeb5a1-1" bind:__l="__l" u-p="{{c}}"></uni-load-more>

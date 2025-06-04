@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "商品列表",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "v-goods-item2": "../../components/v-goods-item2/v-goods-item2",
+    "uni-load-more": "../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
+  }
+}

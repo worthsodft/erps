@@ -1,0 +1,1 @@
+"use strict";const e=require("../../common/vendor.js");if(!Array){e.resolveComponent("uni-section")()}Math;const t={__name:"v-about",props:{content:String},setup:t=>(n,o)=>({a:e.p({title:"关于我们",type:"line"}),b:t.content})},n=e._export_sfc(t,[["__scopeId","data-v-e77435c8"]]);wx.createComponent(n);

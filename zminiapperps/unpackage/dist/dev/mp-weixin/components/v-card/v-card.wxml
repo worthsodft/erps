@@ -1,0 +1,1 @@
+<view class="v-card data-v-64ad07c9"><view class="content data-v-64ad07c9"><slot name="content"></slot></view><view class="hr data-v-64ad07c9"></view><view class="btns data-v-64ad07c9"><slot name="btns"></slot></view></view>

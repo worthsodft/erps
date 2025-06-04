@@ -1,0 +1,1 @@
+"use strict";exports.defaults={baseURL:"",header:{},method:"GET",dataType:"json",paramsSerializer:null,responseType:"text",custom:{},timeout:6e4,validateStatus:function(e){return e>=200&&e<300},forcedJSONParsing:!0};

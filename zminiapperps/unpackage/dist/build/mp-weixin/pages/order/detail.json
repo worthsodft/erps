@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "订单详情",
+  "usingComponents": {
+    "uni-data-checkbox": "../../uni_modules/uni-data-checkbox/components/uni-data-checkbox/uni-data-checkbox",
+    "uni-icons": "../../uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "v-order-sub-item2": "../../components/v-order-sub-item2/v-order-sub-item2",
+    "v-order-info-item": "../../components/v-order-info-item/v-order-info-item",
+    "v-order-confirm-bar2": "../../components/v-order-confirm-bar2/v-order-confirm-bar2",
+    "v-deliver-images": "../../components/v-deliver-images/v-deliver-images"
+  }
+}

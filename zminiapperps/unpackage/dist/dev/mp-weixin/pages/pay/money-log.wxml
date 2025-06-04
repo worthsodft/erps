@@ -1,0 +1,1 @@
+<view class="container-v money-log data-v-97e282e3"><v-money-log-item wx:for="{{a}}" wx:for-item="item" wx:key="a" class="data-v-97e282e3" u-i="{{item.b}}" bind:__l="__l" u-p="{{item.c}}"></v-money-log-item></view><uni-load-more wx:if="{{c}}" class="data-v-97e282e3" bindclick="{{b}}" u-i="97e282e3-1" bind:__l="__l" u-p="{{c}}"></uni-load-more>

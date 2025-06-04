@@ -1,0 +1,1 @@
+<view class="container-v list data-v-411c8c2c"><v-goods-item2 wx:for="{{a}}" wx:for-item="item" wx:key="a" class="data-v-411c8c2c" u-i="{{item.b}}" bind:__l="__l" u-p="{{item.c}}"></v-goods-item2></view><uni-load-more wx:if="{{c}}" class="data-v-411c8c2c" bindclick="{{b}}" u-i="411c8c2c-1" bind:__l="__l" u-p="{{c}}"></uni-load-more>

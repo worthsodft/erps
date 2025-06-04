@@ -1,0 +1,1 @@
+"use strict";const e=require("../../common/vendor.js"),r={__name:"v-swiper",props:{list:Array},setup:r=>(s,o)=>({a:e.f(r.list,((e,r,s)=>({a:e.cover||"",b:e.gid})))})},s=e._export_sfc(r,[["__scopeId","data-v-38d3b4cd"]]);wx.createComponent(s);

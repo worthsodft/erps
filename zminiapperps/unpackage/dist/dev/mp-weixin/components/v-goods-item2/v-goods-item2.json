@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "v-number-box": "../v-number-box/v-number-box"
+  }
+}

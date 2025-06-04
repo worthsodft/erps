@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "配送列表",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "uni-segmented-control": "../../../uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control",
+    "uni-section": "../../../uni_modules/uni-section/components/uni-section/uni-section",
+    "uni-datetime-picker": "../../../uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker",
+    "uni-data-checkbox": "../../../uni_modules/uni-data-checkbox/components/uni-data-checkbox/uni-data-checkbox",
+    "uni-load-more": "../../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
+    "v-order-item2-show": "../components/v-order-item2-show/v-order-item2-show",
+    "v-goods-list": "../components/v-goods-list/v-goods-list"
+  }
+}

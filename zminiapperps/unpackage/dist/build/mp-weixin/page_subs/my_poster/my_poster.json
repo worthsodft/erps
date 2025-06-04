@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的海报",
+  "usingComponents": {
+    "poster-swiper": "./components/poster-swiper"
+  }
+}

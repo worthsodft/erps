@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "实物卡绑定",
+  "usingComponents": {
+    "v-line-title": "../../components/v-line-title/v-line-title",
+    "uni-easyinput": "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput"
+  }
+}

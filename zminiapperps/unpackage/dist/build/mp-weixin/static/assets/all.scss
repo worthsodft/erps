@@ -1,0 +1,220 @@
+$uni-warning: #da4754;
+$blue: $uni-primary;
+$red: $uni-error;
+$org: $uni-warning;
+
+ /* 主：#0B6860， 渐变起始#197E75  #FF4B25 字#8A8A8A 按钮背景#D7D7D7 input背景#EAEAEA */
+/* 美术老师给的：#5aa1d8 #da4754 */
+$green: #5aa1d8;
+$green2: #6abfff; 
+
+$font-gray: $uni-info;
+$bg-gray: #f5f5f5;
+$uni-primary: $green;
+
+.v-tag{
+	border-radius: 7rpx;
+	border: 1px solid $green;
+	padding: 0 8rpx;
+	color: $green!important;
+	font-size: 24rpx;
+	background-color: #6abfff20;
+	white-space: nowrap;
+	&.full{
+		color: #fff!important;
+		background-color: $green;
+	}
+	&.v-tag-black{
+		color: #fff!important;
+		background-color: #282828;
+		border: 1px solid #282828;
+		
+	}
+}
+.v-desc{
+	color: #8A8A8A;
+	// padding: 0 5rpx;
+	font-size: 22rpx;
+	&:before{
+		content: "|";
+		font-size: 20rpx;
+		padding: 0 4rpx;
+	}
+	&:first-child:before{
+		content: "";
+		padding: 0;
+	}
+}
+
+.v-inline{
+	display: inline;
+}
+
+.v-button{
+	color: #fff;
+	background: linear-gradient(to right, $green2, $green);
+	padding: 15rpx 40rpx 20rpx;
+	font-size: 32rpx;
+	border-radius: 500rpx;
+}
+.w60{width: 60%;}.w80{width: 80%;}.w100{width: 100%;}
+
+$uni-primary-active: mix(#5797ff, $uni-primary, 80%);
+$uni-warning-active: mix(#f3c975, $uni-warning, 80%);
+$uni-error-active: mix(#e46464, $uni-error, 80%);
+$uni-info-active: mix(#b9b9b9, #8f939c, 80%);
+$uni-disable-active: mix(#8f939c, #8f939c, 80%);
+$uni-white-active: mix(#c7c7c7, #c7c7c7, 80%);
+$uni-green-active: mix($green, $green, 80%);
+$uni-green2-active: mix($green2, $green2, 80%);
+
+.line-title .line[data-v-e9673c5b],.uni-section .uni-section-header__decoration[data-v-637fd36b]{
+	background-color: $green2;
+}
+.uni-tag--primary[data-v-1f94d070]{
+	background-color: $green2;
+	border-color: $green2;
+}
+
+.is-input-border.is-focused{
+	border-color: $green!important;
+}
+
+.v-reset-button{all:unset;border:none;&:after{all:unset;}}
+.color-blue{color: $blue!important;}
+.color-red{color: $red!important;}
+.color-org{color: $org;}
+.color-green{color: $green!important;}
+.color-desc{color: $font-gray;}
+
+.bg-gray{background-color: $bg-gray;}
+
+.v-ellip{width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.v-ellip-2{-webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical;}
+.v-ellip-3{-webkit-line-clamp: 3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical;}
+
+.v-w100{width: 100%;}.v-w80{width: 80%;}
+.v-w100rpx{width: 100rpx;}.v-w80rpx{width: 80rpx;}
+.v-text-left{text-align: left;}
+.v-text-right{text-align: right;}
+.v-bold{font-weight: bold;}
+
+.v-mr-10{margin-right: 10rpx;}.v-mr-20{margin-right: 20rpx;}.v-mr-30{margin-right: 30rpx;}.v-mr-40{margin-right: 40rpx;}.v-mr-50{margin-right: 50rpx;}
+.v-ml-10{margin-left: 10rpx;}.v-ml-20{margin-left: 20rpx;}.v-ml-40{margin-left: 40rpx;}.v-ml-50{margin-left: 50rpx;}
+.v-mb-10{margin-bottom: 10rpx;}.v-mb-20{margin-bottom: 20rpx;}.v-mb-40{margin-bottom: 40rpx;}.v-mb-50{margin-bottom: 50rpx;}.v-mb-100{margin-bottom: 100rpx;}.v-mb-120{margin-bottom: 120rpx!important;}
+.v-mt-10{margin-top: 10rpx;}.v-mt-20{margin-top: 20rpx;}.v-mt-30{margin-top: 30rpx;}.v-mt-40{margin-top: 40rpx;}.v-mt-50{margin-top: 50rpx;}.v-mt-100{margin-top: 100rpx;}.v-mt-200{margin-top: 200rpx;}
+
+.v-p-20{padding: 20rpx;}
+.v-pr-10{padding-right: 10rpx;}.v-pr-20{padding-right: 20rpx;}.v-pr-50{padding-right: 50rpx;}
+.v-pl-10{padding-left: 10rpx;}.v-pl-20{padding-left: 20rpx;}.v-pl-40{padding-left: 40rpx;}.v-pl-50{padding-left: 50rpx;}
+.v-pb-10{padding-bottom: 10rpx;}.v-pb-20{padding-bottom: 20rpx;}.v-pb-50{padding-bottom: 50rpx;}.v-pb-100{padding-bottom: 100rpx;}
+.v-pt-10{padding-top: 10rpx;}.v-pt-20{padding-top: 20rpx;}.v-pt-50{padding-top: 50rpx;}.v-pt-100{padding-top: 100rpx;}
+
+.v-font-s20{font-size: 20rpx;}.v-font-s22{font-size: 22rpx;}.v-font-s24{font-size: 24rpx;}.v-font-s26{font-size: 26rpx;}.v-font-s30{font-size: 30rpx;}.v-font-s40{font-size: 40rpx;}.v-font-s50{font-size: 50rpx;}
+
+.v-bt-1{border-top: 1px solid $uni-border-1;}.v-bt-2{border-top: 1px solid $uni-border-2;}.v-bt-3{border-top: 1px solid $uni-border-3;}.v-bt-4{border-top: 1px solid $uni-border-4;}
+.v-bb-1{border-bottom: 1px solid $uni-border-1;}.v-bb-2{border-bottom: 1px solid $uni-border-2;}.v-bb-3{border-bottom: 1px solid $uni-border-3;}.v-bb-4{border-bottom: 1px solid $uni-border-4;}
+
+.v-b-r-5{border-radius: 5rpx;}.v-b-r-10{border-radius: 10rpx;}
+
+.v-flex{display: flex;}
+.v-flex-center{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.v-flex-jus-end{
+	display: flex;
+	justify-content: flex-end;
+}
+
+.v-nowrap{white-space: nowrap;}
+
+.container-v{
+	display: flex;
+	flex-direction: column;
+}
+.container-h{
+	display: flex;
+}
+.require::before{
+	content:"*";
+	color: $red;
+}
+.v-inline{display: inline;}
+.v-more{
+	color: #333333;
+	display: flex;
+	align-items: center;
+}
+.btn-sm{
+	font-size: 28rpx;
+	padding: 10rpx 20rpx;
+	border-radius: 30rpx;
+	min-width: 120rpx;
+	text-align: center;
+	&.btn-green{
+		background-color: $green;
+		color: #f2f9f2;
+		&:active{
+			background-color: $uni-green-active;
+		}
+	}
+	&.btn-green2{
+		background-color: $green2;
+		color: #f2f9f2;
+		&:active{
+			background-color: $uni-green2-active;
+		}
+	}
+	&.btn-red{
+		background-color: $uni-error;
+		color: #fff;
+		&:active{
+			background-color: $uni-error-active;
+		}
+	}
+	&.btn-org{
+		background-color: $uni-error;
+		color: #fff;
+		&:active{
+			background-color: $uni-error-active;
+		}
+	}
+	&.btn-blue{
+		background-color: $uni-primary;
+		color: #fff;
+		&:active{
+			background-color: $uni-primary-active;
+		}
+	}
+	&.btn-desc{
+		background-color: $uni-info;
+		color: #fff;
+		&:active{
+			background-color: $uni-info-active;
+		}
+	}
+	&.btn-disable{
+		background-color: $uni-info;
+		color: #fff;
+		&:active{
+			background-color: $uni-disable-active;
+		}
+	}
+	&.btn-normal{
+		background-color: #ffffff;
+		color: #333333;
+		&:active{
+			background-color: #f1f1f1;
+		}
+	}
+	&.btn-white{
+		background-color: #fff;
+		color: $uni-main-color;
+		&:active{
+			background-color: $uni-white-active;
+		}
+	}
+
+}

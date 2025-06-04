@@ -1,0 +1,1 @@
+"use strict";const e=require("../../common/vendor.js"),c=require("../../extend/config.js"),n={__name:"v-version",setup(n){const o=e.ref(c.config.version);return(c,n)=>({a:e.t(o.value)})}},o=e._export_sfc(n,[["__scopeId","data-v-01efcccc"]]);wx.createComponent(o);

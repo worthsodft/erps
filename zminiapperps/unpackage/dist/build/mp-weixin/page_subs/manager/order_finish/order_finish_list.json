@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "核销列表",
+  "usingComponents": {
+    "uni-section": "../../../uni_modules/uni-section/components/uni-section/uni-section",
+    "uni-datetime-picker": "../../../uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker",
+    "v-order-item2-show": "../../../components/v-order-item2-show/v-order-item2-show",
+    "uni-load-more": "../../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
+  }
+}

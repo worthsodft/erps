@@ -1,0 +1,1 @@
+{"version":3,"file":"coupon.js","sources":["../../../tool/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvbXkvY291cG9uLnZ1ZQ"],"sourcesContent":["import MiniProgramPage from 'G:/www/s150jinmjs/zminiappjinmjs/pages/my/coupon.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AACA,GAAG,WAAW,eAAe;"}

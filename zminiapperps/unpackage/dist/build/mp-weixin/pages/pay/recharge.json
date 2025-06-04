@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "余额充值",
+  "usingComponents": {
+    "v-line-title": "../../components/v-line-title/v-line-title"
+  }
+}

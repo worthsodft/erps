@@ -1,0 +1,1 @@
+<view style="{{'width:80%;margin-left:10%;margin-top:40rpx' + ';' + h}}"><button wx:if="{{a}}" style="background-color:#999;color:#fff;border-color:#999">{{b}}</button><button wx:elif="{{c}}" bindtap="{{e}}" style="background-color:#fff;color:#000">{{d}}</button><button wx:else bindtap="{{g}}" style="background-color:#6abfff;color:#fff">{{f}}</button></view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "余额记录",
+  "usingComponents": {
+    "v-money-log-item": "../../components/v-money-log-item/v-money-log-item",
+    "uni-load-more": "../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
+  }
+}

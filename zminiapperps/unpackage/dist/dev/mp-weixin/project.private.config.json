@@ -1,0 +1,50 @@
+{
+    "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+    "projectname": "zminiappjinmjs",
+    "setting": {
+        "compileHotReLoad": true,
+        "urlCheck": true
+    },
+    "libVersion": "3.5.8",
+    "condition": {
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "pages/pay/refund",
+                    "pathName": "pages/pay/refund",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "pages/index/index",
+                    "pathName": "pages/index/index",
+                    "query": "scene=1742800984606927937",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "首页二维码",
+                    "pathName": "pages/index/index",
+                    "query": "scene=obzAZ7c85NvxGhEXyOEXnP6uY0JM",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "配送列表",
+                    "pathName": "page_subs/manager/order_deliver/order_deliver_list",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "pages/order/detail",
+                    "pathName": "pages/order/detail",
+                    "query": "sn=ORDERFU8AGB2J6AJWZZZ",
+                    "launchMode": "default",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}

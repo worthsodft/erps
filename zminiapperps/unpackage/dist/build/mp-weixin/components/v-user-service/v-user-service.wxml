@@ -1,0 +1,1 @@
+<view class="container-v main data-v-89f7b0a5"><v-user-service-item wx:for="{{a}}" wx:for-item="item" wx:key="a" class="v-w100 data-v-89f7b0a5" binddoService="{{item.b}}" u-i="{{item.c}}" bind:__l="__l" u-p="{{item.d}}"></v-user-service-item></view>

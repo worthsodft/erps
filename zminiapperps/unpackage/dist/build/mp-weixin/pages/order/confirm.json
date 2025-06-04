@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "订单确认",
+  "usingComponents": {
+    "uni-data-checkbox": "../../uni_modules/uni-data-checkbox/components/uni-data-checkbox/uni-data-checkbox",
+    "uni-icons": "../../uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "v-order-sub-item2": "../../components/v-order-sub-item2/v-order-sub-item2",
+    "v-order-info-item": "../../components/v-order-info-item/v-order-info-item",
+    "uni-easyinput": "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput",
+    "v-order-confirm-bar2": "../../components/v-order-confirm-bar2/v-order-confirm-bar2",
+    "v-pay-type-select": "../../components/v-pay-type-select/v-pay-type-select",
+    "v-coupon-select": "../../components/v-coupon-select/v-coupon-select",
+    "v-station-select": "../../components/v-station-select/v-station-select",
+    "v-address-select": "../../components/v-address-select/v-address-select"
+  }
+}

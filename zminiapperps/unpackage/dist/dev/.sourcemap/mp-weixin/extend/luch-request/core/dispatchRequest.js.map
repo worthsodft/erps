@@ -1,0 +1,1 @@
+{"version":3,"file":"dispatchRequest.js","sources":["extend/luch-request/core/dispatchRequest.js"],"sourcesContent":["import adapter from '../adapters/index'\r\n\r\n\r\nexport default (config) => {\r\n  return adapter(config)\r\n}\r\n"],"names":["adapter"],"mappings":";;AAGA,MAAe,kBAAA,CAAC,WAAW;AACzB,SAAOA,kCAAAA,QAAQ,MAAM;AACvB;;"}

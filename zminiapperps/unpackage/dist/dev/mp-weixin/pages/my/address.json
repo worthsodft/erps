@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "地址管理",
+  "usingComponents": {
+    "v-address-edit": "../../components/v-address-edit/v-address-edit",
+    "uni-load-more": "../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
+    "v-button-w80": "../../components/v-button-w80/v-button-w80"
+  }
+}

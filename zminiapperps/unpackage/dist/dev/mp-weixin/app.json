@@ -1,0 +1,89 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/goods/list",
+    "pages/goods/gift_card_list",
+    "pages/cart/cart",
+    "pages/my/my",
+    "pages/goods/detail",
+    "pages/my/address",
+    "pages/my/address-edit",
+    "pages/my/coupon",
+    "pages/my/form",
+    "pages/order/list",
+    "pages/order/confirm",
+    "pages/order/detail",
+    "pages/pay/recharge",
+    "pages/pay/money-log",
+    "pages/pay/success",
+    "pages/pay/refund",
+    "pages/demo/list"
+  ],
+  "subPackages": [
+    {
+      "root": "page_subs",
+      "pages": [
+        "manager/order_finish/order_finish_welcome",
+        "manager/order_finish/order_finish_index",
+        "manager/order_finish/order_finish_list",
+        "manager/order_finish/order_pick_list",
+        "manager/order_deliver/order_deliver_list",
+        "gift_card/bind",
+        "gift_card/list",
+        "gift_card/logs",
+        "my_poster/my_poster"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "津淼净水",
+    "navigationBarBackgroundColor": "#FfFfFf",
+    "backgroundColor": "#FfFfFf"
+  },
+  "tabBar": {
+    "color": "#515151",
+    "selectedColor": "#5aa1d8",
+    "backgroundColor": "#f5f5f5",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/home.png",
+        "selectedIconPath": "static/images/home-curr.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/goods/list",
+        "iconPath": "static/images/apps.png",
+        "selectedIconPath": "static/images/apps-curr.png",
+        "text": "商品"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "iconPath": "static/images/cart.png",
+        "selectedIconPath": "static/images/cart-curr.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "static/images/my.png",
+        "selectedIconPath": "static/images/my-curr.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "permission": {
+    "scope.userFuzzyLocation": {
+      "desc": "获取当前位置"
+    },
+    "scope.userLocation": {
+      "desc": "选择地图位置"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getFuzzyLocation",
+    "chooseLocation"
+  ],
+  "usingComponents": {}
+}

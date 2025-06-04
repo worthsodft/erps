@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "首页",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "v-swiper": "../../components/v-swiper/v-swiper",
+    "v-notice": "../../components/v-notice/v-notice",
+    "v-coupon-h": "../../components/v-coupon-h/v-coupon-h",
+    "v-hot2": "../../components/v-hot2/v-hot2",
+    "v-about": "../../components/v-about/v-about"
+  }
+}

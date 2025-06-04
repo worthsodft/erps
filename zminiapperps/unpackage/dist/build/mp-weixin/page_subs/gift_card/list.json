@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "我的实物卡",
+  "usingComponents": {
+    "v-gift-card-item": "../../components/v-gift-card-item/v-gift-card-item",
+    "uni-load-more": "../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
+  }
+}

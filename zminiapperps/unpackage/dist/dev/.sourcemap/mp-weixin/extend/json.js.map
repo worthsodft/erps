@@ -1,0 +1,1 @@
+{"version":3,"file":"json.js","sources":["extend/json.js"],"sourcesContent":["import config from \"@/extend/config.js\"\r\nexport default {\r\n\tdefaultAvatar: config.domain + \"/upload/68/d9aa96c78d3ca13f28bbe53ca9898e.png\",\r\n}"],"names":["config"],"mappings":";;AACA,MAAe,OAAA;AAAA,EACd,eAAeA,cAAAA,OAAO,SAAS;AAChC;;"}

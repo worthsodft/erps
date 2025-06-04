@@ -1,0 +1,1 @@
+<view class="container-v data-v-f89ce275"><uni-section wx:if="{{a}}" class="data-v-f89ce275" u-i="f89ce275-0" bind:__l="__l" u-p="{{a}}"></uni-section><view class="container-h content data-v-f89ce275"><rich-text class="data-v-f89ce275" nodes="{{b}}"></rich-text></view></view>

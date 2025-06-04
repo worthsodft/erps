@@ -1,0 +1,1 @@
+<uni-data-picker wx:if="{{b}}" class="data-v-fd66be24" bindchange="{{a}}" u-i="fd66be24-0" bind:__l="__l" u-p="{{b}}"></uni-data-picker>

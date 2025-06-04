@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "v-address-item": "../v-address-item/v-address-item",
+    "v-button-w80": "../v-button-w80/v-button-w80",
+    "uni-popup": "../../uni_modules/uni-popup/components/uni-popup/uni-popup",
+    "v-address-form": "../v-address-form/v-address-form"
+  }
+}

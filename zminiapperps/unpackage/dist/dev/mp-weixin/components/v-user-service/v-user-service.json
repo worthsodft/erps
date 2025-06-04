@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "v-user-service-item": "../v-user-service-item/v-user-service-item"
+  }
+}
