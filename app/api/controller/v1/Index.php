@@ -845,8 +845,12 @@ class Index extends ApiBaseController {
         $station  = $order->station;
         $address  = $order->address;
         $coupon   = $order->coupon;
-        $payTypes = array_merge(config("a.order_pay_types"), config("a.com_order_pay_types"));
 
+        if($order->status == 0){
+            $payTypes = config("a.order_pay_types");
+        }else{
+            $payTypes = array_merge(config("a.order_pay_types"), config("a.com_order_pay_types"));
+        }
 
         $this->success("订单详情", compact("order", "station", "address", "coupon", "payTypes"));
     }
