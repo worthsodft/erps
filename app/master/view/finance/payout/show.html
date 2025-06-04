@@ -1,0 +1,110 @@
+<form action="{:sysuri()}" class='layui-form layui-card' id="pass-form" data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+
+        <div class="layui-form-item block relative">
+            <span class="help-label label-required-prev"><b>供应商</b></span>
+            <div class="layui-input layui-disabled">{$vo.supplier_gid_txt}</div>
+        </div>
+
+        <div class="layui-form-item block relative">
+            <span class="help-label label-required-prev"><b>入库单</b></span>
+            <div class="layui-input" id="sn_list"></div>
+        </div>
+
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>合计应付款金额</b></span>
+            <div class="layui-input layui-disabled">{$vo.un_paid_amount|default=""}</div>
+        </div>
+
+        <div class="layui-form-item block relative">
+            <span class="help-label label-required-prev"><b>支付方式</b></span>
+            <div class="layui-input layui-disabled">{$vo.pay_type_txt}</div>
+        </div>
+
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>实际付款金额</b></span>
+            <div class="layui-input layui-disabled">{$vo.money|default=""}</div>
+        </div>
+
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>状态</b></span>
+            <div class="layui-input layui-disabled">{$vo.status_txt|default=""}</div>
+        </div>
+
+        {if $vo.images}
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>付款凭证图片</b></span>
+            <div>
+                <input type="hidden" name="images" value="{$vo.images|default=''}">
+                <script>$("[name=images]").uploadMultipleImage(true);</script>
+            </div>
+        </div>
+        {/if}
+
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>备注</b></span>
+            <div class="layui-textarea layui-disabled">
+                {$vo.remark|default=''}
+            </div>
+        </div>
+        {if $mode == "pass"}
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>审核备注</b></span>
+            <textarea class="layui-textarea" name="pass_remark" placeholder="请输入审核备注">{$vo.pass_remark|default=''}</textarea>
+        </label>
+        {elseif $vo.pass_remark}
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>审核备注</b></span>
+            <div class="layui-textarea layui-disabled">
+                {$vo.pass_remark}
+            </div>
+        </div>
+        {/if}
+    </div>
+
+    <div class="hr-line-dashed margin-tb-10"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+    <div class="layui-form-item text-center">
+        {if $mode == "pass"}
+        <input name='is_pass' type='hidden' value='1'>
+        <button class="layui-btn" type='submit' data-confirm="确定要审核通过吗？">审核通过</button>
+        <button class="layui-btn layui-btn-primary" data-confirm="确定要审核驳回吗？" data-reject type='button'>审核驳回</button>
+        {/if}
+        <button class="layui-btn layui-btn-danger" data-close type='button'>关闭窗口</button>
+    </div>
+</form>
+<script>
+    (function(sns){
+        let html = [];
+        sns = sns.split(',');
+        sns.forEach(sn=>{
+            html.push(`<a data-modal="{:url('stock.instock/detail')}?id=${sn}" data-full="1" data-title="查看入库单">${sn}</a>`);
+        })
+        $("#sn_list").html(html.join(", "));
+    })("{$vo.in_stock_sns|default=''}");
+
+    {if $mode == "pass"}
+    $.base.onEvent("click", "[data-reject]", function () {
+        let remarkElem = $("[name=pass_remark]");
+        let passRemark = remarkElem.val();
+        if (!passRemark) {
+            remarkElem.css({"border-color": "red"});
+            remarkElem.off("blur").on("blur", function () {
+                remarkElem.css({"border-color": ""});
+            });
+            return $.msg.error("请在审核备注栏填写驳回原因");
+        }
+        $.msg.confirm(this.dataset.confirm, () => {
+            $.post("{:sysuri()}", {is_pass:0,"pass_remark": passRemark, id: "{$vo.id|default=''}"}).then(res => {
+                if (res.code != 1) return $.msg.error(res.info || "系统错误");
+                $.msg.success(res.info, 2, () => {
+                    $.form.reload();
+                    $.msg.closeThisModal("#pass-form");
+                });
+            });
+        });
+    });
+    {/if}
+
+</script>

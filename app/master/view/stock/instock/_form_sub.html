@@ -1,0 +1,61 @@
+<form action="{:sysuri()}" class='layui-form layui-card' id="in_stock_form_sub" data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-xs4">
+                <span class="help-label label-required-prev"><b>选择商品</b></span>
+                <div class="layui-form-item">
+                    <div class="layui-input" id="goods-name"><span class="color-aaa">请选择商品</span></div>
+                    <div class="layui-input-split layui-input-suffix pointer v-flex-center layui-bg-blue" style="width: 48px" data-iframe="{:url('product.goods/select')}" data-width="1000px">选择</div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <label class="layui-col-xs4">
+                <span class="help-label"><b>入库数量</b></span>
+                <input class="layui-input" type="number" name="goods_number" required placeholder="请输入入库数量" value='{$goods.goods_number|default=""}'>
+            </label>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='button' onclick="add()">添加数据</button>
+        <button class="layui-btn layui-btn-danger" data-close type='button'>取消编辑</button>
+    </div>
+</form>
+<script>
+    let goods = null, index = '{$index|default=""}';// index空为新建，不空为对应的子表索引
+
+    // 初始化商品信息
+    (function(){
+        goods = '{$goods|default=""|json_encode|raw}';
+
+        if(goods) goods = JSON.parse(goods);
+        else goods = null;
+        if(goods){
+            $('#goods-name').html(goods.goods_name);
+        }
+    })();
+
+    // 确定添加
+    function add(){
+        let number = $('[name=goods_number]').val();
+
+        if(!goods) return $.msg.error("请选择商品");
+        if(!number) return $.msg.error("请输入入库数量");
+        goods.goods_number = number;
+        window.$subsVm.subAdd(goods, index);
+        $.msg.closeThisModal("#in_stock_form_sub");
+    }
+
+    // 选择商品
+    function setGoods(goods_sn){
+        $.get("{:url('product.goods/getGoodsBySn')}?sn="+goods_sn).then(res=>{
+            if(res.code != 1) return $.msg.error(res.info||"系统错误");
+            goods = res.data.goods;
+            $('#goods-name').html(goods.goods_name);
+        });
+    }
+</script>
