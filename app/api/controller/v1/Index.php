@@ -63,7 +63,11 @@ class Index extends ApiBaseController {
     // 66. 得到我的可用实物卡
     public function getMyUsableGiftCardList() {
         $openid       = request()->openid();
-        $giftCardList = GiftCardService::instance()->getUsableListByOpenid($openid, "sn,has,init,use_type,useful_expire_at,last_use_at");
+        try{
+            $giftCardList = GiftCardService::instance()->getUsableListByOpenid($openid, "sn,has,init,use_type,useful_expire_at,last_use_at");
+        }catch(\Error $e){
+            $giftCardList = [];
+        }
         $this->success('可用实物卡', compact('giftCardList'));
     }
 
