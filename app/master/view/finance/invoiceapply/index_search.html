@@ -1,0 +1,97 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">购方类型</label>
+        <label class="layui-input-inline">
+            <select name="buyer_type" lay-filter="search">
+                <option value="">请选择</option>
+                {foreach :config("a.buyer_types") as $k=>$v}
+                <option value="{$k.''}">{$v}</option>
+                {/foreach}
+            </select>
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">开票类型</label>
+        <label class="layui-input-inline">
+            <select name="invoice_type" lay-filter="search">
+                <option value="">请选择</option>
+                {foreach :config("a.invoice_types") as $k=>$v}
+                <option value="{$k.''}">{$v}</option>
+                {/foreach}
+            </select>
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">开票名称</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="title" placeholder="请输入开票名称" value="{$get.title|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户电话</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="phone" placeholder="请输入用户电话" value="{$get.phone|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单编号</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="order_sn" placeholder="请输入订单编号" value="{$get.order_sn|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">发票编号</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="invoice_no" placeholder="请输入发票编号" value="{$get.invoice_no|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">申请时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择申请时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导 出
+        </button>
+    </div>
+</form>
+<script>
+    form.on("select(search)", ()=>$("#searchForm").submit());
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            let items = [];
+            let titles = ['ID', '订单编号', '购方类型', '开票类型', '开票信息', '发票编号', '收票邮箱', '用户电话', '邮件状态', '邮件时间', '申请时间'];
+            items.push(titles);
+            data.forEach(function (item) {
+                items.push([
+                    item.id,
+                    item.order_sn,
+                    item.buyer_type_txt,
+                    item.invoice_type_txt,
+                    item.title,
+                    item.invoice_no,
+                    item.email,
+                    item.phone,
+                    item.is_email?"邮件已发":"邮件未发",
+                    item.email_at,
+                    item.create_at
+                ]);
+            });
+
+            var lastCol = num2A(titles.length-1);
+            var colsC = {A:50};
+            colsC[lastCol] = 120;
+            this.options.extend = {
+                '!cols': layui.excel.makeColConfig(colsC, 120) // 设置每行宽度，默认 160
+            };
+            return items;
+        }, '商品信息' + layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss'));
+    });
+</script>

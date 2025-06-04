@@ -1,0 +1,61 @@
+<div action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+        <fieldset>
+            <legend><span class="layui-badge">订单详情</span></legend>
+            <div>
+                {foreach $orders as $order}
+                <div class="sub-span-desc">
+                    <b>订单编号：<span>{$order.sn}</span></b><br>
+                    商品实付金额：<span>{$order.real_amount|default=""}</span>，
+                    服务费金额：<span>{$order.deliver_amount|default=""}</span>，
+                    实充消费金额：<span>{$order.real_deduct|default=""}</span>，
+                    赠送消费金额：<span>{$order.give_deduct|default=""}</span>
+                </div>
+                <table class="layui-table">
+                    <tr>
+                        <td style="width: 300px">商品</td>
+                        <td>数量</td>
+                        <td>单价</td>
+                        <td>小计</td>
+                    </tr>
+                    {foreach $order.subs as $sub}
+                    <tr>
+                        <td>{$sub.goods_name}</td>
+                        <td>{$sub.goods_number}</td>
+                        <td>{$sub.goods_self_price}</td>
+                        <td>{:round($sub.goods_number * $sub.goods_self_price, 2)}</td>
+                    </tr>
+                    {/foreach}
+                </table>
+                {/foreach}
+            </div>
+        </fieldset>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>开票名称</b></span>
+            <div class="layui-input">{$vo.title|default=""}</div>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>订单编号</b></span>
+            <div class="layui-input">{$vo.order_sns|default=""}</div>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>发送邮箱</b></span>
+            <div class="layui-input">{$vo.email|default=""}</div>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>发票号码</b></span>
+            <div class="layui-input">{$vo.invoice_no|default=''}</div>
+        </div>
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>发送时间</b></span>
+            <div class="layui-input">{$vo.email_at|default=''}</div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn layui-btn-danger" data-close type='button'>关闭窗口</button>
+    </div>
+</div>

@@ -1,0 +1,149 @@
+{extend name="../../admin/view/table"}
+
+{block name="button"}
+<!--{if auth("add") and $type eq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("add")}' data-title="添加数据">添加数据-->
+<!--</button>-->
+<!--{/if}-->
+
+<!--{if auth("state") and $type eq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}'-->
+<!--        data-rule="id#{id};status#0">批量隐藏-->
+<!--</button>-->
+<!--{/if}-->
+
+<!--{if auth("state") and $type neq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}'-->
+<!--        data-rule="id#{id};status#1">批量显示-->
+<!--</button>-->
+<!--{/if}-->
+
+<!--{if auth("remove") and $type neq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("remove")}'-->
+<!--        data-rule="id#{id}">批量删除-->
+<!--</button>-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <ul class="layui-tab-title">
+        {foreach ['t0'=>'未发邮件', 't1'=>'已发邮件'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index')}?type={$k}">{$v}<sup class="layui-badge border-radius">{$total[$k]??0}</sup></li>
+        {else}
+        <li data-open="{:url('index')}?type={$k}">{$v}<sup class="layui-badge border-radius">{$total[$k]??0}</sup></li>
+        {/if}{/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        {include file='finance/invoiceapply/index_search'}
+        <table id="DataTable" data-url="{:sysuri()}" data-line="6" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#DataTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'desc'},
+            where: {type: '{$type|default="index"}'},
+            cols: [[
+                {checkbox: true},
+                // {field: 'sort', title: '排序权重', width: 100, align: 'center', sort: true, templet: '#SortInputTpl'},
+                {field: 'id', title: 'ID', align: "left", width: 80},
+                {field: 'order_sns', title: '订单编号', align: "left", width: 140},
+                {field: 'buyer_type_txt', title: '购方类型', align: "left", width: 80},
+                {field: 'invoice_type_txt', title: '开票类型', align: "left", width: 80},
+                {field: 'title', title: '开票信息', align: "left", minWidth: 140, templet: "#invoiceInfoTpl"},
+                {field: 'invoice_no', title: '发票编号', align: "left", width: 140},
+                {field: 'email', title: '收票邮箱', align: "left", width: 140},
+                {field: 'phone', title: '用户电话', align: "left", width: 140, templet: function(d){return `<span>${d?.user?.phone}</span>`}},
+
+                // {field: 'is_email', title: '邮件状态', align: 'center', width: 110, templet: '#isEmailSwitchTpl'},
+                {field: 'email_at', title: '邮件时间', align: "left", width: 150},
+                {field: 'create_at', title: '申请时间', align: 'center', width: 150},
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', fixed: 'right', width: 160}
+            ]]
+        });
+
+        // 营业数据状态切换操作
+        layui.form.on('switch(isOpenSwitch)', function (obj, data) {
+            data = {id: obj.value, is_open: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('is_open')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#DataTable').trigger('reload');
+                }); else {
+                    $('#DataTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (obj, data) {
+            data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('state')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#DataTable').trigger('reload');
+                }); else {
+                    $('#DataTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+    });
+</script>
+
+<script type="text/html" id="invoiceInfoTpl">
+    <div class="sub-span-desc">
+        <div>开票名称：<span>{{d.title?d.title:'未设置'}}</span></div>
+        {{# if(d.taxno){ }}<div>公司税号：<span>{{d.taxno}}</span></div>{{# } }}
+        {{# if(d.address){ }}<div>公司地址：<span>{{d.address}}</span></div>{{# } }}
+        {{# if(d.phone){ }}<div>公司电话：<span>{{d.phone}}</span></div>{{# } }}
+        {{# if(d.bank_name){ }}<div>开启银行：<span>{{d.bank_name}}</span></div>{{# } }}
+        {{# if(d.bank_account){ }}<div>银行账号：<span>{{d.bank_account}}</span></div>{{# } }}
+
+    </div>
+</script>
+
+<!-- 排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}"
+           data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}"
+           class="layui-input text-center">
+</script>
+
+<!-- 发邮件状态切换模板 -->
+<script type="text/html" id="isEmailSwitchTpl">
+    {{-d.is_email ? '<b class="color-red">已发邮件</b>' : '<b class="color-green">未发邮件</b>'}}
+</script>
+<!-- 状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已显示|已隐藏" lay-filter="StatusSwitch"
+           {{-d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.status ? '<b class="color-red">已显示</b>' : '<b class="color-green">已隐藏</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 操作面板模板 -->
+<script type="text/html" id="toolbar">
+    <!--{if auth("show") and isset($type) and $type eq 't1'}-->
+    <a class="layui-btn layui-btn-xs layui-btn-primary" data-modal="{:url('show')}?id={{d.id}}" data-title="查看详情">查看详情</a>
+    <!--{/if}-->
+    {{# if(-d.is_email == 0){ }}
+
+    <!--{if auth("email") and isset($type) and $type eq 't0'}-->
+    <a class="layui-btn layui-btn-xs" data-modal="{:url('email')}?id={{d.id}}" data-title="设置邮件状态">邮件状态</a>
+    <!--{/if}-->
+
+    <!--{if auth("remove") and isset($type) and $type eq 't0'}-->
+    <a class="layui-btn layui-btn-xs layui-btn-danger" data-confirm="确定要撤销申请吗？" data-action="{:url('remove')}" data-value="id#{{d.id}}">撤销申请</a>
+    <!--{/if}-->
+
+    {{# } }}
+</script>
+{/block}
