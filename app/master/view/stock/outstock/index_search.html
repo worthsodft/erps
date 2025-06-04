@@ -1,0 +1,79 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">出库单编号</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="sn" placeholder="请输入出库单编号" value="{$get.sn|default=''}">
+        </label>
+    </div>
+    {if !$isProduceget}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">出库类型</label>
+        <label class="layui-input-inline">
+            <select name="out_stock_type" lay-filter="search" lay-search>
+                <option value="">请选择</option>
+                {foreach :config("a.out_stock_types") as $k=>$v}
+                <option value="{$k}">{$v}</option>
+                {/foreach}
+            </select>
+        </label>
+    </div>
+    {/if}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">客户</label>
+        <label class="layui-input-inline">
+            <select name="buyer_gid" lay-filter="search" lay-search>
+                <option value="">请选择</option>
+                {foreach $buyers as $gid=>$title}
+                <option value="{$gid}">{$title}</option>
+                {/foreach}
+            </select>
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">出库仓库</label>
+        <label class="layui-input-inline">
+            <select name="depot_gid" lay-filter="search" lay-search>
+                <option value="">请选择</option>
+                {foreach $depots as $gid=>$title}
+                <option value="{$gid}">{$title}</option>
+                {/foreach}
+            </select>
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">添加时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择添加时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导 出
+        </button>
+    </div>
+</form>
+<script>
+    form.on("select(search)", ()=>$("#searchForm").submit());
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            // 1. 表头数据
+            let headers = ['ID', '标题', '创建时间'];
+            let colWidth = [60, 120, 120];
+
+            // 2. 数据
+            data.forEach(function(item,index){
+                data[index] = [
+                    item.id,
+                    item.title,
+                    item.create_at
+                ];
+            });
+            data.unshift(headers);
+            return this.withStyleBorder(data, $.vandles.nums2A(colWidth));
+        });
+    }, `{$title}_${layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss')}`);
+</script>
