@@ -1,0 +1,42 @@
+<!--{ include file='userinfo/subs/user_money_log_search'}-->
+<table class="layui-table margin-top-10" lay-skin="line">
+    <thead>
+    <tr>
+        <!--        <th class='list-table-check-td think-checkbox'>-->
+        <!--            <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>-->
+        <!--        </th>-->
+        <th>ID</th>
+        <th>变动前金额</th>
+        <th>变动金额</th>
+        <th>变动类型</th>
+        <th>备注</th>
+        <th>变动时间</th>
+    </tr>
+    </thead>
+    {notempty name='list'}
+
+    <tbody>
+    {foreach $list as $key=>$vo}
+    <tr>
+        <!--        <td class='list-table-check-td think-checkbox'>-->
+        <!--            <label><input class="list-check-box" type='checkbox' value='{$vo.id}'></label>-->
+        <!--        </td>-->
+        <td>{$vo.id}</td>
+        <td>￥{$vo.before|number_format=2}</td>
+        <td>
+            {if $vo.delta<0}
+            <div class="color-red">{$vo.delta|number_format=2}</div>
+            {else}
+            <div class="color-green">+{$vo.delta|number_format=2}</div>
+            {/if}
+        </td>
+        <td>{$vo.log_type_txt}</td>
+        <td>{$vo.remark}</td>
+        <td>{$vo.create_at}</td>
+    </tr>
+    {/foreach}
+    </tbody>
+    {/notempty}
+
+</table>
+{empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}

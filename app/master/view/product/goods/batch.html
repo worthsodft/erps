@@ -1,0 +1,70 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-form-item relative">
+            <span class="help-label"><b>商品名称</b></span>
+            <div class="layui-input">{$goods.name}</div>
+        </div>
+        <div class="layui-form-item relative">
+            <span class="help-label"><b>单价</b></span>
+            <div class="layui-input">￥{$goods.self_price}</div>
+        </div>
+        <div class="layui-form-item relative">
+            <span class="help-label"><b>库存数量</b></span>
+            <div class="layui-input">{$goods.stock}</div>
+        </div>
+        <div class="layui-form-item relative">
+            <span class="help-label"><b>销售数量</b></span>
+            <div class="layui-input">{$goods.sale_number}</div>
+        </div>
+        <div class="layui-form-item relative">
+            <span class="help-label"><b>使用类型</b></span>
+            <div class="layui-input">{$goods.use_type_txt}</div>
+        </div>
+        {if $goods.use_type == 0}
+        <div class="layui-form-item relative">
+            <span class="help-label"><b>面值金额</b></span>
+            <div class="layui-input">{$goods.init} 元</div>
+        </div>
+        {else}
+        <div class="layui-form-item relative">
+            <div class="layui-inline">
+                <span class="help-label"><b>面值次数</b></span>
+                <div class="layui-input">{$goods.init} 次</div>
+            </div>
+            <div class="layui-inline">
+                <span class="help-label"><b>计次商品</b></span>
+                <div class="layui-input padding-right-10">{$goods.take_goods_sn_txt}</div>
+            </div>
+        </div>
+        {/if}
+
+        <div class="layui-form-item relative">
+            <span class="help-label"><b>绑定有效期天数</b></span>
+            <div class="layui-input">{$goods.bind_expire_days} 天</div>
+            <div class="color-desc">批量制卡后，生成的实物卡的<b class="color-red">绑定有效期</b>将从当前制卡时间开始计算</div>
+        </div>
+        <div class="layui-form-item relative">
+            <span class="help-label"><b>使用有效期天数</b></span>
+            <div class="layui-input">{$goods.useful_days} 天</div>
+            <div class="color-desc">绑定之后，自绑定之日起，有效期天数之外，不能使用</div>
+        </div>
+        <div class="hr-line-dashed"></div>
+
+        <label class="layui-form-item relative">
+            <span class="help-label"><b>制卡数量</b></span>
+            <input class="layui-input" type="number" min="1" name="number" required autofocus value="" placeholder="请输入制卡数量"/>
+        </label>
+    </div>
+
+
+    <div class="hr-line-dashed margin-15"></div>
+    <input name='id' type='hidden' value='{$goods.id}'>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>批量制卡</button>
+        <button class="layui-btn layui-btn-danger" data-close type='button'>取消操作</button>
+    </div>
+</form>
+<script>
+
+</script>

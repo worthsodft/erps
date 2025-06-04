@@ -1,0 +1,113 @@
+<style>
+    .layui-form-switch{
+        margin-top: 0;
+    }
+    #area{
+        margin-top: 10px;
+    }
+    #area .layui-form-checkbox{
+        margin: 0;
+    }
+</style>
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+        {if $vo.openid}
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>OPENID</b></span>
+            <div>{$vo.openid|default=""}</div>
+        </div>
+        {/if}
+        <fieldset>
+            <legend><span class="layui-badge">核销订单权限</span></legend>
+            <div class="layui-form-item block relative">
+                <div  style="display: flex; align-items: center">
+                    <span class="help-label"><b>核销订单</b></span>
+                    <input type="checkbox" value="1" lay-skin="switch" lay-text="允许|禁止" data-index="0" lay-filter="finishOrderSwitch" {$auths[0] == 0 ? '' : 'checked'}>
+                    <input type="hidden" name="auth[]" value="{$auths[0]==0?0:1}">
+                </div>
+                <div class="help-block">允许用户在小程序端核销订单</div>
+
+                <div id="station" style="display: flex; align-items: center">
+                    <span class="help-label"><b>所属水站</b></span>
+                    <select name="station_gid" lay-search>
+                        <option value="">请选择</option>
+                        {foreach $stations as $v}
+                        <option value="{$v.gid}" {$vo.station_gid == $v.gid ? 'selected' :''}>{$v.title}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend><span class="layui-badge layui-bg-blue">配送订单权限</span></legend>
+            <div class="layui-form-item block relative">
+                <div  style="display: flex; align-items: center">
+                    <span class="help-label"><b>配送订单</b></span>
+                    <input type="checkbox" value="1" lay-skin="switch" lay-text="允许|禁止" data-index="1" lay-filter="deliverOrderSwitch" {$auths[1] == 0 ? '' : 'checked'}>
+                    <input type="hidden" name="auth[]" value="{$auths[1]==0?0:1}">
+
+                </div>
+                <div class="help-block">允许用户在小程序端配送订单</div>
+
+                <div id="area">
+                    <span class="margin-top-10 nowrap">选择配送区域：</span>
+                    {foreach :config("a.cities") as $k=>$v}
+                    <input type="checkbox" name="districts[{$k}]" title="{$v.name}" {:isset($districts[$v.name])?'checked':''}>
+                    {/foreach}
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='openid'}<input name='openid' type='hidden' value='{$openid}'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close type='button'>关闭窗口</button>
+    </div>
+</form>
+<script>
+    (()=>{
+        let auth0 = "{$auths[0]}";
+        if(auth0 == 1) $("#station").show();
+        else $("#station").hide();
+
+        let auth1 = "{$auths[1]}";
+        if(auth1 == 1) $("#area").show();
+        else $("#area").hide();
+    })();
+    $(()=>{
+        function doElems(elem, inputs, curr, cb){
+            for(let index = 0,len = inputs.length; index < len; index++){
+                let input = inputs[index];
+                if(index === curr){
+                    if(elem.checked) $(input).val(1);
+                    else $(input).val(0);
+                    cb && cb(elem.checked);
+                    break;
+                }
+            }
+        }
+        form.on("switch(finishOrderSwitch)", (data)=>{
+            let inputs = $('input[name="auth[]"]');
+            let curr = 0;
+            doElems(data.elem, inputs, curr, (checked)=>{
+                if(checked) $("#station").show();
+                else $("#station").hide();
+            });
+        })
+        form.on("switch(deliverOrderSwitch)", (data)=>{
+            let inputs = $('input[name="auth[]"]');
+            let curr = 1;
+            doElems(data.elem, inputs, curr, (checked)=>{
+                if(checked) $("#area").show();
+                else $("#area").hide();
+            });
+        })
+
+    });
+
+</script>

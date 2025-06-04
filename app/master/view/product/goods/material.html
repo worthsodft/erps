@@ -1,0 +1,140 @@
+<form action="{:sysuri()}" class='layui-form layui-card' v-cloak id="goods-material" data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+        <div class="font-s14">商品名称：<span>{{vo.name}}</span></div>
+        <table class="layui-table">
+            <tr>
+                <td colspan="6">
+                    <button class="layui-btn layui-btn-xs" type="button" @click="showGoodsSelect">添 加</button>
+                </td>
+            </tr>
+            <tr>
+                <th>序号</th>
+                <th>原材料名称</th>
+                <th class="w120px">使用数量</th>
+                <th class="text-center" style="width:50px">操作</th>
+            </tr>
+            <tr v-for="(item, index) in list" :key="item.sn">
+                <td>{{index+1}}</td>
+                <td>{{item.goods_name}}</td>
+                <td class="table-input-edit">
+                    <input class="layui-input" type="number" min="0" v-model="item.goods_number">
+                </td>
+                <td class="text-center">
+                    <button class="layui-btn layui-btn-xs layui-btn-danger" type="button" @click="del(index)">
+                        删除
+                    </button>
+                </td>
+            </tr>
+            <tr v-if="list.length == 0">
+                <td class="text-center" colspan="6">暂无数据</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="hr-line-dashed margin-tb-20"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='button' @click="submit">保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close type='button'>取消编辑</button>
+    </div>
+</form>
+<label class="v-hidden">
+    <textarea id="vo">{$vo|json_encode|raw}</textarea>
+    <textarea id="material">{$material}</textarea>
+</label>
+<script>
+    let $vm;
+    let list = JSON.parse($("#material").val()), items=[];
+    for (let i in list) {
+        items.push({
+            goods_sn: list[i].goods_sn,
+            goods_name: list[i].goods_name,
+            goods_number: list[i].goods_number
+        })
+    }
+    require(['vue'], (vue)=>{
+        $vm = new vue({
+            el: '#goods-material',
+            data(){
+
+                return {
+                    vo: JSON.parse($("#vo").val()),
+                    list: items
+                }
+            },
+            mounted(){
+            },
+            methods:{
+                showGoodsSelect() {
+                    $.vandles.iframe("{:url('product.goods/selectMaterial')}?is_multi=1", {title: "添加商品", width: "1000px"})
+                },
+                del(index){
+                    $.msg.confirm("确定要删除吗？", () => {
+                        this.list.splice(index, 1);
+                    })
+                },
+                // add(goods){
+                //     if(this.isExist(goods)) return $.msg.tips("商品已存在，请直接修改数量");
+                //     this.list.push({
+                //         goods_sn: goods.goods_sn,
+                //         goods_name: goods.goods_name,
+                //         goods_number: 1
+                //     });
+                // },
+                isExist(goods){
+                    for (let i in this.list) {
+                        if (this.list[i].goods_sn == goods.goods_sn) return true;
+                    }
+                    return false;
+                },
+                subAddList(list){
+                    if(this.list.length == 0) return this.list = list;
+                    for (let i in list) {
+                        let goods = list[i];
+                        let isDuplicate = false;
+                        for (let j in this.list) {
+                            if (this.list[j].goods_sn == goods.goods_sn) {
+                                let error = '商品已存在，请直接修改数量: ' + goods.goods_name;
+                                $.msg.tips(error);
+                                isDuplicate = true;
+                                break;
+                            }
+                        }
+                        if (!isDuplicate) this.list.push({
+                            goods_sn: goods.goods_sn,
+                            goods_name: goods.goods_name,
+                            goods_number: 1
+                        });
+                    }
+                },
+                submit() {
+                    if (!this.validate()) return;
+
+                    let params = {
+                        sn: this.vo.sn,
+                        list: this.list,
+                    }
+                    $.post("{:url('material')}", params).then(res => {
+                        if (res.code != 1) return $.msg.error(res.info || "系统错误");
+                        $.msg.success(res.info || "操作成功");
+                        $.msg.closeThisModal("#goods-material");
+                        $('#DataTable').trigger('reload');
+                    })
+                },
+                validate() {
+                    if (this.list.length == 0) return $.msg.error("请添加原材料") === null;
+                    return true;
+                }
+            }
+        })
+    });
+    // 选择商品
+    function setGoods(goods_sn) {
+        $.get(`{:url('product.goods/getGoodsBySn')}?sn=${goods_sn}`).then(res => {
+            if (res.code != 1) return $.msg.error(res.info || "系统错误");
+            $vm.subAddList(res.data.goods);
+        });
+    }
+</script>

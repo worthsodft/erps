@@ -1,0 +1,56 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>用户名称</b></span>
+            <input class="layui-input" maxlength="50" name="username" placeholder="请输入用户名称"  value='{$vo.username|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>用户昵称</b></span>
+            <input class="layui-input" maxlength="50" name="nickname" placeholder="请输入用户昵称"  value='{$vo.nickname|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>真实姓名</b></span>
+            <input class="layui-input" maxlength="50" name="realname" placeholder="请输入真实姓名"  value='{$vo.realname|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>电话号码</b></span>
+            <input class="layui-input" maxlength="50" name="phone" placeholder="请输入电话号码"  value='{$vo.phone|default=""}'>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>邮箱</b></span>
+            <input class="layui-input" maxlength="100" name="email" placeholder="请输入邮箱"  value='{$vo.email|default=""}'>
+        </label>
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>OPENID</b></span>
+            <input class="layui-input pointer" readonly maxlength="50" value='{$vo.openid|default=""}'>
+        </label>
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>余额</b></span>
+            <input class="layui-input" type="number" min="0" name="money" placeholder="请输入余额" value='{$vo.money|default=""}'>
+<!--            <span class="color-desc">可选，69码</span>-->
+        </label>
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>积分</b></span>
+            <input class="layui-input" type="number" min="0" name="score" placeholder="请输入积分" value='{$vo.score|default="1"}'>
+        </label>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close data-confirm="确定要取消编辑吗？" type='button'>取消编辑</button>
+    </div>
+</form>
+<script>
+    require(['ckeditor'], ()=>{
+        createEditor("[name=desc]", {height: 500});
+    });
+</script>

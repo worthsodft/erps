@@ -1,0 +1,33 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">昵称</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="username" placeholder="请输入名称" value="{$get.username|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">电话</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="phone" placeholder="请输入电话号码" value="{$get.phone|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">邮箱</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="email" placeholder="请输入邮箱" value="{$get.email|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">添加时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择添加时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>

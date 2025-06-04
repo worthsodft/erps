@@ -1,0 +1,128 @@
+{extend name="../../admin/view/full"}
+
+{block name="button"}
+<!--{if auth("add") and $type eq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal='{:url("add")}' data-title="添加数据">添加数据</button>-->
+<!--{/if}-->
+
+<!--{if auth("state") and $type eq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#0">批量禁用</button>-->
+<!--{/if}-->
+
+<!--{if auth("state") and $type neq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#1">批量启用</button>-->
+<!--{/if}-->
+
+<!--{if auth("remove") and $type neq 'index'}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("remove")}' data-rule="id#{id}">批量删除</button>-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <ul class="layui-tab-title">
+        {foreach ['index'=>'列表','recycle'=>'回 收 站'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('index')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        {include file='userinfo/select_search'}
+        <table id="DataTable" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    $(function () {
+        layui.form.on("select(search)", ()=>{
+            $("#searchForm").submit();
+        });
+        $('#DataTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'desc'},
+            where: {type: '{$type|default="index"}'},
+            toolbar: '#checkRows',
+            cols: [[
+                {checkbox: true},
+                // {field: 'sort', title: '排序权重', width: 100, align: 'center', sort: true, templet: '#SortInputTpl'},
+                {field: 'id', title: 'ID', align: "left", width: 50},
+                {field: 'avatar', title: '用户头像', align: "left", templet:"<div>{{-showTableImage(d.avatar,true)}}</div>"},
+                {field: 'nickname', title: '用户昵称', align: "left"},
+                // {field: 'realname', title: '真实姓名', align: "left"},
+                {field: 'phone', title: '电话号码', align: "left", minWidth: 100},
+                // {field: 'gender_txt', title: '性别', align: "left", width: 80},
+                // {field: 'money', title: '余额', align: "left", width: 80},
+                // {field: 'score', title: '积分', align: "left", width: 80},
+                // {field: 'vip_level_id', title: 'VIP', align: "left", width: 80, templet: "<span>{{d.level.title}}</span>"},
+                // {field: 'medal', title: '勋章', align: "left", width: 80, templet: "<span>{{d.max_medal_id}}</span>"},
+                // {field: 'pid', title: '上级uid', align: "left", minWidth: 100},
+                {field: 'create_at', title: '添加时间', align: 'center', width: 150},
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', minWidth: 150, fixed: 'right'}
+            ]]
+        }).trigger('tool', function (item) {
+            top.setFetchOpenids(item.data.openid);
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+        }).trigger("toolbar", function(obj){
+            switch(obj.event){
+                case 'getCheckRows':
+                    let checkStatus = layui.table.checkStatus(obj.config.id); //获取选中行状态
+                    let data = checkStatus.data;
+                    let openids = [];
+                    for(let i=0,len=data.length; i<len; i++){
+                        openids.push(data[i].openid);
+                    }
+                    if(!openids.length) return $.msg.tips('请选择要操作的数据');
+                    top.setFetchOpenids(openids.join(','));
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                    break;
+            }
+        });
+
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (obj, data) {
+            data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('state')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#DataTable').trigger('reload');
+                }); else {
+                    $('#DataTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+
+        // $('[data-item]').on('click', function () {
+        //     top.setItemValue(this.getAttribute('data-item') || '');
+        //     parent.layer.close(parent.layer.getFrameIndex(window.name));
+        // });
+    });
+</script>
+
+<script type="text/html" id="checkRows">
+<a class="layui-btn layui-btn-sm" lay-event="getCheckRows">选择用户</a>
+</script>
+
+<!-- 排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}" data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+
+<!-- 状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已激活|已禁用" lay-filter="StatusSwitch" {{-d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.status ? '<b class="color-red">已激活</b>' : '<b class="color-green">已禁用</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 操作面板模板 -->
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-sm" lay-event="select">选择用户</a>
+</script>
+{/block}

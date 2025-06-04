@@ -1,0 +1,43 @@
+<!--        { include file='shop/order/index_search'}-->
+<table class="layui-table margin-top-10" lay-skin="line">
+    <thead>
+    <tr>
+        <!--        <th class='list-table-check-td think-checkbox'>-->
+        <!--            <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>-->
+        <!--        </th>-->
+        <th>ID</th>
+        <th>标题</th>
+        <th>优惠金额</th>
+        <th>折扣比例</th>
+        <th>使用金额</th>
+        <th>使用范围</th>
+        <th>有效期至</th>
+        <th>有效期天数</th>
+        <th>领取时间</th>
+    </tr>
+    </thead>
+    {notempty name='list'}
+
+    <tbody>
+    {foreach $list as $key=>$vo}
+    <tr>
+<!--        <td class='list-table-check-td think-checkbox'>-->
+<!--            <label><input class="list-check-box" type='checkbox' value='{$vo.id}'></label>-->
+<!--        </td>-->
+        <td class='nowrap'>{$vo.id|default='--'}</td>
+        <td class='nowrap'>{$vo.title|default='--'}</td>
+        <td class='nowrap'>￥{$vo.money|default='0.00'}</td>
+        <td class='nowrap'>{$vo.discount|default='0'}%</td>
+        <td class='nowrap'>￥{$vo.min_use_money|default='0.00'}</td>
+        <td class='nowrap'>{$vo.use_scope_txt|default=''}</td>
+        <td class='nowrap'>{$vo.expire_at|default=''}</td>
+        <td class='nowrap'>{$vo.expire_days|default=''}</td>
+
+        <td>{$vo.create_at}</td>
+    </tr>
+    {/foreach}
+    </tbody>
+    {/notempty}
+
+</table>
+{empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}

@@ -1,0 +1,54 @@
+{extend name="../../admin/view/main"}
+
+{block name="button"}
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-open="{:url('index')}" >返回列表</button>
+
+<!--{if auth("clean")}-->
+<!--<button class='layui-btn layui-btn-sm layui-btn-primary' data-queue='{:url("clean")}'>定时清理订单</button>-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+{include file="public/style" /}
+<div class="think-box-shadow margin-bottom-15">
+    <div class="user-info-detail">
+        <div>
+            <div class="headimg headimg-xs" data-tips-hover data-tips-image  data-lazy-src="{$userInfo.avatar|default='/static/theme/img/headimg.png'}"></div>
+        </div>
+        <div class="detail_info">
+            <div class="layui-inline"><span class="title">用户昵称：</span><span class="value">{$userInfo.nickname}<span class="color-desc"> [{$userInfo.id}]</span></span></div>
+            <div class="layui-inline"><span class="title ml-30">用户电话：</span><span class="value">{$userInfo.phone}</span></div>
+            <div class="layui-inline"><span class="title ml-30">真实姓名：</span><span class="value">{$userInfo.realname}</span></div>
+            <div class="layui-inline"><span class="title ml-30">加入时间：</span><span class="value">{$userInfo.create_at}</span></div>
+<!--            <br>-->
+
+
+            <!-- <div class="layui-inline"><span class="title ml-30">使用状态：</span><span class="value">{$userInfo.status_txt}</span></div> -->
+            <div class="layui-inline"><span class="title">openid：</span><span class="value nowrap" data-copy>{$userInfo.openid}</span></div>
+            <div class="layui-inline"><span class="title">邮箱：</span><span class="value nowrap" data-copy>{$userInfo.email}</span></div>
+
+            <hr>
+<!--            <div class="layui-inline"><span class="title">用户积分：</span><span class="value">{$userInfo.score}</span></div>-->
+            <div class="layui-inline"><span class="title ml-30">用户余额：</span><span class="value">￥{$userInfo.money|number_format=2}</span></div>
+        </div>
+
+
+    </div>
+</div>
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title notselect">
+        {foreach :config("a.user_info_tabs") as $k=>$v}{if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('detail')}?openid={$openid}&type={$k}">{$v}{if !empty($total[$k])}<sup class="layui-badge">{$total[$k]??0}</sup>{/if}</li>
+        {else}
+        <li data-open="{:url('detail')}?openid={$openid}&type={$k}">{$v}{if !empty($total[$k])}<sup class="layui-badge">{$total[$k]??0}</sup>{/if}</li>
+        {/if}{/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        {switch name="type"}
+            {case 0}{include file="customer/userinfo/subs/user_coupon_list"}{/case}
+            {case 1}{include file="customer/userinfo/subs/user_money_log"}{/case}
+            {case 2}{include file="customer/userinfo/subs/user_address"}{/case}
+        {/switch}
+    </div>
+</div>
+{/block}

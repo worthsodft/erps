@@ -1,0 +1,148 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+        <!-- <label class="layui-form-item block relative"> -->
+        <!--     <span class="help-label label-required-prev"><b>商品类型</b></span> -->
+        <!--     <input class="layui-input layui-disabled" readonly maxlength="50" placeholder="自动生成" value='{:config("a.goods_types.".$goods_type)}'> -->
+        <!-- </label> -->
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>商品类型</b></span>
+            <select name="goods_type">
+                {foreach :config('a.goods_types') as $k=>$v}
+                <option value="{$k}" {:isset($vo.goods_type) && $vo.goods_type==$k?'selected':''} {$goods_type!=$k?"disabled":""}>{$v}</option>
+                {/foreach}
+            </select>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label label-required-prev"><b>所属分类</b></span>
+            <select class="layui-select" lay-search name="cateids">
+                {foreach $cates as $cate}{if in_array($cate.id, $vo.cateids)}
+                <option selected value="{:arr2str($cate.ids)}">{:join(' ＞ ', $cate.titles)}</option>
+                {else}
+                <option value="{:arr2str($cate.ids)}">{:join(' ＞ ', $cate.titles)}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>商品名称</b></span>
+            <input class="layui-input" maxlength="50" name="name" placeholder="请输入商品名称" required value='{$vo.name|default=""}'>
+<!--            <span class="color-desc">必填</span>-->
+        </label>
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>商品编码</b></span>
+            <input class="layui-input layui-disabled" readonly maxlength="50" name="sn" placeholder="自动生成" value='{$vo.sn|default=""}'>
+            <span class="color-desc">自动生成，生成后不可修改</span>
+        </label>
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>销售条码</b></span>
+            <input class="layui-input" maxlength="50" name="barcode" placeholder="请输入销售条码" value='{$vo.barcode|default=""}'>
+<!--            <span class="color-desc">可选，69码</span>-->
+        </label>
+        <div class="layui-form-item">
+            <span class="help-label"><b>封面及轮播图片</b></span>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="text-center {$goods_type==0?'label-required-prev':''}">封面</th>
+                    <th class="text-left" style="width:100%">轮播图片</th>
+                </tr>
+                <tr>
+                    <td class="text-center text-top padding-0">
+                        <div class="help-images">
+                            <input name="cover" data-cut-height="500" data-max-width="500" data-max-height="500" type="hidden" value="{$vo.cover|default=''}">
+                            <script>$('[name="cover"]').uploadOneImage();</script>
+                        </div>
+                    </td>
+                    <td class="text-left padding-0">
+                        <div class="help-images">
+                            <input name="images" data-max-width="2048" data-max-height="1024" type="hidden" value="{$vo.images|default=''}">
+                            <script>$('[name="images"]').uploadMultipleImage();</script>
+                        </div>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+            <span class="color-desc">建议尺寸：500px × 500px, 100k内以，可等比例适当放大/缩小。轮播图片可选，如果轮播图片不上传，将采用封面图片做为轮播图片的第一张</span>
+        </div>
+        <label class="layui-form-item block relative">
+            <label class="layui-inline">
+                <span class="help-label"><b>最小购买数量</b></span>
+                <input class="layui-input" type="number" min="1" name="min_buy_number" placeholder="请输入最小购买数量" value='{$vo.min_buy_number|default="1"}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>销售单位</b></span>
+                <input class="layui-input" type="text" maxlength="10" name="unit" required placeholder="请输入销售单位" value='{$vo.unit|default="个"}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>生产规格</b></span>
+                <input class="layui-input" type="text" maxlength="10" name="produce_spec" placeholder="请输入生产规格" value='{$vo.produce_spec|default=""}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>包装数量</b></span>
+                <input class="layui-input" type="text" maxlength="10" name="package_num" placeholder="请输入生产规格" value='{$vo.package_num|default="1"}'>
+            </label>
+        </label>
+        <label class="layui-form-item block relative">
+            <label class="layui-inline">
+                <span class="help-label"><b>自提价</b></span>
+                <input class="layui-input" type="number" min="0" name="self_price" placeholder="请输入自提价" value='{$vo.self_price|default="0"}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>市场价</b></span>
+                <input class="layui-input" type="number" min="0" name="market_price" placeholder="请输入市场价" value='{$vo.market_price|default="0"}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>配送费</b></span>
+                <input class="layui-input" type="number" min="0" name="deliver_fee" placeholder="请输入配送费" value='{$vo.deliver_fee|default="0"}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>进价</b></span>
+                <input class="layui-input" type="number" min="0" name="cost" placeholder="请输入进价" value='{$vo.cost|default="0"}'>
+            </label>
+        </label>
+        <label class="layui-form-item block relative">
+            <label class="layui-inline">
+                <span class="help-label"><b>库存数量</b></span>
+                <input class="layui-input" type="number" min="0" name="stock" placeholder="请输入库存数量" value='{$vo.stock|default="0"}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>销售数量</b></span>
+                <input class="layui-input" type="number" min="0" name="sale_number" placeholder="请输入销售数量" value='{$vo.sale_number|default="0"}'>
+            </label>
+            <label class="layui-inline">
+                <span class="help-label"><b>虚拟销量</b></span>
+                <input class="layui-input" type="number" min="0" name="virtual_number" placeholder="请输入虚拟销量" value='{$vo.virtual_number|default="0"}'>
+            </label>
+        </label>
+<!--        <label class="layui-form-item block relative">-->
+<!--            <span class="help-label"><b>商品分类</b></span>-->
+<!--            <input class="layui-input" min="0" name="cate_id" placeholder="请输入商品分类" value='{$vo.cate_id|default=""}'>-->
+<!--        </label>-->
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>质保天数</b></span>
+            <input class="layui-input" type="number" min="0" name="expire_days" placeholder="请输入质保天数" value='{$vo.expire_days|default="0"}'>
+<!--            <span class="color-desc">可选，质保天数</span>-->
+        </label>
+
+        <label class="layui-form-item block relative">
+            <span class="help-label"><b>描述</b></span>
+            <textarea class="layui-textarea" name="desc" placeholder="请输入描述">{$vo.desc|default=''}</textarea>
+        </label>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+    <input name='goods_type' type='hidden' value='{$goods_type}'>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close data-confirm="确定要取消编辑吗？" type='button'>取消编辑</button>
+    </div>
+</form>
+<script>
+    require(['ckeditor'], ()=>{
+        createEditor("[name=desc]", {height: 500});
+    });
+</script>

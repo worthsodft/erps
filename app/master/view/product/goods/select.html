@@ -1,0 +1,167 @@
+{extend name="../../admin/view/full"}
+
+{block name="button"}
+<!--{if auth("add") and $type eq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-full data-modal='{:url("add")}' data-title="添加">添加</button>
+<!--{/if}-->
+
+<!--{if auth("state") and $type eq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#0">批量隐藏</button>
+<!--{/if}-->
+
+<!--{if auth("state") and $type neq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("state")}' data-rule="id#{id};status#1">批量显示</button>
+<!--{/if}-->
+
+<!--{if auth("remove") and $type neq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("remove")}' data-confirm="确定要删除吗？" data-rule="id#{id}">批量删除</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <div class="layui-tab-content">
+        <form action="{:sysuri()}" autocomplete="off" id="searchSelectForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label">商品分类</label>
+                <div class="layui-input-inline">
+                    <label class="layui-input-inline">
+                        <select class="layui-select" lay-search name="cateids" lay-filter="searchSelect">
+                            <option value="">-- 全部分类 --</option>
+                            {foreach $cates as $cate}{if input('cateids') eq $cate.id}
+                            <option selected value="{$cate.id}">{$cate.spl}{$cate.title|default=''}</option>
+                            {else}
+                            <option value="{$cate.id}">{$cate.spl}{$cate.title|default=''}</option>
+                            {/if}{/foreach}
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label">商品名称</label>
+                <label class="layui-input-inline">
+                    <input class="layui-input" name="name" placeholder="请输入商品名称" value="{$get.name|default=''}">
+                </label>
+            </div>
+
+            <!--    <div class="layui-form-item layui-inline">-->
+            <!--        <label class="layui-form-label">添加时间</label>-->
+            <!--        <label class="layui-input-inline">-->
+            <!--            <input class="layui-input" data-date-range name="create_at" placeholder="请选择添加时间" value="{$get.create_at|default=''}">-->
+            <!--        </label>-->
+            <!--    </div>-->
+
+            <div class="layui-form-item layui-inline">
+                <input name="type" type="hidden" value="{$type|default='index'}">
+                <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+                {if $is_multi == 1}
+                <a class="layui-btn layui-btn-xs layui-btn-normal layui-btn-disabled" id="select-btn" data-select-multi>选 择</a>
+                {/if}
+            </div>
+        </form>
+        <table id="DataTable" data-url="{:sysuri()}" data-line="4" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    let is_multi = '{$is_multi|default=0}';
+    $(function () {
+        $('#DataTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'desc'},
+            where: {type: '{$type|default="index"}', goods_type: '{$goods_type|default=""}'},
+            cols: [function(){
+                let cols = [
+                    {field: 'id', title: 'ID', align: "left", width: 30},
+                    {field: 'cover', title: '封面图片', align: "left", width: 100, templet: '#coverTpl'},
+                    {field: 'name', title: '商品名称', align: "left", minWidth: 200, templet: '#infoTpl'},
+                    {field: 'price', title: '价格', align: "left", width: 120, templet: '#priceTpl'},
+                    // {field: 'sale_number', title: '库存', align: "left", width: 120, templet: '#numberTpl'},
+                    // {field: 'cate_id_txt', title: '分类', align: "left", minWidth: 100},
+                    // {field: 'goods_type_txt', title: '商品类型', align: "left", width: 80},
+                    {field: 'expire_days', title: '质保天数', align: "left", width: 80, templet: "<div>{{d.expire_days}} 天</div>"},
+                    {toolbar: '#toolbar', title: '操作面板', align: 'center', fixed: 'right', maxWidth: 100}
+                ];
+                if(is_multi  == 1) cols.unshift({checkbox: true});
+                return cols;
+            }()]
+        });
+        // layui.table.on('rowDouble(DataTable)', function(obj) {
+        //     $("[data-select]").data("select", obj.data.sn).trigger("click");
+        // });
+    });
+    layui.form.on("select(searchSelect)", ()=>$("#searchSelectForm").submit());
+</script>
+
+<!--封面图片模板 -->
+<script type="text/html" id="coverTpl">
+    <div class="headimg headimg-no headimg-md" data-tips-hover data-tips-image data-lazy-src="{{d.cover}}"></div>
+</script>
+
+<!-- 商品信息模板 -->
+<script type="text/html" id="infoTpl">
+    <div class="sub-span-desc">
+        <div>{{d.name}}</div>
+        <div>单位：<span>{{d.unit}}</span></div>
+        {{# if(d.produce_spec){ }}<div>生产规格：<span>{{d.produce_spec}}</span></div>{{# } }}
+    </div>
+</script>
+
+<!-- 销售数量模板 -->
+<script type="text/html" id="numberTpl">
+    <div class="sub-span-desc">
+        <div>库存数量：<text class="color-blue">{{d.stock}}</text></div>
+<!--        <div>实际销量：<span>{{d.sale_number}}</span></div>-->
+<!--        <div>虚拟销量：<span>{{d.virtual_number}}</span></div>-->
+    </div>
+</script>
+
+<!-- 价格模板 -->
+<script type="text/html" id="priceTpl">
+    <div class="sub-span-desc">
+        <div>自提价：<span>￥{{d.self_price}}</span></div>
+        <div class="text-through-line">市场价：<span>￥{{d.market_price}}</span></div>
+        <div>配送费：<span>￥{{d.deliver_fee}}</span></div>
+        <div>进价：<span>￥{{d.cost}}</span></div>
+    </div>
+</script>
+
+<!-- 操作面板模板 -->
+<script type="text/html" id="toolbar">
+    <!--{if auth("select") and isset($type) and $type eq 'index'}-->
+    <a class="layui-btn layui-btn-xs layui-btn-normal" data-select="{{d.sn}}">选 择</a>
+    <!--{/if}-->
+</script>
+<script>
+    $(function () {
+        $.base.onEvent("click", "[data-select]", function(){
+            let goods_sn = $(this).data("select") || '';
+            if(goods_sn) top.setGoods(goods_sn);
+            else return;
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+        })
+        $.base.onEvent("click", "[data-select-multi]", function(){
+            let list = layui.table.checkStatus('DataTable').data;
+            let goods_sn_list = list.map(item => item.sn);
+            if(goods_sn_list.length > 0) top.setGoods(goods_sn_list);
+            else return;
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+        })
+        layui.table.on('checkbox(DataTable)', function(obj){
+            let list = layui.table.checkStatus('DataTable').data;
+            if(list.length > 0) $("#select-btn").removeClass("layui-btn-disabled").attr("data-select-multi", true);
+            else $("#select-btn").addClass("layui-btn-disabled").removeAttr("data-select-multi");
+        })
+    });
+
+    // $('[data-item]').on('click', function () {
+    //     top.setItemValue(this.getAttribute('data-item') || '');
+    //     parent.layer.close(parent.layer.getFrameIndex(window.name));
+    // });
+</script>
+{/block}

@@ -1,0 +1,45 @@
+<!--        { include file='shop/order/index_search'}-->
+<table class="layui-table margin-top-10" lay-skin="line">
+    {notempty name='list'}
+    <thead>
+    <tr>
+<!--        <th class='list-table-check-td think-checkbox'>-->
+<!--            <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>-->
+<!--        </th>-->
+        <th>Id</th>
+        <th>省</th>
+        <th>市</th>
+        <th>区/县</th>
+        <th>街道</th>
+        <th>详情地址</th>
+        <th>是否默认</th>
+        <th>创建时间</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $list as $key=>$vo}
+    <tr>
+<!--        <td class='list-table-check-td think-checkbox'>-->
+<!--            <label><input class="list-check-box" type='checkbox' value='{$vo.id}'></label>-->
+<!--        </td>-->
+        <td>{$vo.id}</td>
+        <td>{$vo.province|default=''}</td>
+        <td>{$vo.city|default=''}</td>
+        <td>{$vo.district|default=''}</td>
+        <td>{$vo.street|default=''}</td>
+        <td>{$vo.detail|default=''}</td>
+        <td>
+            {if $vo.is_default == 1}
+            <span class="layui-badge layui-bg-green">默认</span>
+            {/if}
+        </td>
+        <td>{$vo.create_at}</td>
+        <td></td>
+    </tr>
+    {/foreach}
+    </tbody>
+    {/notempty}
+
+</table>
+{empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}

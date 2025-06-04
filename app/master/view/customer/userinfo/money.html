@@ -1,0 +1,49 @@
+<form action="{:sysuri()}" class='layui-form layui-card' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+
+        {if $vo.username}
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>用户名称</b></span>
+            <div>{$vo.username|default=""}</div>
+        </div>
+        {/if}
+        {if $vo.nickname}
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>用户昵称</b></span>
+            <div>{$vo.nickname|default=""}</div>
+        </div>
+        {/if}
+        {if $vo.realname}
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>真实姓名</b></span>
+            <div>{$vo.realname|default=""}</div>
+        </div>
+        {/if}
+        {if $vo.phone}
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>电话号码</b></span>
+            <div>{$vo.phone|default=""}</div>
+        </div>
+        {/if}
+        {if $vo.openid}
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>OPENID</b></span>
+            <div>{$vo.openid|default=""}</div>
+        </div>
+        {/if}
+        <div class="layui-form-item block relative">
+            <span class="help-label"><b>增加余额</b></span>
+            <input class="layui-input" type="number" name="money" placeholder="请输入余额" value=''>
+            <div class="help-block">输入增加的余额</div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.openid'}<input name='openid' type='hidden' value='{$vo.openid}'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close type='button'>关闭窗口</button>
+    </div>
+</form>

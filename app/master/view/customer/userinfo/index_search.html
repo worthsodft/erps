@@ -1,0 +1,81 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">ID</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="id" placeholder="请输入ID" value="{$get.id|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">OPENID</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="openid" placeholder="请输入用户标识" value="{$get.openid|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">昵称</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="username" placeholder="请输入名称" value="{$get.username|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">电话</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="phone" placeholder="请输入电话号码" value="{$get.phone|default=''}">
+        </label>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">邮箱</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="email" placeholder="请输入邮箱" value="{$get.email|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">添加时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择添加时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导 出
+        </button>
+        {if auth('import')}
+<!--        <button class="layui-btn layui-btn-primary" data-file data-type="xlsx,xls" data-uptype='local' data-field="import"><i class="layui-icon layui-icon-file-b"></i> 导 入</button>-->
+        {/if}
+    </div>
+</form>
+<script>
+    layui.form.on("select(search)", ()=>$("#searchForm").submit());
+    $('[data-file]').on('upload.done', (data,obj)=>$.form.load('{:url("import")}', {xurl: obj.file.xurl}, 'post'));
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            let items = [];
+            let titles = ['ID', '用户昵称', '真实姓名', '电话号码', '用户余额', '用户邮箱', '加入时间'];
+            items.push(titles);
+            data.forEach(function (item) {
+                items.push([
+                    item.id,
+                    item.nickname,
+                    item.realname,
+                    item.phone,
+                    item.money,
+                    item.email,
+                    item.create_at
+                ]);
+            });
+
+            var lastCol = num2A(titles.length-1);
+            var colsC = {A:50};
+            colsC[lastCol] = 120;
+            this.options.extend = {
+                '!cols': layui.excel.makeColConfig(colsC, 120) // 设置每行宽度，默认 160
+            };
+            return items;
+        }, '用户信息' + layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss'));
+    });
+</script>

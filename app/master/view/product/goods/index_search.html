@@ -1,0 +1,90 @@
+<form action="{:sysuri()}" autocomplete="off" id="searchForm" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商品分类</label>
+        <div class="layui-input-inline">
+            <label class="layui-input-inline">
+                <select class="layui-select" lay-search name="cateids" lay-filter="search">
+                    <option value="">-- 全部分类 --</option>
+                    {foreach $cates as $cate}{if input('cateids') eq $cate.id}
+                    <option selected value="{$cate.id}">{$cate.spl}{$cate.title|default=''}</option>
+                    {else}
+                    <option value="{$cate.id}">{$cate.spl}{$cate.title|default=''}</option>
+                    {/if}{/foreach}
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商品名称</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="name" placeholder="请输入商品名称" value="{$get.name|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商品编码</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="sn" placeholder="请输入商品编码" value="{$get.sn|default=''}">
+        </label>
+    </div>
+
+    <!-- <div class="layui-form-item layui-inline"> -->
+    <!--     <label class="layui-form-label">商品类型</label> -->
+    <!--     <label class="layui-input-inline"> -->
+    <!--         <select name="goods_type" lay-filter="search"> -->
+    <!--             <option value="">全部</option> -->
+    <!--             {foreach :config('a.goods_types') as $k=>$v} -->
+    <!--             <option value="{$k}" {:isset($get.goods_type) && $get.goods_type==$k.''?'selected':''}>{$v}</option> -->
+    <!--             {/foreach} -->
+    <!--         </select> -->
+    <!--     </label> -->
+    <!-- </div> -->
+
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">添加时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择添加时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <input name="type" type="hidden" value="{$type|default='index'}">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导 出
+        </button>
+    </div>
+</form>
+<script>
+    form.on("select(search)", ()=>$("#searchForm").submit());
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            let items = [];
+            let titles = ['ID', '商品名称', '起订量', '销售单位', '自提价', '市场价', '配送费', '商品分类', '质保天数', '创建时间'];
+            items.push(titles);
+            data.forEach(function (item) {
+                items.push([
+                    item.id,
+                    item.name,
+                    item.min_buy_number,
+                    item.unit,
+                    item.self_price,
+                    item.market_price,
+                    item.deliver_fee,
+                    item.cateids_txt,
+                    item.expire_days,
+                    item.create_at
+                ]);
+            });
+
+            var lastCol = num2A(titles.length-1);
+            var colsC = {A:50};
+            colsC[lastCol] = 120;
+            this.options.extend = {
+                    '!cols': layui.excel.makeColConfig(colsC, 120) // 设置每行宽度，默认 160
+            };
+            return items;
+        }, '商品信息' + layui.util.toDateString(Date.now(), '_yyyyMMdd_HHmmss'));
+    });
+</script>

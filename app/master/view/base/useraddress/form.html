@@ -1,0 +1,49 @@
+<form action="{:sysuri()}" class='layui-form layui-card layui-form-pane' data-auto="true" data-table-id="DataTable" method="post">
+
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-form-item">
+            <span class="layui-form-label">联系人</span>
+            <div class="layui-input-block">
+                <input class="layui-input" name="link_name" placeholder="请输入联系人" value='{$vo.link_name|default=""}'>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <span class="layui-form-label">联系电话</span>
+            <div class="layui-input-block">
+                <input class="layui-input" name="link_phone" maxlength="50" placeholder="请输入联系电话" value='{$vo.link_phone|default=""}'>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <span class="layui-form-label">行政区域</span>
+            <div class="layui-input-block">
+                <select name="district">
+                    <option value="">请选择行政区域</option>
+                    {foreach :config("a.cities") as $v}
+                    <option value="{$v.name}">{$v.name}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <span class="layui-form-label">详细地址</span>
+            <div class="layui-input-block">
+                <input class="layui-input" name="detail" required placeholder="请输入详细地址" value='{$vo.detail|default=""}'>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <span class="layui-form-label">备注</span>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea" name="remark" placeholder="请输入备注">{$vo.remark|default=''}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+    <input name='openid' type='hidden' value='{$openid}'>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close data-confirm="确定要取消编辑吗？" type='button'>取消编辑</button>
+    </div>
+</form>

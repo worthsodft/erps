@@ -1,0 +1,235 @@
+{extend name="../../admin/view/table"}
+
+{block name="button"}
+<!--{if auth("batch")}-->
+<!-- <button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-full data-modal='{:url("batch")}' data-rule="id#{id}" data-title="批量制卡">批量制卡</button> -->
+<!--{/if}-->
+<!--{if auth("add")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-full data-modal='{:url("add")}?goods_type={$goods_type}' data-title="添加">添加</button>
+<!--{/if}-->
+
+<!--{if auth("is_show") and $type eq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("is_show")}' data-rule="id#{id};is_show#0">批量下架</button>
+<!--{/if}-->
+
+<!--{if auth("is_show") and $type neq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("is_show")}' data-rule="id#{id};is_show#1">批量上架</button>
+<!--{/if}-->
+
+<!--{if auth("remove") and $type neq 'index'}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="DataTable" data-action='{:url("remove")}' data-confirm="确定要删除吗？" data-rule="id#{id}">批量删除</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    {if $goods_type == 0}
+    <ul class="layui-tab-title">
+        {foreach ['index'=>'已上架','recycle'=>'已下架'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('index')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+    {elseif $goods_type == 1}
+    <ul class="layui-tab-title">
+        {foreach ['recycle'=>'原材料管理'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index1')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('index1')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+    {elseif $goods_type == 2}
+    <ul class="layui-tab-title">
+        {foreach ['index'=>'已上架','recycle'=>'已下架'] as $k=>$v}
+        {if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('indexgiftcard')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('indexgiftcard')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+    {/if}
+    <div class="layui-tab-content">
+        {include file='product/goods/index_search'}
+        <table id="DataTable" data-url="{:sysuri()}" data-line="3" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}
+
+
+{block name='script'}
+<script>
+    $(function () {
+        let tableColKey = "tableColKey_/goods/index_{$goods_type|default=0}{$type|default='9'}";
+        $('#DataTable').layTable({
+            even: true, height: 'full', cellMinWidth: 100,
+            sort: {field: 'sort desc,id', type: 'desc'},
+            where: {type: '{$type|default="index"}'},
+            cols: [function(){
+                let goods_type = "{$goods_type}";
+                let cols = [
+                    {checkbox: true},
+                    {field: 'sort', title: '排序权重', width: 100, align: 'center', sort: true, templet: '#SortInputTpl'},
+                    {field: 'id', title: 'ID', align: "left", width: 20}
+                ];
+
+                cols.push({field: 'name', title: '商品名称', align: "left", width: 200, templet: '#infoTpl'});
+                cols.push({field: 'price', title: '价格', align: "left", width: 100, templet: '#priceTpl'});
+                cols.push({field: 'cateids_txt', title: '分类', align: "left", width: 50, templet: function(d){
+                        let content = "<div class='sub-span-desc'><span>";
+                        if(d.cateinfo) content += d.cateinfo.titles.join(' <span class="font-s10 color-blue">＞</span> ');
+                        content += "</span></div>";
+                        return content;
+                    }});
+                cols.push({field: 'use_type', title: '使用类型', align: "left", width: 200, templet:(d)=>{
+                    let html = `<div class="sub-span-desc">使用类型：<span>${d.use_type_txt}</span></div>`;
+                    if(d.use_type == 0){
+                        html += `<div class="sub-span-desc">面值金额：<span>￥${d.init}</span></div>`;
+
+                    }else if(d.use_type == 1){
+                        html += `<div class="sub-span-desc">面值次数：<span>${d.init} 次</span></div>`;
+                        html += `<div class="sub-span-desc">计次商品：<span>[${d.take_goods?.id || ''}] ${d.take_goods_sn_txt}</span></div>`;
+                    }
+
+                    return html;
+                }});
+
+                cols.push({field: 'bind_expire_days', title: '有效期天数', align: "left", width: 120, templet: (d)=>{
+                    return `<div class="sub-span-desc">绑定天数：<span>${d.bind_expire_days} 天</span></div>` +
+                            `<div class="sub-span-desc">使用天数：<span>${d.useful_days} 天</span></div>`;
+                }});
+                cols.push({field: 'is_hot', title: '是否热销', align: 'center', minWidth: 110, templet: '#hotSwitchTpl'});
+                cols.push({field: 'is_show', title: '上架状态', align: 'center', minWidth: 110, templet: '#showSwitchTpl'});
+
+                cols.push({field: 'create_at', title: '添加时间', align: 'left', minWidth: 180, templet: '#createAtTpl'});
+                cols.push({toolbar: '#toolbar', title: '操作面板', align: 'center', fixed: 'right', width: 190});
+
+                let local = layui.data(tableColKey);
+                layui.each(cols, function(index, item){
+                    if(item.field in local){
+                        item.hide = local[item.field];
+                    }
+                });
+
+                return cols;
+            }()],
+            done(){
+                let that = this;
+                that.elem.next().on('mousedown', 'input[lay-filter="LAY_TABLE_TOOL_COLS"]+',
+                    function(){
+                        let input = $(this).prev()[0];
+                        layui.data(tableColKey, {
+                            key: input.name
+                            ,value: input.checked
+                        })
+                    })
+            }
+        });
+
+        // 热销状态切换操作
+        layui.form.on('switch(HotSwitch)', function (obj, data) {
+            data = {id: obj.value, is_hot: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('is_hot')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#DataTable').trigger('reload');
+                }); else {
+                    $('#DataTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+        // 数据状态切换操作
+        layui.form.on('switch(showSwitch)', function (obj, data) {
+            data = {id: obj.value, is_show: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('is_show')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#DataTable').trigger('reload');
+                }); else {
+                    $('#DataTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+    });
+</script>
+
+<!--封面图片模板 -->
+<script type="text/html" id="coverTpl">
+    <div class="headimg headimg-no headimg-md" data-tips-hover data-tips-image data-lazy-src="{{d.cover}}"></div>
+</script>
+
+<!-- 商品信息模板 -->
+<script type="text/html" id="infoTpl">
+    <div class="sub-span-desc">
+        <div><b>{{d.name}}</b></div>
+        <div>累计生成：<span>{{d.gift_card_total}} {{d.unit}}</span></div>
+    </div>
+</script>
+
+<!-- 销售数量模板 -->
+<script type="text/html" id="numberTpl">
+    <div class="sub-span-desc">
+        <div>库存数量：<text class="color-blue">{{d.stock}}</text></div>
+<!--        <div>实际销量：<span>{{d.sale_number}}</span></div>-->
+<!--        <div>虚拟销量：<span>{{d.virtual_number}}</span></div>-->
+    </div>
+</script>
+
+<!-- 价格模板 -->
+<script type="text/html" id="priceTpl">
+    <div class="sub-span-desc">
+        <div><span>￥{{d.self_price}}</span></div>
+    </div>
+</script>
+
+<!--时间模板 -->
+<script type="text/html" id="createAtTpl">
+    <div class="sub-span-desc">
+        <div>添加：<span>{{d.create_at}}</span></div>
+        <div>修改：<span>{{d.update_at}}</span></div>
+    </div>
+</script>
+
+<!-- 热销模板 -->
+<script type="text/html" id="hotSwitchTpl">
+    <!--{if auth("is_hot")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="热销|普通" lay-filter="HotSwitch" {{-d.is_hot>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.is_hot ? '<b class="color-red">热销</b>' : '<b class="color-green">普通</b>'}}
+    <!--{/if}-->
+</script>
+
+
+<!-- 排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}" data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+
+<!-- 状态切换模板 -->
+<script type="text/html" id="showSwitchTpl">
+    <!--{if auth("is_show")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已上架|已下架" lay-filter="showSwitch" {{-d.is_show>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.is_show ? '<b class="color-red">已上架</b>' : '<b class="color-green">已下架</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 操作面板模板 -->
+<script type="text/html" id="toolbar">
+    <!--{if auth("batch")}-->
+    <a class="layui-btn layui-btn-xs layui-btn-primary" data-modal="{:url('batch')}?id={{d.id}}" data-full data-title="批量制卡">批量制卡</a>
+    <!--{/if}-->
+
+    <!--{if auth("material") && $goods_type == 0}-->
+    <a class="layui-btn layui-btn-xs layui-btn-primary" data-modal="{:url('material')}?id={{d.id}}" data-area="['800px','600px']" data-title="原材料">原材料{{d.material_count > 0 ? "("+d.material_count+")" : "" }}</a>
+    <!--{/if}-->
+    <!--{if auth("edit")}-->
+    <a class="layui-btn layui-btn-xs" data-modal="{:url('edit')}?id={{d.id}}&goods_type={$goods_type}" data-full data-title="编辑">编 辑</a>
+    <!--{/if}-->
+    <!--{if auth("remove") and isset($type) and $type neq 'index'}-->
+    <a class="layui-btn layui-btn-xs layui-btn-danger" data-action="{:url('remove')}" data-value="id#{{d.id}}" data-confirm="确定要删除吗？">删 除</a>
+    <!--{/if}-->
+</script>
+{/block}
