@@ -5,10 +5,22 @@
 <script>if (location.href.indexOf('#') > -1) location.replace(location.href.split('#')[0])</script>
 <link rel="stylesheet" href="__ROOT__/static/theme/css/login.css">
 <style>
+    @media screen and (max-width: 600px) {
+        .login-container form {
+            top: 50%;
+            left: 37%;
+            transform: scale(0.8)!important;
+        }
+    }
+    @media screen and (min-width: 601px) {
+        .login-container form {
+            left: inherit;
+            right: 15%;
+        }
+    }
     .login-container form{
-        left: inherit;
-        right: 15%;
-        width: 350px;
+
+        /*width: 350px;*/
         padding: 50px;
         background-color: #fff;
         border-radius: 10px;
