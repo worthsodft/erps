@@ -118,7 +118,7 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
         </tr>
         <tr>
             <td>供应商管理</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
@@ -140,7 +140,7 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
         </tr>
         <tr>
             <td>企业订单管理</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
@@ -204,19 +204,19 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
         <tr class="module-row">
             <td>采购管理</td>
             <td>采购单管理</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <!-- 库存管理 -->
         <tr class="module-row">
             <td rowspan="8">库存管理</td>
             <td>商品入库管理</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
             <td>商品出库管理</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
@@ -226,12 +226,12 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
         </tr>
         <tr>
             <td>库存损益管理</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
             <td>商品损益报表</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
@@ -241,12 +241,12 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
         </tr>
         <tr>
             <td>库存变更记录</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
             <td>商品库存报表</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <!-- 财务管理 -->
@@ -310,7 +310,7 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
         </tr>
         <tr>
             <td>余额期初期末</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
@@ -325,17 +325,17 @@ PC管理后台演示： [https://erps.yaodianma.com/admin](https://erps.yaodianm
         </tr>
         <tr>
             <td>订单商品报表</td>
-            <td>❌</td>
+            <td>✅</td>
             <td>✅</td>
         </tr>
         <tr>
             <td>订单商品简表</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
             <td>日统计报表</td>
-            <td>✅</td>
+            <td>❌</td>
             <td>✅</td>
         </tr>
         <tr>
